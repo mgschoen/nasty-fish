@@ -13,6 +13,8 @@
 		F75B970A1DDC9F3300093D14 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F75B97081DDC9F3300093D14 /* Main.storyboard */; };
 		F75B970C1DDC9F3300093D14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F75B970B1DDC9F3300093D14 /* Assets.xcassets */; };
 		F75B970F1DDC9F3300093D14 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F75B970D1DDC9F3300093D14 /* LaunchScreen.storyboard */; };
+		F7B2B3621DDF758400A0B1A9 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B2B3611DDF758400A0B1A9 /* DataController.swift */; };
+		F7B2B3661DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7B2B3641DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		F75B970B1DDC9F3300093D14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F75B970E1DDC9F3300093D14 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F75B97101DDC9F3300093D14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F7B2B3611DDF758400A0B1A9 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		F7B2B3651DDF76AA00A0B1A9 /* NastyFish.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NastyFish.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,7 @@
 		F75B97011DDC9F3200093D14 /* nasty-fish */ = {
 			isa = PBXGroup;
 			children = (
+				F7B2B3631DDF758E00A0B1A9 /* DataController */,
 				F75B97021DDC9F3300093D14 /* AppDelegate.swift */,
 				F75B97041DDC9F3300093D14 /* FirstViewController.swift */,
 				F75B97061DDC9F3300093D14 /* SecondViewController.swift */,
@@ -63,8 +68,17 @@
 				F75B970B1DDC9F3300093D14 /* Assets.xcassets */,
 				F75B970D1DDC9F3300093D14 /* LaunchScreen.storyboard */,
 				F75B97101DDC9F3300093D14 /* Info.plist */,
+				F7B2B3641DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld */,
 			);
 			path = "nasty-fish";
+			sourceTree = "<group>";
+		};
+		F7B2B3631DDF758E00A0B1A9 /* DataController */ = {
+			isa = PBXGroup;
+			children = (
+				F7B2B3611DDF758400A0B1A9 /* DataController.swift */,
+			);
+			name = DataController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,7 +153,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7B2B3661DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld in Sources */,
 				F75B97071DDC9F3300093D14 /* SecondViewController.swift in Sources */,
+				F7B2B3621DDF758400A0B1A9 /* DataController.swift in Sources */,
 				F75B97031DDC9F3300093D14 /* AppDelegate.swift in Sources */,
 				F75B97051DDC9F3300093D14 /* FirstViewController.swift in Sources */,
 			);
@@ -303,8 +319,22 @@
 				F75B97151DDC9F3300093D14 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F7B2B3641DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F7B2B3651DDF76AA00A0B1A9 /* NastyFish.xcdatamodel */,
+			);
+			currentVersion = F7B2B3651DDF76AA00A0B1A9 /* NastyFish.xcdatamodel */;
+			path = NastyFish.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F75B96F71DDC9F3200093D14 /* Project object */;
 }
