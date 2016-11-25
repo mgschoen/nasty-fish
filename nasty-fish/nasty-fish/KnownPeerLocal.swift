@@ -7,3 +7,19 @@
 //
 
 import Foundation
+
+class KnownPeerLocal : NSObject {
+    
+    let icloudID : String
+    var customName : String?
+    var transactions : NSArray
+
+    init (icloudID: String, customName: String?) {
+        self.icloudID = icloudID
+        if (customName != nil) {
+            self.customName = customName
+        }
+        self.transactions = NSArray()
+    }
+    
+}

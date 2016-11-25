@@ -12,10 +12,17 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var dataController: DataController?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        dataController = DataController()
+        dataController?.storeNewPeer(icloudID: "abcdefg@icloud.com", customName: "ABC DEF")
+        let firstPeer = dataController?.fetchPeerFromStorage(icloudID: "abcdefg@icloud.com")
+        print("Got peer from storage: ")
+        print(firstPeer!.value(forKey: "icloudID") as! String)
+        print(firstPeer!.value(forKey: "customName") as! String)
         return true
     }
 

@@ -3,7 +3,7 @@
     <entity name="KnownPeer" representedClassName="KnownPeer" syncable="YES" codeGenerationType="class">
         <attribute name="customName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="icloudID" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" syncable="YES"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="peer" inverseEntity="Transaction" syncable="YES"/>
     </entity>
     <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
@@ -16,7 +16,7 @@
         <attribute name="returnDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="dueWhenTransactionIsDue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Transaction" syncable="YES"/>
-        <relationship name="peer" maxCount="1" deletionRule="Nullify" destinationEntity="KnownPeer" syncable="YES"/>
+        <relationship name="peer" maxCount="1" deletionRule="Nullify" destinationEntity="KnownPeer" inverseName="transactions" inverseEntity="KnownPeer" syncable="YES"/>
     </entity>
     <elements>
         <element name="KnownPeer" positionX="-63" positionY="-18" width="128" height="90"/>
