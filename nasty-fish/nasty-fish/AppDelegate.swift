@@ -18,11 +18,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         dataController = DataController()
-        dataController?.storeNewPeer(icloudID: "abcdefg@icloud.com", customName: "ABC DEF")
-        let firstPeer = dataController?.fetchPeerFromStorage(icloudID: "abcdefg@icloud.com")
-        print("Got peer from storage: ")
-        print(firstPeer!.value(forKey: "icloudID") as! String)
-        print(firstPeer!.value(forKey: "customName") as! String)
+        
+        let horstmail = "horst-huetzinger@gmx.com"
+        var horst = dataController?.fetchPeerFromStorage(icloudID: horstmail)
+        print("This is Horst:")
+        print(horst?.value(forKeyPath: "icloudID") as! String)
+        print(horst?.value(forKeyPath: "customName") as! String)
+        
+        horst = dataController?.setPeerCustomName(icloudID: horstmail, newCustomName: "Hützi")
+        print("\nThis is Horst:")
+        print(horst?.value(forKeyPath: "icloudID") as! String)
+        print(horst?.value(forKeyPath: "customName") as! String)
         return true
     }
 

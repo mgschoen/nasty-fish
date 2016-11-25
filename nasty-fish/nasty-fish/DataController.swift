@@ -36,29 +36,53 @@ class DataController : NSObject {
         }
     }
     
+    // Adds a new peer to the knownPeers table
     func storeNewPeer (icloudID: String, customName: String?) {
-        let managedContext = persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "KnownPeer", in: managedContext)
-        let newPeer = NSManagedObject(entity: entity!, insertInto: managedContext)
-        newPeer.setValue(icloudID, forKey:"icloudID")
-        if (customName != nil) {
-            newPeer.setValue(customName, forKey:"customName")
+        let peersWithThisICloudID = fetchPeerFromStorage(icloudID: icloudID)
+        if (peersWithThisICloudID == nil) {
+            let managedContext = persistentContainer.viewContext
+            let entity = NSEntityDescription.entity(forEntityName: "KnownPeer", in: managedContext)
+            let newPeer = NSManagedObject(entity: entity!, insertInto: managedContext)
+            newPeer.setValue(icloudID, forKey:"icloudID")
+            if (customName == nil) {
+                newPeer.setValue("", forKey:"customName")
+            } else {
+                newPeer.setValue(customName, forKey:"customName")
+            }
+            saveContext()
+        } else {
+            print("Could not store new peer. Peer with icloudID \"" + icloudID + "\" already exists.")
         }
-        saveContext()
     }
     
-    func fetchPeerFromStorage (icloudID: String) -> NSManagedObject {
+    // Searches for a known peer by an iCloud ID
+    func fetchPeerFromStorage (icloudID: String) -> NSManagedObject? {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "KnownPeer")
         let formatString = "icloudID like \"" + icloudID + "\""
         fetchRequest.predicate = NSPredicate(format: formatString, argumentArray: [])
         var response:NSManagedObject?
         do {
             let results = try persistentContainer.viewContext.fetch(fetchRequest) as [NSManagedObject]
-            response = results[0]
+            if (results.count > 0) {
+                response = results[0]
+            } else {
+                response = nil
+            }
         } catch let error as NSError {
             print("Error fetching peer from storage\n\(error)n\(error.userInfo)")
         }
-        return response!
+        return response
     }
     
+    // Sets a new custom name for a peer
+    func setPeerCustomName (icloudID: String, newCustomName: String) -> NSManagedObject? {
+        let peer = fetchPeerFromStorage(icloudID: icloudID)
+        if (peer == nil) {
+            print("Could not set custom name for peer. Peer with iCloud ID \"" + icloudID + "\" was not found.")
+            return nil
+        }
+        peer?.setValue(newCustomName, forKey: "customName")
+        saveContext()
+        return peer!
+    }
 }
