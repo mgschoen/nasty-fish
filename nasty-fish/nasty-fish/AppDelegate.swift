@@ -19,16 +19,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         dataController = DataController()
         
-        let horstmail = "horst-huetzinger@gmx.com"
-        var horst = dataController?.fetchPeerFromStorage(icloudID: horstmail)
-        print("This is Horst:")
-        print(horst?.value(forKeyPath: "icloudID") as! String)
-        print(horst?.value(forKeyPath: "customName") as! String)
+        let peers = dataController?.fetchPeers()
+        for peer in peers! {
+            print(peer.customName! + "s iCloud ID is " + peer.icloudID!)
+        }
         
-        horst = dataController?.setPeerCustomName(icloudID: horstmail, newCustomName: "Hützi")
-        print("\nThis is Horst:")
-        print(horst?.value(forKeyPath: "icloudID") as! String)
-        print(horst?.value(forKeyPath: "customName") as! String)
+        print("")
+        
+        let willi = dataController?.fetchPeer(icloudID: "willi.wiener@mail.at")
+        if (willi != nil) {
+            print("Peer " + (willi?.customName)! + " (" + (willi?.icloudID)! + "; " + (willi?.avatarURL)! + ")")
+            dataController?.set(peer: willi!, avatarURL: "somewhere/over/the/rain.bow")
+            print("Peer " + (willi?.customName)! + " (" + (willi?.icloudID)! + "; " + (willi?.avatarURL)! + ")")
+        }
         return true
     }
 

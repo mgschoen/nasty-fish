@@ -3,7 +3,7 @@
     <entity name="KnownPeer" representedClassName="KnownPeer" syncable="YES" codeGenerationType="class">
         <attribute name="avatarURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="customName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="icloudID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="icloudID" attributeType="String" syncable="YES"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="peer" inverseEntity="Transaction" syncable="YES"/>
     </entity>
     <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">
@@ -21,7 +21,7 @@
         <relationship name="peer" maxCount="1" deletionRule="Nullify" destinationEntity="KnownPeer" inverseName="transactions" inverseEntity="KnownPeer" syncable="YES"/>
     </entity>
     <elements>
-        <element name="KnownPeer" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="KnownPeer" positionX="-63" positionY="-18" width="128" height="105"/>
         <element name="Transaction" positionX="198" positionY="-9" width="128" height="223"/>
     </elements>
 </model>
