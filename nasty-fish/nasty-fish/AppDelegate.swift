@@ -6,6 +6,8 @@
 //  Copyright © 2016 Gruppe 08. All rights reserved.
 //
 
+// TODO: Kontext speichern, wenn Anwendung in Hintergrund tritt, beendet wird, etc...
+
 import UIKit
 
 @UIApplicationMain
@@ -26,12 +28,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         print("")
         
-        let willi = dataController?.fetchPeer(icloudID: "willi.wiener@mail.at")
-        if (willi != nil) {
-            print("Peer " + (willi?.customName)! + " (" + (willi?.icloudID)! + "; " + (willi?.avatarURL)! + ")")
-            dataController?.set(peer: willi!, avatarURL: "somewhere/over/the/rain.bow")
-            print("Peer " + (willi?.customName)! + " (" + (willi?.icloudID)! + "; " + (willi?.avatarURL)! + ")")
+        let rob = dataController?.fetchPeer(icloudID: "robert_rollmops@piste.fi")
+        if (rob != nil) {
+            print("\(rob?.customName)'s transactions: ")
+            for transaction in (rob?.transactions)! {
+                let this = transaction as! Transaction
+                print("\(this.uuid!) - \((this.incoming) ? "Incoming" : "Outgoing") transaction with \(this.peer!.customName!): \(this.itemDescription!)")
+            }
         }
+        
+        print("")
+        
+        let transactions = dataController?.fetchOpenTransactions()
+        for transaction in transactions! {
+            print("\(transaction.uuid!) - \((transaction.incoming) ? "Incoming" : "Outgoing") transaction with \(transaction.peer!.customName!): \(transaction.itemDescription!)")
+        }
+        
+        print("")
+        
+        let petiTransaction = dataController?.fetchTransaction(uuid: "2958232E-A517-4911-8710-F4FEA4E74AF2")
+        if (petiTransaction != nil) {
+            print("\(petiTransaction!.uuid!) - \((petiTransaction!.incoming) ? "Incoming" : "Outgoing") transaction with \(petiTransaction!.peer!.customName!): \(petiTransaction!.itemDescription!)")
+        }
+        
         return true
     }
 

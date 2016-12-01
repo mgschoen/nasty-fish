@@ -10,18 +10,18 @@
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="imageURL" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="incoming" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="isMoney" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="itemDescription" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="quantity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="incoming" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isMoney" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="itemDescription" attributeType="String" syncable="YES"/>
+        <attribute name="quantity" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="returnDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="dueWhenTransactionIsDue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Transaction" syncable="YES"/>
+        <attribute name="startDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="uuid" attributeType="String" syncable="YES"/>
+        <relationship name="dueWhenTransactionIsDue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Transaction" inverseName="dueWhenTransactionIsDue" inverseEntity="Transaction" syncable="YES"/>
         <relationship name="peer" maxCount="1" deletionRule="Nullify" destinationEntity="KnownPeer" inverseName="transactions" inverseEntity="KnownPeer" syncable="YES"/>
     </entity>
     <elements>
         <element name="KnownPeer" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="Transaction" positionX="198" positionY="-9" width="128" height="223"/>
+        <element name="Transaction" positionX="198" positionY="-9" width="128" height="225"/>
     </elements>
 </model>
