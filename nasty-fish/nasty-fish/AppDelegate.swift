@@ -6,10 +6,6 @@
 //  Copyright © 2016 Gruppe 08. All rights reserved.
 //
 
-// TODO:
-//   - Kontext speichern, wenn Anwendung in Hintergrund tritt, beendet wird, etc...
-//   - Populator implementieren
-
 import UIKit
 
 @UIApplicationMain

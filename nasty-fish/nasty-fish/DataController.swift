@@ -6,20 +6,6 @@
 //  Copyright © 2016 Gruppe 08. All rights reserved.
 //
 
-/* TODO:
- *
- *   ** Fragen **
- *   - Wie Bilder speichern?
- *   - NSUserDefaults
- *   - Kann diese Klasse das Singleton Pattern erfüllen?
- *   - Soll wirklich jede Änderung persistent gespeichert werden? -> Nein.
- *     Wenn man das nicht will, kann man aber die NSManagedObjects direkt modifizieren
- *     und dann saveContext() aufrufen.
- *
- *   ** Tasks **
- *   - Docs im Wiki!!!
- */
-
 import CoreData
 
 class DataController : NSObject {
