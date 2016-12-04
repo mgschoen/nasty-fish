@@ -7,9 +7,21 @@
 //
 
 import UIKit
+import CoreData
 
 class TransactionsViewController: UITableViewController {
 
+    let dataController = DataController.init()
+    
+    var transactions = [NSManagedObject]()
+    let descriptions = ["Döner (4,- €)", "Per Anhalter durch die Galaxis", "Socken"]
+    let peers = ["Martin", "Qend Ressa", "Michael"]
+    
+    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
+
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,6 +30,8 @@ class TransactionsViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        transactions = dataController.fetchTransactions()
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,23 +43,30 @@ class TransactionsViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+//        return 3
+        return descriptions.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
         // Configure the cell...
 
+//        return cell
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customcell", for: indexPath)
+        cell.textLabel?.text = descriptions[indexPath.item]
+        cell.detailTextLabel?.text = peers[indexPath.item]
+//        cell.im.imageView = Assets
         return cell
     }
-    */
+ 
 
     /*
     // Override to support conditional editing of the table view.

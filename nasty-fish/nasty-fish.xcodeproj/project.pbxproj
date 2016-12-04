@@ -10,6 +10,8 @@
 		32EC1B591DF4A0CE00B6B4BB /* Transactions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B581DF4A0CE00B6B4BB /* Transactions.storyboard */; };
 		32EC1B5C1DF4A27900B6B4BB /* More.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B5A1DF4A27900B6B4BB /* More.storyboard */; };
 		32EC1B5F1DF4A34400B6B4BB /* TransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EC1B5E1DF4A34400B6B4BB /* TransactionsViewController.swift */; };
+		32EC1B611DF4B79200B6B4BB /* NewTransaction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */; };
+		32EC1B631DF4B90100B6B4BB /* TransactionDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */; };
 		F75B97031DDC9F3300093D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75B97021DDC9F3300093D14 /* AppDelegate.swift */; };
 		F75B970A1DDC9F3300093D14 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F75B97081DDC9F3300093D14 /* Main.storyboard */; };
 		F75B970C1DDC9F3300093D14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F75B970B1DDC9F3300093D14 /* Assets.xcassets */; };
@@ -22,6 +24,8 @@
 		32EC1B581DF4A0CE00B6B4BB /* Transactions.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Transactions.storyboard; sourceTree = "<group>"; };
 		32EC1B5B1DF4A27900B6B4BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/More.storyboard; sourceTree = "<group>"; };
 		32EC1B5E1DF4A34400B6B4BB /* TransactionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionsViewController.swift; sourceTree = "<group>"; };
+		32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewTransaction.storyboard; sourceTree = "<group>"; };
+		32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TransactionDetail.storyboard; sourceTree = "<group>"; };
 		F75B96FF1DDC9F3200093D14 /* nasty-fish.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "nasty-fish.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75B97021DDC9F3300093D14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F75B97091DDC9F3300093D14 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -48,6 +52,8 @@
 			children = (
 				32EC1B5A1DF4A27900B6B4BB /* More.storyboard */,
 				32EC1B581DF4A0CE00B6B4BB /* Transactions.storyboard */,
+				32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */,
+				32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */,
 				32EC1B5E1DF4A34400B6B4BB /* TransactionsViewController.swift */,
 			);
 			name = UserInterface;
@@ -155,7 +161,9 @@
 				32EC1B5C1DF4A27900B6B4BB /* More.storyboard in Resources */,
 				F75B970C1DDC9F3300093D14 /* Assets.xcassets in Resources */,
 				F75B970A1DDC9F3300093D14 /* Main.storyboard in Resources */,
+				32EC1B611DF4B79200B6B4BB /* NewTransaction.storyboard in Resources */,
 				32EC1B591DF4A0CE00B6B4BB /* Transactions.storyboard in Resources */,
+				32EC1B631DF4B90100B6B4BB /* TransactionDetail.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
