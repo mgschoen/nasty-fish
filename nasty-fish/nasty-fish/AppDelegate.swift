@@ -6,7 +6,9 @@
 //  Copyright © 2016 Gruppe 08. All rights reserved.
 //
 
-// TODO: Kontext speichern, wenn Anwendung in Hintergrund tritt, beendet wird, etc...
+// TODO:
+//   - Kontext speichern, wenn Anwendung in Hintergrund tritt, beendet wird, etc...
+//   - Populator implementieren
 
 import UIKit
 
@@ -21,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         dataController = DataController()
         
+        print("All known peers:")
         let peers = dataController?.fetchPeers()
         for peer in peers! {
             print(peer.customName! + "s iCloud ID is " + peer.icloudID!)
@@ -30,22 +33,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let rob = dataController?.fetchPeer(icloudID: "robert_rollmops@piste.fi")
         if (rob != nil) {
-            print("\(rob?.customName)'s transactions: ")
-            for transaction in (rob?.transactions)! {
-                let this = transaction as! Transaction
+            print("Transactions with \((rob!.customName)!):")
+            for this in (dataController?.fetchTransactions(withPeer: rob!))! {
                 print("\(this.uuid!) - \((this.incoming) ? "Incoming" : "Outgoing") transaction with \(this.peer!.customName!): \(this.itemDescription!)")
             }
         }
         
-        print("")
-        
+        print("\nOpen Transactions:")
         let transactions = dataController?.fetchOpenTransactions()
         for transaction in transactions! {
             print("\(transaction.uuid!) - \((transaction.incoming) ? "Incoming" : "Outgoing") transaction with \(transaction.peer!.customName!): \(transaction.itemDescription!)")
         }
         
-        print("")
-        
+        print("\nTransaction with uuid 2958232E-A517-4911-8710-F4FEA4E74AF2:")
         let petiTransaction = dataController?.fetchTransaction(uuid: "2958232E-A517-4911-8710-F4FEA4E74AF2")
         if (petiTransaction != nil) {
             print("\(petiTransaction!.uuid!) - \((petiTransaction!.incoming) ? "Incoming" : "Outgoing") transaction with \(petiTransaction!.peer!.customName!): \(petiTransaction!.itemDescription!)")

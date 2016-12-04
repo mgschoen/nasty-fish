@@ -7,13 +7,17 @@
 //
 
 /* TODO:
- *   - Transaction implementieren
-       ACHTUNG: Neue Transaktionen müssen auch beim Peer hinterlegt werden
+ *
+ *   ** Fragen **
  *   - Wie Bilder speichern?
+ *   - NSUserDefaults
  *   - Kann diese Klasse das Singleton Pattern erfüllen?
- *   - Soll wirklich jede Änderung persistent gespeichert werden?
+ *   - Soll wirklich jede Änderung persistent gespeichert werden? -> Nein.
+ *     Wenn man das nicht will, kann man aber die NSManagedObjects direkt modifizieren
+ *     und dann saveContext() aufrufen.
+ *
+ *   ** Tasks **
  *   - Docs im Wiki!!!
- *   - Convenience Getter getTransactions(peer:KnownPeer) -> Array<Transaction>
  */
 
 import CoreData
@@ -134,6 +138,8 @@ class DataController : NSObject {
         saveContext()
     }
     
+    
+    
     /* ------------------------------------------------------------------------------------ *
      *   Transaction                                                                        *
      * ------------------------------------------------------------------------------------ */
@@ -201,9 +207,9 @@ class DataController : NSObject {
     
     // Private helper function: Executes a fetch request on the transaction collection
     // with a specified format string
-    private func fetchTransactions (byFormatString: String) -> Array<Transaction> {
+    private func fetchTransactions (byFormatString formatString: String) -> Array<Transaction> {
         let fetchRequest = NSFetchRequest<Transaction>(entityName: "Transaction")
-        fetchRequest.predicate = NSPredicate(format: byFormatString)
+        fetchRequest.predicate = NSPredicate(format: formatString)
         var response:[Transaction]?
         do {
             let results = try persistentContainer.viewContext.fetch(fetchRequest) as [Transaction]
@@ -236,6 +242,16 @@ class DataController : NSObject {
         return fetchTransactions(byFormatString: "returnDate <> NIL")
     }
     
+    // Returns all transactions with a specified peer
+    func fetchTransactions(withPeer peer: KnownPeer) -> Array<Transaction> {
+        var transactionsWithPeer = Array<Transaction>()
+        for transaction in peer.transactions! {
+            let thisTransaction = transaction as! Transaction
+            transactionsWithPeer.append(thisTransaction)
+        }
+        return transactionsWithPeer
+    }
+    
     // Searches for a specific transaction by its uuid
     func fetchTransaction (uuid: String) -> Transaction? {
         let searchResult = fetchTransactions(byFormatString: "uuid == \"\(uuid)\"")
@@ -246,6 +262,59 @@ class DataController : NSObject {
             response = nil
         }
         return response
+    }
+    
+    // Sets the return date for a specified transaction. The transaction
+    // will from then on be treated as closed.
+    func closeTransaction(_ transaction:Transaction, returnDate: NSDate?) {
+        if (returnDate == nil) {
+            transaction.returnDate = NSDate()
+        } else {
+            transaction.returnDate = returnDate!
+        }
+        saveContext()
+    }
+    
+    /* All the lovely setters */
+    
+    func set(transaction: Transaction, itemDescription newValue: String) {
+        transaction.itemDescription = newValue
+        saveContext()
+    }
+    
+    func set(transaction: Transaction, incoming newValue: Bool) {
+        transaction.incoming = newValue
+        saveContext()
+    }
+    
+    func set(transaction: Transaction, isMoney newValue: Bool) {
+        transaction.isMoney = newValue
+        saveContext()
+    }
+    
+    func set(transaction: Transaction, quantitiy newValue: UInt) {
+        transaction.quantity = Int16(newValue)
+        saveContext()
+    }
+    
+    func set(transaction: Transaction, category newValue: String) {
+        transaction.category = newValue
+        saveContext()
+    }
+    
+    func set(transaction: Transaction, dueDate newValue: NSDate) {
+        transaction.dueDate = newValue
+        saveContext()
+    }
+    
+    func set(transaction: Transaction, imageURL newValue: String) {
+        transaction.imageURL = newValue
+        saveContext()
+    }
+    
+    func set(transaction: Transaction, dueWhenTransactionIsDue newValue: Transaction) {
+        transaction.dueWhenTransactionIsDue = newValue
+        saveContext()
     }
 }
 
