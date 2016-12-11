@@ -46,7 +46,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="Bl9-oR-5iH" kind="show" id="Gnx-ba-FNp"/>
+                                    <segue destination="Bl9-oR-5iH" kind="show" identifier="showDetail" id="Gnx-ba-FNp"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -57,16 +57,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="too-ff-c5Z">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="bbo-vi-Zeg">
-                            <rect key="frame" x="98" y="7" width="179" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="All"/>
-                                <segment title="Loan"/>
-                                <segment title="Debt"/>
-                                <segment title="Past"/>
-                            </segments>
-                        </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="0pz-hp-Yrw">
                             <connections>
                                 <segue destination="W8f-sa-u6V" kind="presentation" id="q0J-Cy-uuv"/>
