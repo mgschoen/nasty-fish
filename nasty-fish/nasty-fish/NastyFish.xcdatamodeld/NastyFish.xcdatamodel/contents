@@ -13,7 +13,7 @@
         <attribute name="incoming" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isMoney" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="itemDescription" attributeType="String" syncable="YES"/>
-        <attribute name="quantity" attributeType="Integer 16" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="quantity" attributeType="Integer 64" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="returnDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="startDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="uuid" attributeType="String" syncable="YES"/>

@@ -152,7 +152,7 @@ class DataController : NSObject {
             newTransaction?.incoming = incoming
             newTransaction?.isMoney = isMoney
             if (quantity != nil) {
-                newTransaction?.quantity = Int16(quantity!)
+                newTransaction?.quantity = Int64(quantity!)
             }
             if (category == nil){
                 newTransaction?.category = "none"
@@ -169,6 +169,7 @@ class DataController : NSObject {
             }
             if (dueWhenTransactionIsDue != nil) {
                 newTransaction?.dueWhenTransactionIsDue = dueWhenTransactionIsDue
+                newTransaction?.dueDate = dueWhenTransactionIsDue?.dueDate
             }
             saveContext()
             return newTransaction
@@ -279,7 +280,7 @@ class DataController : NSObject {
     }
     
     func set(transaction: Transaction, quantitiy newValue: UInt) {
-        transaction.quantity = Int16(newValue)
+        transaction.quantity = Int64(newValue)
         saveContext()
     }
     
@@ -290,6 +291,9 @@ class DataController : NSObject {
     
     func set(transaction: Transaction, dueDate newValue: NSDate) {
         transaction.dueDate = newValue
+        if (transaction.dueWhenTransactionIsDue != nil) {
+            transaction.dueWhenTransactionIsDue?.dueDate = newValue
+        }
         saveContext()
     }
     
@@ -300,6 +304,7 @@ class DataController : NSObject {
     
     func set(transaction: Transaction, dueWhenTransactionIsDue newValue: Transaction) {
         transaction.dueWhenTransactionIsDue = newValue
+        transaction.dueDate = newValue.dueDate
         saveContext()
     }
 }

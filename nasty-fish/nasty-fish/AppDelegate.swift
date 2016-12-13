@@ -16,10 +16,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
         dataController = DataController()
         
-        print("All known peers:")
+        // * * * DEBUG: Populate persistent storage with dummy content * * *
+        let populator = Populator(dc:dataController!)
+        if (!populator.storageIsPopulated()) {
+            print("Populating storage with dummy data...")
+            populator.populate()
+            print("Done populating.")
+        }
+        
+        // * * * DEBUG: Print all persistently stored data * * *
+        print("\nAll known peers:")
         let peers = dataController?.fetchPeers()
         for peer in peers! {
             print(peer.customName! + "s iCloud ID is " + peer.icloudID!)
@@ -40,12 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for transaction in transactions! {
             print("\(transaction.uuid!) - \((transaction.incoming) ? "Incoming" : "Outgoing") transaction with \(transaction.peer!.customName!): \(transaction.itemDescription!)")
         }
-        
-        print("\nTransaction with uuid 2958232E-A517-4911-8710-F4FEA4E74AF2:")
-        let petiTransaction = dataController?.fetchTransaction(uuid: "2958232E-A517-4911-8710-F4FEA4E74AF2")
-        if (petiTransaction != nil) {
-            print("\(petiTransaction!.uuid!) - \((petiTransaction!.incoming) ? "Incoming" : "Outgoing") transaction with \(petiTransaction!.peer!.customName!): \(petiTransaction!.itemDescription!)")
-        }
+        // * * * END DEBUG * * *
         
         return true
     }
