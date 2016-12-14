@@ -34,16 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(peer.customName! + "s iCloud ID is " + peer.icloudID!)
         }
         
-        print("")
-        
-        let rob = dataController?.fetchPeer(icloudID: "robert_rollmops@piste.fi")
-        if (rob != nil) {
-            print("Transactions with \((rob!.customName)!):")
-            for this in (dataController?.fetchTransactions(withPeer: rob!))! {
-                print("\(this.uuid!) - \((this.incoming) ? "Incoming" : "Outgoing") transaction with \(this.peer!.customName!): \(this.itemDescription!)")
-            }
-        }
-        
         print("\nOpen Transactions:")
         let transactions = dataController?.fetchOpenTransactions()
         for transaction in transactions! {
