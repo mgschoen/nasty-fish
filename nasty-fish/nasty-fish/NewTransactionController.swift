@@ -8,33 +8,70 @@
 
 import UIKit
 
-class NewTransactionController: UITableViewController {
-
-    @IBOutlet weak var TableViewCellMoney: UITableViewCell!
+class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    @IBOutlet weak var TableViewCellItem: UITableViewCell!
+    // MARK: - @IBOutlet
+    @IBOutlet weak var direction: UISegmentedControl!
+    @IBOutlet weak var belongings: UISegmentedControl!
+    @IBOutlet weak var amount: UITextField!
+    @IBOutlet weak var quantity: UITextField!
+    @IBOutlet weak var transactionDescription: UITextField!
+    @IBOutlet weak var peerPicker: UIPickerView!
     
     // MARK: - IBActions
+//    @IBAction func tappedSave(_ sender: UIBarButtonItem) {
+//        let itemDescription = transactionDescription.text
+//        let knownPeer = pickerData[peerPicker.selectedRow(inComponent: 0)]
+//        let incomming = false
+//        let isMoney = false
+//        let quantity = 1
+//        
+//        ((UIApplication.shared.delegate as! AppDelegate).dataController?.storeNewTransaction(
+//            itemDescription: itemDescription!,
+//            peer: knownPeer,
+//            incoming: incomming,
+//            isMoney: isMoney,
+//            quantity: UInt(quantity),
+//            category: nil,
+//            dueDate: nil,
+//            imageURL: nil,
+//            dueWhenTransactionIsDue: nil))
+//    }
     
-    @IBAction func TypeSegmentShanged(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            TableViewCellMoney.isHidden = false
-            TableViewCellItem.isHidden = true
-            
-        }else{
-            TableViewCellMoney.isHidden = true
-            TableViewCellItem.isHidden = false
-        }
+    @IBAction func belongingsChanged(_ sender: UISegmentedControl) {
+//        if sender.selectedSegmentIndex == 0 {
+//            TableViewCellMoney.isHidden = false
+//            TableViewCellItem.isHidden = true
+//            
+//        }else{
+//            TableViewCellMoney.isHidden = true
+//            TableViewCellItem.isHidden = false
+//        }
+        
+        tableView.reloadData()
     }
+
+    // MARK: - Variables
+    var pickerData = [KnownPeer]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+//        tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        // Connect data:
+        self.peerPicker.delegate = self
+        self.peerPicker.dataSource = self
+        
+        pickerData = ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchPeers())!
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,28 +80,51 @@ class NewTransactionController: UITableViewController {
     }
 
     
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let myCell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cellID",for: indexPath) 
-//        
-//        if(indexPath.row < 2){
-//            myCell.isHidden = true
-//        }else{
-//            myCell.isHidden = false
-//        }
-//        
-//        return myCell
-//    }
-//    
+    // MARK: - Table view data source
+    
+    // https://stackoverflow.com/questions/29886642/hide-uitableview-cell
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        var rowHeight:CGFloat = 0.0
-        
-        if(indexPath.row < 2){
-            rowHeight = 0.0
-        }else{
-            rowHeight = 55.0    //or whatever you like
+        if indexPath.section == 2 && indexPath.row == 1 && belongings.selectedSegmentIndex == 1 {
+            return 0.0
         }
         
-        return rowHeight
+        if indexPath.section == 2 && indexPath.row == 2 && belongings.selectedSegmentIndex == 1 {
+            return 0.0
+        }
+        
+        if indexPath.section == 2 && indexPath.row == 3 && belongings.selectedSegmentIndex == 0 {
+            return 0.0
+        }
+        
+        if indexPath.section == 2 && indexPath.row == 4 && belongings.selectedSegmentIndex == 0 {
+            return 0.0
+        }
+        
+        if indexPath.section == 3 && indexPath.row == 0 {
+            return 165.0
+        }
+        
+        return 44.0
+    }
+    
+    
+    // MARK: - UIPickerView
+    
+    // The number of columns of data
+    @available(iOS 2.0, *)
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    
+    // The number of rows of data
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
+    
+    // The data to return for the row and component (column) that's being passed in
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerData[row].customName
     }
     
     

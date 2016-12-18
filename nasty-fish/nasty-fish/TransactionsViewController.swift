@@ -11,21 +11,42 @@ import CoreData
 
 class TransactionsViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
+    // MARK: - @IBAction
+    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
+        if let newTransactionController = segue.source as? NewTransactionController {
+            let itemDescription = newTransactionController.transactionDescription.text
+            let knownPeer = newTransactionController.pickerData[newTransactionController.peerPicker.selectedRow(inComponent: 0)]
+            let incomming = false
+            let isMoney = false
+            let quantity = 1
+        
+            var test = ((UIApplication.shared.delegate as! AppDelegate).dataController?.storeNewTransaction(
+                itemDescription: itemDescription!,
+                peer: knownPeer,
+                incoming: incomming,
+                isMoney: isMoney,
+                quantity: UInt(quantity),
+                category: nil,
+                dueDate: nil,
+                imageURL: nil,
+                dueWhenTransactionIsDue: nil))
+        
+            print(test?.itemDescription ?? "No Transaction")
+        }
+        
+        
+        
+        tableView.reloadData()
+    }
+    
+    
     // https://www.raywenderlich.com/113772/uisearchcontroller-tutorial
     let searchController = UISearchController(searchResultsController: nil)
     
     var transactions = [Transaction]()
     var filteredTransactions = [Transaction]()
     
-    let descriptions = ["Döner (4,- €)", "Per Anhalter durch die Galaxis", "Socken"]
-    let peers = ["Martin", "Qend Ressa", "Michael"]
-    
-    // MARK: - @IBAction
-    
-    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
 
-    }
-    
     // MARK: - viewDidLoad
     
     override func viewDidLoad() {
@@ -92,7 +113,13 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
         }
         cell.textLabel?.text = transaction.itemDescription
         cell.detailTextLabel?.text = transaction.peer?.customName
-        // cell.im.imageView = Assets
+        
+        if (transaction.incoming) {
+            cell.imageView?.image = UIImage(named: "in")
+        }else{
+            cell.imageView?.image = UIImage(named: "out")
+        }
+        
         return cell
     }
  
