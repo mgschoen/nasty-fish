@@ -81,12 +81,9 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
         
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
-//        searchController.searchBar.scopeButtonTitles = ["All", "Loan", "Debt", "Past"]
-//        searchController.searchBar.delegate = self
         definesPresentationContext = true
+        searchController.searchBar.delegate = self;
         tableView.tableHeaderView = searchController.searchBar
-        
-        
         
 //        searchController.searchResultsUpdater = self
 //        searchController.hidesNavigationBarDuringPresentation = false
@@ -100,6 +97,9 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
         transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
         
         preFilterContent(scope: 0)
+        
+        tableView.scrollToRow(at: NSIndexPath(item: 0, section: 0) as IndexPath, at: UITableViewScrollPosition.top, animated: false)
+
 }
 
     override func didReceiveMemoryWarning() {
