@@ -24,7 +24,7 @@
                                         <rect key="frame" x="0.0" y="35" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uxy-s4-LpG" id="Ihz-lF-CH1">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jsZ-8a-ZiI">
@@ -67,7 +67,7 @@
                                         <rect key="frame" x="0.0" y="216" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Fb-1a-gpQ" id="k8m-EU-JoV">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yPs-dG-gIh">
@@ -88,7 +88,7 @@
                                         <rect key="frame" x="0.0" y="260" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1UE-oe-tdB" id="DZv-QZ-frQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sgt-8F-Rlu">
@@ -196,12 +196,12 @@
                     <navigationItem key="navigationItem" title="Transaction" id="zhQ-4x-5ue">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Xap-n8-2LW">
                             <connections>
-                                <segue destination="ZWs-uu-mPS" kind="unwind" unwindAction="unwindSegueWithSegue:" id="BLp-xn-sWg"/>
+                                <segue destination="ZWs-uu-mPS" kind="unwind" unwindAction="cancelToTransactionsWithSegue:" id="40h-P1-0oZ"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="RRD-c6-73P">
                             <connections>
-                                <segue destination="ZWs-uu-mPS" kind="unwind" unwindAction="unwindSegueWithSegue:" id="X1j-Ww-8g6"/>
+                                <segue destination="ZWs-uu-mPS" kind="unwind" unwindAction="saveNewTransactionWithSegue:" id="Gbb-Jb-FsG"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

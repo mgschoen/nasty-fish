@@ -76,6 +76,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="preFilter" destination="ojW-1k-SJA" id="ntz-4y-dWX"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bnr-Lb-vVT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

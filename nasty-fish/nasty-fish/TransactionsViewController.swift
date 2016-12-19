@@ -11,19 +11,30 @@ import CoreData
 
 class TransactionsViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
+    
+    @IBOutlet weak var preFilter: UISegmentedControl!
+    
     // MARK: - @IBAction
-    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
+    @IBAction func cancelToTransactions(segue:UIStoryboardSegue) {
+    }
+    
+    @IBAction func saveNewTransaction(segue:UIStoryboardSegue) {
         if let newTransactionController = segue.source as? NewTransactionController {
             let itemDescription = newTransactionController.transactionDescription.text
             let knownPeer = newTransactionController.pickerData[newTransactionController.peerPicker.selectedRow(inComponent: 0)]
-            let incomming = false
+            let incomming = (newTransactionController.direction.selectedSegmentIndex == 0 ? true : false)
+            let isMoney = (newTransactionController.belongings.selectedSegmentIndex == 0 ? true : false)
             
+            var quantity = 0
+            if (isMoney) {
+//                let amount = newTransactionController.amount.text
+                quantity = 1
+            }
+            else {
+                quantity = Int(newTransactionController.quantity.text!)!
+            }
             
-            let isMoney = false
-            
-            let quantity = 1
-        
-            let test = ((UIApplication.shared.delegate as! AppDelegate).dataController?.storeNewTransaction(
+            let transaction = ((UIApplication.shared.delegate as! AppDelegate).dataController?.storeNewTransaction(
                 itemDescription: itemDescription!,
                 peer: knownPeer,
                 incoming: incomming,
@@ -33,13 +44,13 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
                 dueDate: nil,
                 imageURL: nil,
                 dueWhenTransactionIsDue: nil))
-        
-            transactions.append(test!)
             
-//            print(test?.itemDescription ?? "No Transaction")
+            transactions.insert(transaction!, at: 0)     //.append(test!)
+            
+            //            print(test?.itemDescription ?? "No Transaction")
         }
         
-        tableView.reloadData()
+        preFilterContent(scope: preFilter.selectedSegmentIndex)
     }
     
     @IBAction func preFilterChanged(_ sender: UISegmentedControl) {
