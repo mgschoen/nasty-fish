@@ -17,10 +17,13 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
             let itemDescription = newTransactionController.transactionDescription.text
             let knownPeer = newTransactionController.pickerData[newTransactionController.peerPicker.selectedRow(inComponent: 0)]
             let incomming = false
+            
+            
             let isMoney = false
+            
             let quantity = 1
         
-            var test = ((UIApplication.shared.delegate as! AppDelegate).dataController?.storeNewTransaction(
+            let test = ((UIApplication.shared.delegate as! AppDelegate).dataController?.storeNewTransaction(
                 itemDescription: itemDescription!,
                 peer: knownPeer,
                 incoming: incomming,
@@ -31,19 +34,25 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
                 imageURL: nil,
                 dueWhenTransactionIsDue: nil))
         
-            print(test?.itemDescription ?? "No Transaction")
+            transactions.append(test!)
+            
+//            print(test?.itemDescription ?? "No Transaction")
         }
-        
-        
         
         tableView.reloadData()
     }
+    
+    @IBAction func preFilterChanged(_ sender: UISegmentedControl) {
+        preFilterContent(scope: sender.selectedSegmentIndex)
+    }
+    
     
     
     // https://www.raywenderlich.com/113772/uisearchcontroller-tutorial
     let searchController = UISearchController(searchResultsController: nil)
     
     var transactions = [Transaction]()
+    var preFilterdTransactions = [Transaction]()
     var filteredTransactions = [Transaction]()
     
 
@@ -61,8 +70,8 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
         
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.scopeButtonTitles = ["All", "Loan", "Debt", "Past"]
-        searchController.searchBar.delegate = self
+//        searchController.searchBar.scopeButtonTitles = ["All", "Loan", "Debt", "Past"]
+//        searchController.searchBar.delegate = self
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         
@@ -75,8 +84,12 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
 //        self.tableView.tableHeaderView = searchController.searchBar
         
         transactions = ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchTransactions())!
+        // Sorting transcactions by startDate, so that the newest commes first
+        // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
+        transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
         
-    }
+        preFilterContent(scope: 0)
+}
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -94,7 +107,7 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
         if searchController.isActive && searchController.searchBar.text != "" {
             return filteredTransactions.count
         }
-        return transactions.count
+        return preFilterdTransactions.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -109,7 +122,7 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
         if searchController.isActive && searchController.searchBar.text != "" {
             transaction = filteredTransactions[indexPath.row]
         } else {
-            transaction = transactions[indexPath.row]
+            transaction = preFilterdTransactions[indexPath.row]
         }
         cell.textLabel?.text = transaction.itemDescription
         cell.detailTextLabel?.text = transaction.peer?.customName
@@ -171,20 +184,61 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
     // MARK: - UISearchResultsUpdating
     @available(iOS 8.0, *)
     public func updateSearchResults(for searchController: UISearchController) {
-        let searchBar = searchController.searchBar
-        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
-        filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
+//        let searchBar = searchController.searchBar
+//        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
+//        filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
+        
+        filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
     
     
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        filterContentForSearchText(searchText: searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+//    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+//        filterContentForSearchText(searchText: searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+//    }
+    
+    func preFilterContent(scope: Int) {
+        preFilterdTransactions = transactions.filter { transaction in
+            var categoryMatch = false
+            
+            if scope == 1 {
+                categoryMatch = transaction.incoming
+            }
+            else if scope == 2 {
+                categoryMatch = !transaction.incoming
+            }
+            else if scope == 3 {
+                categoryMatch = transaction.returnDate is Date
+            }
+            else {
+                categoryMatch = true
+            }
+            
+            return categoryMatch
+        }
+        
+        tableView.reloadData()
     }
     
-    func filterContentForSearchText(searchText: String, scope: String = "All") {
-        filteredTransactions = transactions.filter { transaction in
-            let categoryMatch = (scope == "All") || (transaction.category == scope)
-            return categoryMatch && (transaction.itemDescription?.lowercased().contains(searchText.lowercased()))!
+    func filterContentForSearchText(searchText: String) {
+        filteredTransactions = preFilterdTransactions.filter { transaction in
+//            var categoryMatch = false
+//            
+//            if scope == "Loan" {
+//                categoryMatch = transaction.incoming
+//            }
+//            else if scope == "Debt" {
+//                categoryMatch = !transaction.incoming
+//            }
+//            else if scope == "Past" {
+//                categoryMatch = false
+//            }
+//            else {
+//                categoryMatch = true
+//            }
+            
+//            return categoryMatch && ((transaction.itemDescription?.lowercased().contains(searchText.lowercased()))! || (transaction.peer?.customName!.lowercased().contains(searchText.lowercased()))!)
+            
+            return ((transaction.itemDescription?.lowercased().contains(searchText.lowercased()))! || (transaction.peer?.customName!.lowercased().contains(searchText.lowercased()))!)
         }
         
         tableView.reloadData()
