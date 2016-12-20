@@ -10,32 +10,45 @@ import UIKit
 import CoreData
 
 class TransactionDetailViewController: UIViewController {
+    
+    @IBOutlet weak var transactionDescription: UILabel!
+  
+    
+    @IBOutlet weak var amount: UILabel!
+    @IBOutlet weak var peer: UILabel!
+    
+    //var text:String?
 
-    
-    @IBOutlet weak var transactionDescription: UITextField!
-    
-    @IBOutlet weak var peerPicker: UILabel!
-    
+
+    // MARK: - Variables
+    var transaction:Transaction? = nil
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+    }
+    override func viewWillAppear(_ animated: Bool)
+    {
+    
+        super.viewWillAppear(animated)
+        
+        print("* * * * * * Transaction description: \(transaction?.itemDescription)")
+        
+        transactionDescription.text = transaction?.itemDescription
+        
+        amount.text = String(describing: (transaction?.quantity)!)
+        
+        peer.text = String(describing: (transaction?.peer?.customName)!)
+        
+        
+            
+            
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-//if Money 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+  
 
 }

@@ -14,7 +14,7 @@
 		32EC1B5F1DF4A34400B6B4BB /* TransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EC1B5E1DF4A34400B6B4BB /* TransactionsViewController.swift */; };
 		32EC1B611DF4B79200B6B4BB /* NewTransaction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */; };
 		32EC1B631DF4B90100B6B4BB /* TransactionDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */; };
-		B8EF17791E0807C40028220C /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EF17781E0807C40028220C /* TransactionDetailViewController.swift */; };
+		B8EF177B1E081E510028220C /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EF177A1E081E510028220C /* TransactionDetailViewController.swift */; };
 		F75B97031DDC9F3300093D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75B97021DDC9F3300093D14 /* AppDelegate.swift */; };
 		F75B970A1DDC9F3300093D14 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F75B97081DDC9F3300093D14 /* Main.storyboard */; };
 		F75B970C1DDC9F3300093D14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F75B970B1DDC9F3300093D14 /* Assets.xcassets */; };
@@ -32,7 +32,7 @@
 		32EC1B5E1DF4A34400B6B4BB /* TransactionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionsViewController.swift; sourceTree = "<group>"; };
 		32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewTransaction.storyboard; sourceTree = "<group>"; };
 		32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TransactionDetail.storyboard; sourceTree = "<group>"; };
-		B8EF17781E0807C40028220C /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
+		B8EF177A1E081E510028220C /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
 		F75B96FF1DDC9F3200093D14 /* nasty-fish.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "nasty-fish.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75B97021DDC9F3300093D14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F75B97091DDC9F3300093D14 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 				32EC1B5A1DF4A27900B6B4BB /* More.storyboard */,
 				32EC1B581DF4A0CE00B6B4BB /* Transactions.storyboard */,
 				32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */,
-				B8EF17781E0807C40028220C /* TransactionDetailViewController.swift */,
+				B8EF177A1E081E510028220C /* TransactionDetailViewController.swift */,
 				32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */,
 				3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */,
 				32EC1B5E1DF4A34400B6B4BB /* TransactionsViewController.swift */,
@@ -187,7 +187,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B8EF17791E0807C40028220C /* TransactionDetailViewController.swift in Sources */,
+				B8EF177B1E081E510028220C /* TransactionDetailViewController.swift in Sources */,
 				327D46BA1DF82D89004F151C /* MoreController.swift in Sources */,
 				F7B2B3661DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld in Sources */,
 				3232F5B11E05ACA900E8A7F9 /* NewTransactionController.swift in Sources */,
