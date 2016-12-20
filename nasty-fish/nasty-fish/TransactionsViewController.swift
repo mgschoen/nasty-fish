@@ -114,12 +114,17 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
         return 1
     }
 
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive && searchController.searchBar.text != "" {
             return filteredTransactions.count
         }
         return preFilterdTransactions.count
     }
+    
+ 
+    
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "customcell", for: indexPath)
@@ -146,7 +151,13 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
         
         return cell
     }
- 
+    
+//    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//        performSegue(withIdentifier: "TransactionDetailViewController", sender: indexPath)
+//    }
+   
+    
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -257,18 +268,19 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
     
     // MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let transaction: Transaction
                 if searchController.isActive && searchController.searchBar.text != "" {
                     transaction = filteredTransactions[indexPath.row]
                 } else {
-                    transaction = transactions[indexPath.row]
+                    transaction = preFilterdTransactions[indexPath.row]
                 }
-//                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-//                controller.detailCandy = transaction
-//                controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
-//                controller.navigationItem.leftItemsSupplementBackButton = true
+                let controller = segue.destination as! TransactionDetailViewController
+                controller.transaction = transaction
+                //controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+                //controller.navigationItem.leftItemsSupplementBackButton = true
             }
         }
     }
