@@ -14,12 +14,18 @@ class MoreController: UITableViewController {
     }
     
     @IBOutlet weak var AppInstanceIdLabel: UILabel!
+    @IBOutlet weak var UserCustomNameLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let dc = (UIApplication.shared.delegate as! AppDelegate).dataController
         AppInstanceIdLabel.text = "\(dc!.appInstanceId!)"
+        if let customName = dc!.fetchUserCustomName() {
+            UserCustomNameLabel.text = "\(customName)"
+        } else {
+            UserCustomNameLabel.text = "[noname]"
+        }
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

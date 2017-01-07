@@ -25,7 +25,6 @@ class DataController : NSObject {
         userDefaults = UserDefaults.standard
         let fetchedAppInstanceId = userDefaults.string(forKey: "nastyFishInstanceId")
         if (fetchedAppInstanceId == nil) {
-            // TODO Get UIDevice.current.identifierForVendor and save in UserDefaults
             let storedAppInstanceId = UIDevice.current.identifierForVendor?.uuidString
             userDefaults.set(storedAppInstanceId, forKey: "nastyFishInstanceId")
             appInstanceId = storedAppInstanceId
@@ -40,6 +39,18 @@ class DataController : NSObject {
             }
         })
         persistentContainer = container
+    }
+    
+    /* ------------------------------------------------------------------------------------ *
+     *   UserDefaults                                                                       *
+     * ------------------------------------------------------------------------------------ */
+    
+    func fetchUserCustomName () -> String? {
+        return userDefaults.string(forKey: "nastyFishUserCustomName")
+    }
+    
+    func set (userCustomName:String) {
+        userDefaults.set(userCustomName, forKey: "nastyFishUserCustomName")
     }
     
     /* ------------------------------------------------------------------------------------ *
