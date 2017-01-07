@@ -7,16 +7,32 @@
 //
 
 import CoreData
+import UIKit
 
 class DataController : NSObject {
-
+    
     // The one and only access point to our persistent storage
     // that cannot be accessed from outside this class
     private var persistentContainer : NSPersistentContainer
+    private var userDefaults : UserDefaults
     
+    var appInstanceId : String?
+
     // On init an NSPersistentContainer is created that grants access
     // to the persistent storage
     override init(){
+        
+        userDefaults = UserDefaults.standard
+        let fetchedAppInstanceId = userDefaults.string(forKey: "nastyFishInstanceId")
+        if (fetchedAppInstanceId == nil) {
+            // TODO Get UIDevice.current.identifierForVendor and save in UserDefaults
+            let storedAppInstanceId = UIDevice.current.identifierForVendor?.uuidString
+            userDefaults.set(storedAppInstanceId, forKey: "nastyFishInstanceId")
+            appInstanceId = storedAppInstanceId
+        } else {
+            appInstanceId = fetchedAppInstanceId
+        }
+        
         let container = NSPersistentContainer(name: "NastyFish")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {

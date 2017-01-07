@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         dataController = DataController()
         
+        // * * * DEBUG: Print the string that identifies our app instance * * *
+        print("appInstanceId: \(dataController?.appInstanceId)")
+        
         // * * * DEBUG: Populate persistent storage with dummy content * * *
         let populator = Populator(dc:dataController!)
         if (!populator.storageIsPopulated()) {

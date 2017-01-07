@@ -13,9 +13,14 @@ class MoreController: UITableViewController {
     @IBAction func initWithDefaultData(_ sender: UIButton) {
     }
     
+    @IBOutlet weak var AppInstanceIdLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let dc = (UIApplication.shared.delegate as! AppDelegate).dataController
+        AppInstanceIdLabel.text = "\(dc!.appInstanceId!)"
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 

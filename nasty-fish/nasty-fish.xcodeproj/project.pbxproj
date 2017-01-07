@@ -142,7 +142,7 @@
 				TargetAttributes = {
 					F75B96FE1DDC9F3200093D14 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 63LPN5H4AY;
+						DevelopmentTeam = NMH9RYJG32;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -327,10 +327,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 63LPN5H4AY;
+				DEVELOPMENT_TEAM = NMH9RYJG32;
 				INFOPLIST_FILE = "nasty-fish/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "de.lmu.ifi.mobile.iphonepraktikum.nasty-fish";
+				PRODUCT_BUNDLE_IDENTIFIER = "nasty-fish";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -340,10 +340,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 63LPN5H4AY;
+				DEVELOPMENT_TEAM = NMH9RYJG32;
 				INFOPLIST_FILE = "nasty-fish/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "de.lmu.ifi.mobile.iphonepraktikum.nasty-fish";
+				PRODUCT_BUNDLE_IDENTIFIER = "nasty-fish";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
