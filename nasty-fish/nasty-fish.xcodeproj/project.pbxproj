@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3232F5B11E05ACA900E8A7F9 /* NewTransactionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */; };
 		327D46BA1DF82D89004F151C /* MoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327D46B91DF82D89004F151C /* MoreController.swift */; };
+		32C21DE01E211ECA0088EE84 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32C21DDE1E211ECA0088EE84 /* Settings.storyboard */; };
+		32C21DE21E2125B80088EE84 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C21DE11E2125B80088EE84 /* SettingsController.swift */; };
 		32EC1B591DF4A0CE00B6B4BB /* Transactions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B581DF4A0CE00B6B4BB /* Transactions.storyboard */; };
 		32EC1B5C1DF4A27900B6B4BB /* More.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B5A1DF4A27900B6B4BB /* More.storyboard */; };
 		32EC1B5F1DF4A34400B6B4BB /* TransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EC1B5E1DF4A34400B6B4BB /* TransactionsViewController.swift */; };
@@ -27,6 +29,8 @@
 /* Begin PBXFileReference section */
 		3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTransactionController.swift; sourceTree = "<group>"; };
 		327D46B91DF82D89004F151C /* MoreController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreController.swift; sourceTree = "<group>"; };
+		32C21DDF1E211ECA0088EE84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
+		32C21DE11E2125B80088EE84 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		32EC1B581DF4A0CE00B6B4BB /* Transactions.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Transactions.storyboard; sourceTree = "<group>"; };
 		32EC1B5B1DF4A27900B6B4BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/More.storyboard; sourceTree = "<group>"; };
 		32EC1B5E1DF4A34400B6B4BB /* TransactionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionsViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +70,8 @@
 				B8EF177A1E081E510028220C /* TransactionDetailViewController.swift */,
 				32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */,
 				3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */,
+				32C21DDE1E211ECA0088EE84 /* Settings.storyboard */,
+				32C21DE11E2125B80088EE84 /* SettingsController.swift */,
 			);
 			name = UserInterface;
 			sourceTree = "<group>";
@@ -173,6 +179,7 @@
 				F75B970F1DDC9F3300093D14 /* LaunchScreen.storyboard in Resources */,
 				32EC1B5C1DF4A27900B6B4BB /* More.storyboard in Resources */,
 				F75B970C1DDC9F3300093D14 /* Assets.xcassets in Resources */,
+				32C21DE01E211ECA0088EE84 /* Settings.storyboard in Resources */,
 				F75B970A1DDC9F3300093D14 /* Main.storyboard in Resources */,
 				32EC1B611DF4B79200B6B4BB /* NewTransaction.storyboard in Resources */,
 				32EC1B591DF4A0CE00B6B4BB /* Transactions.storyboard in Resources */,
@@ -187,6 +194,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32C21DE21E2125B80088EE84 /* SettingsController.swift in Sources */,
 				B8EF177B1E081E510028220C /* TransactionDetailViewController.swift in Sources */,
 				327D46BA1DF82D89004F151C /* MoreController.swift in Sources */,
 				F7B2B3661DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld in Sources */,
@@ -201,6 +209,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		32C21DDE1E211ECA0088EE84 /* Settings.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32C21DDF1E211ECA0088EE84 /* Base */,
+			);
+			name = Settings.storyboard;
+			sourceTree = "<group>";
+		};
 		32EC1B5A1DF4A27900B6B4BB /* More.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
