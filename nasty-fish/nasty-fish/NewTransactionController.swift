@@ -51,6 +51,20 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         tableView.reloadData()
     }
 
+    @IBAction func quickAmountTapped(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            amount.text = "5,00"
+        }
+        else if sender.selectedSegmentIndex == 1 {
+            amount.text = "10,00"
+        }
+        else if sender.selectedSegmentIndex == 2 {
+            amount.text = "20,00"
+        }
+    }
+    
+    
+    
     // MARK: - Variables
     var pickerData = [KnownPeer]()
     
@@ -79,6 +93,39 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         // Dispose of any resources that can be recreated.
     }
 
+    override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
+        if let ident = identifier {
+            if ident == "SaveNewTransaction" {
+                if (transactionDescription.text?.isEmpty)! {
+                    return false
+                }
+                
+                // Money
+                if belongings.selectedSegmentIndex == 0 {
+                    let formatter = NumberFormatter()
+                    formatter.generatesDecimalNumbers = true
+                    formatter.numberStyle = NumberFormatter.Style.decimal
+                    if (formatter.number(from: amount.text!) as? NSDecimalNumber) == nil  {
+                        return false
+                    }
+                }
+                
+                // Item
+                if belongings.selectedSegmentIndex == 1 {
+                    if Int(quantity.text!)! <= 0 {
+                        return false
+                    }
+                }
+                
+                //        let knownPeer = pickerData[peerPicker.selectedRow(inComponent: 0)]
+                //        let incomming = false
+                //        let isMoney = false
+                //        let quantity = 1
+                
+            }
+        }
+        return true
+    }
     
     // MARK: - Table view data source
     
