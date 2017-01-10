@@ -11,11 +11,15 @@ import CoreData
 
 class TransactionDetailViewController: UIViewController {
     
-    @IBOutlet weak var transactionDescription: UILabel!
-  
     
+    
+    @IBOutlet weak var titelDescription: UINavigationItem!
+    
+    @IBOutlet weak var transactionDescription: UILabel!
     @IBOutlet weak var amount: UILabel!
     @IBOutlet weak var peer: UILabel!
+    
+    
     
     //var text:String?
 
@@ -25,6 +29,9 @@ class TransactionDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.title = transaction?.itemDescription
+        //self.navigationController?.navigationBar.topItem?.title = "itemDescription"
         
     }
     override func viewWillAppear(_ animated: Bool)
@@ -41,8 +48,6 @@ class TransactionDetailViewController: UIViewController {
         peer.text = String(describing: (transaction?.peer?.customName)!)
         
         
-            
-            
     }
 
     override func didReceiveMemoryWarning() {
