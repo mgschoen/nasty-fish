@@ -12,25 +12,18 @@ import MultipeerConnectivity
 class CommunicationHandler : NSObject {
     
     private let NFSharingServiceType = "nf-sharing"
-    private let myPeerID = MCPeerID(displayName: UIDevice.current.name)
+    
+    public let myPeerID = MCPeerID(displayName: UIDevice.current.name)
     private let serviceAdvertiser : MCNearbyServiceAdvertiser
     private let serviceBrowser : MCNearbyServiceBrowser
     
     //private let info = UIDevice.current.
-    
+    // will be obsolete later and implemented in the DataModel.DataController (1.1)
     private let vendorID = UIDevice.current.identifierForVendor?.uuidString
-    
-    //private let manageMyFiles = NSFileMana
-    
-    // ubiquityIdentityToken
-    
-//    @NSCopying var ubiTok: (NSCoding & NSCopying & NSObjectProtocol)?{
-//        get {
-//            
-//        }
-//    }
-    
     let currentToken = FileManager.default.ubiquityIdentityToken
+    
+    //private let manageMyFiles = NSFileManager
+    var delegate : CommunicationHandlerDelegate?
     
     override init(){
         self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerID, discoveryInfo: nil, serviceType: NFSharingServiceType)
@@ -121,4 +114,13 @@ extension CommunicationHandler : MCSessionDelegate {
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
         NSLog("%@", "didStartReceivingResourceWithName")
     }
+}
+
+extension CommunicationHandler : CommunicationHandlerDelegate {
+    func connectedDevicesChanged(manager : CommunicationHandler, connectedDevices: [String]) {
+    }
+}
+
+protocol CommunicationHandlerDelegate {
+    func connectedDevicesChanged(manager : CommunicationHandler, connectedDevices: [String])
 }
