@@ -26,11 +26,12 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     override init(){
         super.init()
         
-        // TODO
-        // Different name to be chosen by group 8
-        peer = MCPeerID(displayName: UIDevice.current.name)
+        //  DONE FTM: Different name chosen by group; -> identifierForVendor?.uuid String managed by DataController
+        //  WAS: 
+        //peer = MCPeerID(displayName: UIDevice.current.name)
         
-        //peer = appDelegate.dataController.  getVedorID
+        //get UIDevice.current.identifierForVendor?.uuid from DataController Instance
+        peer = MCPeerID(displayName: (appDelegate.dataController?.fetchUserCustomName())!)
         
         session = MCSession(peer: peer)
         session.delegate = self
