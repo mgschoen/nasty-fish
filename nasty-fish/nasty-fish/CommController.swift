@@ -20,7 +20,10 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     var delegate: CommControllerDelegate?
     
     var foundPartners = [MCPeerID]()
+    var advertisingPartners = [MCPeerID]()
+    var foundPartnersAdvertisedData = Dictionary<MCPeerID, Dictionary<String, String>>()
     
+    //completion handler declaration
     var invitationHandler: ((Bool, MCSession?)->Void)!
     
     override init(){
@@ -44,23 +47,55 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     //MCNearbyServiceAdvertiser Protocol START
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping ((Bool, MCSession?) -> Void)) {
         //TODO
+        //foundPartners.append(peerID)
+        
+        //TODO
+        //FURTHER UNDERSTAND THIS
+        self.invitationHandler = invitationHandler as ((Bool, MCSession?) -> Void)!
+        
+        //call the delegate instance to handle the invitation
+        delegate?.invitationWasReceived(fromPeer: peerID.displayName)
     }
     
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
-        //TODO
+        NSLog("%@", "didNotStartAdvertisingPeer: \(error.localizedDescription)")
     }
     //MCNearbyServiceAdvertiser Protocol END
     
     //MCNearbyServiceBrowser Protocol START
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
-        //TODO
+        NSLog("%@", "didNotStartBrowsingForPeers: \(error.localizedDescription)")
     }
     
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+        
+        foundPartners.append(peerID)
+        
+        //Get additional info from the Data sent during the advertising process
+        if(foundPartnersAdvertisedData.isEmpty || foundPartnersAdvertisedData.index(forKey: peerID) == nil){
+            
+            //if key not already in dictionary add it
+            foundPartnersAdvertisedData[peerID] = info
+        }
+        
+        delegate?.foundPeers()
     }
     
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        //TODO
+        for (index, aPeer) in foundPartners.enumerated() {
+            if(aPeer == peerID){
+                foundPartners.remove(at: index)
+                
+                //Not sure if a peer may be contained in the foundPartners Array but not in the Dictionary
+                //But lets check it
+                if(foundPartnersAdvertisedData.index(forKey: peerID) != nil){
+                    foundPartnersAdvertisedData.remove(at: foundPartnersAdvertisedData.index(forKey: peerID)!)
+                }
+                break
+            }
+        }
+        
+        delegate?.lostPeer()
     }
     //MCNearbyServiceBrowser Protocol END
 
