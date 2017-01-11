@@ -123,8 +123,10 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
 }
 
 protocol CommControllerDelegate {
+    
     func foundPeers()
     func lostPeer()
     func invitationWasReceived(fromPeer: String)
     func connectedWithPeer(peerID: MCPeerID)
+
 }

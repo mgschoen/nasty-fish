@@ -6,11 +6,14 @@
 //  Copyright © 2017 Gruppe 08. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import MultipeerConnectivity
 
 class ServiceDel : CommControllerDelegate {
     
-    func foundPeer() {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    func foundPeers() {
         //tblPeers.reloadData()
         //UPDATE VIEW
     }
@@ -22,27 +25,46 @@ class ServiceDel : CommControllerDelegate {
     }
     
     func invitationWasReceived(fromPeer: String) {
-        let alert = UIAlertController(title: "", message: "\(fromPeer) wants to chat with you.", preferredStyle: UIAlertControllerStyle.alert)
+        //ALERT-Window to be shown at UI ?
+        //let alert = UIAlertController(title: "", message: "\(fromPeer) wants to chat with you.", preferredStyle: UIAlertControllerStyle.alert)
+        NSLog("%@", "invitationWasReceived from: \(fromPeer) at comm delegate")
+       
+        // IN CASE USER MAY ACCEPT AND DECLINE
+//        let acceptAction: UIAlertAction = UIAlertAction(title: "Accept", style: UIAlertActionStyle.default) { (alertAction) -> Void in
+//            self.appDelegate.mpcManager.invitationHandler(true, self.appDelegate.mpcManager.session)
+//        }
+//        
+//        let declineAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (alertAction) -> Void in
+//            self.appDelegate.mpcManager.invitationHandler(false, nil)
+//        }
+//        
+//        //alert.addAction(acceptAction)
+//        //alert.addAction(declineAction)
         
-        let acceptAction: UIAlertAction = UIAlertAction(title: "Accept", style: UIAlertActionStyle.default) { (alertAction) -> Void in
-            self.appDelegate.mpcManager.invitationHandler(true, self.appDelegate.mpcManager.session)
-        }
+        //NO USER QUESTIONING
         
-        let declineAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (alertAction) -> Void in
-            self.appDelegate.mpcManager.invitationHandler(false, nil)
-        }
-        
-        alert.addAction(acceptAction)
-        alert.addAction(declineAction)
-        
-        OperationQueue.main.addOperation { () -> Void in
-            self.present(alert, animated: true, completion: nil)
-        }
+        //self.appDelegate.
+//        
+//        OperationQueue.main.addOperation { () -> Void in
+//            self.present(alert, animated: true, completion: nil)
+//        }
     }
     
     func connectedWithPeer(peerID: MCPeerID){
-        OperationQueue.main.addOperation { () -> Void in
-            self.performSegue(withIdentifier: "idSegueChat", sender: self)
-        }
+//        OperationQueue.main.addOperation { () -> Void in
+//            self.performSegue(withIdentifier: "idSegueChat", sender: self)
+//        }
     }
+    
+    
+//    func foundPeers()
+//    func lostPeer()
+//    func invitationWasReceived(fromPeer: String)
+//    
+//    func connectedWithPeer(peerID: MCPeerID){
+//        
+//    }
+    
+    
+
 }
