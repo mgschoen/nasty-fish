@@ -44,6 +44,9 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         browser.delegate = self
     }
     
+    /* ------------------------------------------------------------------------------------ *
+     *   Advertiser                                                                         *
+     * ------------------------------------------------------------------------------------ */
     //MCNearbyServiceAdvertiser Protocol START
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping ((Bool, MCSession?) -> Void)) {
         //TODO
@@ -62,6 +65,9 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     }
     //MCNearbyServiceAdvertiser Protocol END
     
+    /* ------------------------------------------------------------------------------------ *
+     *   Browser                                                                            *
+     * ------------------------------------------------------------------------------------ */
     //MCNearbyServiceBrowser Protocol START
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
         NSLog("%@", "didNotStartBrowsingForPeers: \(error.localizedDescription)")
@@ -98,6 +104,10 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         delegate?.lostPeer()
     }
     //MCNearbyServiceBrowser Protocol END
+
+    /* ------------------------------------------------------------------------------------ *
+     *   Session                                                                            *
+     * ------------------------------------------------------------------------------------ */
 
     //MCSession Protocol START
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
