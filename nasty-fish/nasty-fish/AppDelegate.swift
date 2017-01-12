@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         dataController = DataController()
+        commController = CommController()
         
         // * * * DEBUG: Populate persistent storage with dummy content * * *
         let populator = Populator(dc:dataController!)
