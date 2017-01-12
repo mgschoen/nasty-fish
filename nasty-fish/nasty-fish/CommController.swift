@@ -43,6 +43,10 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         advertiser.delegate = self
         browser = MCNearbyServiceBrowser(peer: peer, serviceType: "nastyfish-mpc")
         browser.delegate = self
+        
+        //FOR NOW
+        //Define this object as Observer for following notification
+        NotificationCenter.default.addObserver(self, selector: #selector(handleMPCReceivedDataWithNotification), name: NSNotification.Name("receivedMPCDataNotification"), object: nil)
     }
     
     /* ------------------------------------------------------------------------------------ *
