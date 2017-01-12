@@ -34,9 +34,12 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         //  WAS: 
         //peer = MCPeerID(displayName: UIDevice.current.name)
         
-        //get UIDevice.current.identifierForVendor?.uuid from DataController Instance
-        peer = MCPeerID(displayName: (appDelegate.dataController?.fetchUserCustomName())!)
-        
+//        if !(appDelegate.dataController?.fetchUserCustomName() == nil){
+//        //get UIDevice.current.identifierForVendor?.uuid from DataController Instance
+//        peer = MCPeerID(displayName: (appDelegate.dataController?.fetchUserCustomName())!)
+//        } else {
+        peer = MCPeerID(displayName: (UIDevice.current.identifierForVendor?.uuidString)!)
+//        }
         session = MCSession(peer: peer)
         session.delegate = self
         advertiser = MCNearbyServiceAdvertiser(peer: peer, discoveryInfo: nil, serviceType: "nastyfish-mpc")
