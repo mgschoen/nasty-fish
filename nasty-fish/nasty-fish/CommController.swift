@@ -111,11 +111,25 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
 
     //MCSession Protocol START
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        //TODO
+        switch state{
+        case MCSessionState.connected:
+            NSLog("%@", "didChangeStateConnected: \(peerID) connected to \(session)")
+            delegate?.connectedWithPeer(peerID: peerID)
+            
+        case MCSessionState.connecting:
+            NSLog("%@", "didChangeStateConnecting: \(peerID) is connecting to \(session)")
+            
+        default:
+            NSLog("%@", "didChangeStateNotConnected: \(peerID) did not connect to \(session)")
+            
+        }
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        //TODO
+        let dictionary: [String: AnyObject] = ["data": data as AnyObject, "fromPeer": peerID]
+        
+        //Notification Observer pattern
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "receivedMPCDataNotification"), object: dictionary)
     }
     
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL, withError error: Error?) {
