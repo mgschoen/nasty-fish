@@ -144,6 +144,45 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         //NECESSARY ??
     }
     //MCSession Protocol END
+    
+    /* ------------------------------------------------------------------------------------ *
+     *   Sending Data                                                                       *
+     * ------------------------------------------------------------------------------------ */
+    
+    func sendData(dictionaryWithData dictionary: Dictionary<String, String>, toPeer targetPeer: MCPeerID) -> Bool {
+        
+        let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
+        let peersArray = NSArray(object: targetPeer)
+        
+        var wasSentSuccessful : Bool = true
+        do {
+            try session.send(dataToSend, toPeers: peersArray as! [MCPeerID], with: MCSessionSendDataMode.reliable)
+            //session.send returns true if the message was successfully enqueued for delivery, or false if an error occurred
+        } catch {
+            NSLog("%@", "\(error.localizedDescription)")
+            wasSentSuccessful = false
+            return wasSentSuccessful
+        }
+        return wasSentSuccessful
+    }
+    
+    /* 
+     Method to send Strings to all connected peers
+     */
+    func sendNFTransaction(transactionInfo : String) -> Bool {
+        NSLog("%@", "sendNFTransaction: \(transactionInfo)")
+        var transactionSent : Bool = true
+        if !(session.connectedPeers.isEmpty) {
+            do {
+                try self.session.send(transactionInfo.data(using: String.Encoding.utf8, allowLossyConversion: false)!, toPeers: session.connectedPeers, with: MCSessionSendDataMode.reliable)
+            }
+            catch {
+                NSLog("%@", "\(error)")
+                transactionSent = false
+            }
+        }
+        return transactionSent
+    }
 }
 
 protocol CommControllerDelegate {
