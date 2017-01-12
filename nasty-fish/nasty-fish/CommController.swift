@@ -234,6 +234,13 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         }
     }
     
+    //TODO
+    
+    //Update Method in Case the CustomName has been changed
+    //Notification nfCustomNameChanged
+    //Update name
+    //Create new peer : MCPeerID
+    //reinit session etc
     
     
 }
