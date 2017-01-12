@@ -66,6 +66,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         
         //call the delegate instance to handle the invitation
         delegate?.invitationWasReceived(fromPeer: peerID.displayName)
+        print("advertiser didReceiveInvitation from \(peerID)")
     }
     
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
