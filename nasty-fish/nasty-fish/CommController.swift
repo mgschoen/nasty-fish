@@ -46,6 +46,9 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         //session = MCSession(peer: peer)
         session = MCSession(peer: peer, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.required)
         session.delegate = self
+        
+        //session.encryptionPreference = MCEncryptionPreference.none;
+        
         advertiser = MCNearbyServiceAdvertiser(peer: peer, discoveryInfo: nil, serviceType: "nastyfish-mpc")
         advertiser.delegate = self
         browser = MCNearbyServiceBrowser(peer: peer, serviceType: "nastyfish-mpc")
@@ -246,6 +249,13 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     //Create new peer : MCPeerID
     //reinit session etc
     
+    func inviteAllPeers(){
+        for foundPeer in foundPartners.enumerated(){
+            print("+++ inviting: \(foundPeer.element)")
+            var peerToBeInvited = foundPeer.element
+            browser.invitePeer(peerToBeInvited, to: self.session, withContext: nil, timeout: 20)
+        }
+    }
     
 }
 
