@@ -9,9 +9,14 @@
 import UIKit
 import MultipeerConnectivity
 
-class ServiceDel : CommControllerDelegate {
+class ServiceDel : NSObject, CommControllerDelegate {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    override init(){
+        super.init()
+        //appDelegate.commController.delegate = self
+    }
     
     func foundPeers() {
         NSLog("%@", "foundPeers -- no peers/sessions info")
@@ -36,6 +41,27 @@ class ServiceDel : CommControllerDelegate {
         self.appDelegate.commController?.invitationHandler(true, self.appDelegate.commController.session)
         
         //Show Alert-Window
+        
+        
+        //try0815:
+//        let alert = UIAlertController(title: "", message: "\(fromPeer) wants to chat with you.", preferredStyle: UIAlertControllerStyle.alert)
+//        
+//        let acceptAction: UIAlertAction = UIAlertAction(title: "Accept", style: UIAlertActionStyle.default) { (alertAction) -> Void in
+//            self.appDelegate.mpcManager.invitationHandler(true, self.appDelegate.mpcManager.session)
+//        }
+//        
+//        let declineAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (alertAction) -> Void in
+//            self.appDelegate.mpcManager.invitationHandler(false, nil)
+//        }
+//        
+//        alert.addAction(acceptAction)
+//        alert.addAction(declineAction)
+//        
+//        OperationQueue.main.addOperation { () -> Void in
+//            self.present(alert, animated: true, completion: nil)
+//        }
+
+        
     }
     
     func connectedWithPeer(peerID: MCPeerID){
