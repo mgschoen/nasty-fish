@@ -43,14 +43,20 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         print(peer)
         print(peer.displayName)
         
+        /* Init Session */
+        //session's encryptionPreference is now MCEncryptionPreference.required
+        //session's encryptionPreference could be MCEncryptionPreference.none
+        //Changing to none could be a workaround for the notConnected issue
         //session = MCSession(peer: peer)
+        //Using equivalent alternative:
         session = MCSession(peer: peer, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.required)
         session.delegate = self
         
-        //session.encryptionPreference = MCEncryptionPreference.none;
-        
+        /* Init Advertiser */
         advertiser = MCNearbyServiceAdvertiser(peer: peer, discoveryInfo: nil, serviceType: "nastyfish-mpc")
         advertiser.delegate = self
+        
+        /* Init Browser */
         browser = MCNearbyServiceBrowser(peer: peer, serviceType: "nastyfish-mpc")
         browser.delegate = self
         
@@ -196,7 +202,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     }
     
     /* 
-     Method to send Strings to all connected peers
+     Function to send Strings to all connected peers
      */
     func sendNFTransaction(transactionInfo : String) -> Bool {
         NSLog("%@", "sendNFTransaction: \(transactionInfo)")
@@ -216,6 +222,10 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     /* ------------------------------------------------------------------------------------ *
      *   Receiving Data                                                                     *
      * ------------------------------------------------------------------------------------ */
+    
+    /* 
+     Function to react on the Notification for the case that data is received through MpC
+     */
     func handleMPCReceivedDataWithNotification(notification: NSNotification) {
         // Get the dictionary containing the data and the source peer from the notification.
         let receivedDataDictionary = notification.object as! Dictionary<String, AnyObject>
@@ -246,7 +256,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
             }
             else{
                 // In this case an "_end_nfcommunication_" transaction-text was received.
-                // Show an alert view to the user.
+                // One could show an alert view to the user.
                 
                     session.disconnect()
                 
