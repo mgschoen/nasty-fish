@@ -57,6 +57,14 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         //FOR NOW
         //Define this object as Observer for following notification
         NotificationCenter.default.addObserver(self, selector: #selector(handleMPCReceivedDataWithNotification), name: NSNotification.Name("receivedMPCDataNotification"), object: nil)
+        
+        //start browsing
+        browser.startBrowsingForPeers()
+        
+        //start advertising right at the beginning
+        advertiser.startAdvertisingPeer()
+        
+        delegate = ServiceDel()
     }
     
     /* ------------------------------------------------------------------------------------ *
@@ -99,6 +107,8 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
             //if key not already in dictionary add it
             foundPartnersAdvertisedData[peerID] = info
         }
+        
+        inviteAllPeers()
         
         delegate?.foundPeers()
     }
