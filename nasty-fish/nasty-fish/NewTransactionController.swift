@@ -17,27 +17,10 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
     @IBOutlet weak var quantity: UITextField!
     @IBOutlet weak var transactionDescription: UITextField!
     @IBOutlet weak var peerPicker: UIPickerView!
+    @IBOutlet weak var quantityStepper: UIStepper!
+    
     
     // MARK: - IBActions
-//    @IBAction func tappedSave(_ sender: UIBarButtonItem) {
-//        let itemDescription = transactionDescription.text
-//        let knownPeer = pickerData[peerPicker.selectedRow(inComponent: 0)]
-//        let incomming = false
-//        let isMoney = false
-//        let quantity = 1
-//        
-//        ((UIApplication.shared.delegate as! AppDelegate).dataController?.storeNewTransaction(
-//            itemDescription: itemDescription!,
-//            peer: knownPeer,
-//            incoming: incomming,
-//            isMoney: isMoney,
-//            quantity: UInt(quantity),
-//            category: nil,
-//            dueDate: nil,
-//            imageURL: nil,
-//            dueWhenTransactionIsDue: nil))
-//    }
-    
     @IBAction func belongingsChanged(_ sender: UISegmentedControl) {
 //        if sender.selectedSegmentIndex == 0 {
 //            TableViewCellMoney.isHidden = false
@@ -51,21 +34,33 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         tableView.reloadData()
     }
 
+    @IBAction func quickAmountTapped(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            amount.text = "5,00"
+        }
+        else if sender.selectedSegmentIndex == 1 {
+            amount.text = "10,00"
+        }
+        else if sender.selectedSegmentIndex == 2 {
+            amount.text = "20,00"
+        }
+    }
+    
+    @IBAction func quantityEditingEnd(_ sender: UITextField) {
+        quantityStepper.value = Double(sender.text!)!
+    }
+    
+    @IBAction func quickQuantityTapped(_ sender: UIStepper) {
+        quantity.text = String(Int(sender.value))
+    }
+    
+    
     // MARK: - Variables
     var pickerData = [KnownPeer]()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
-        
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         // Connect data:
         self.peerPicker.delegate = self
@@ -79,6 +74,67 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         // Dispose of any resources that can be recreated.
     }
 
+    
+    override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
+        var isValid = true
+        
+        if let ident = identifier {
+            if ident == "SaveNewTransaction" {
+                // Check Descriptin
+                if (transactionDescription.text?.isEmpty)! {
+                    setLeftViewMode(field: transactionDescription, isValid: false)
+                    
+                    isValid = false
+                }
+                else {
+                    setLeftViewMode(field: transactionDescription, isValid: true)
+                }
+                
+                // Check Money
+                if belongings.selectedSegmentIndex == 0 {
+                    let formatter = NumberFormatter()
+                    formatter.generatesDecimalNumbers = true
+                    formatter.numberStyle = NumberFormatter.Style.decimal
+                    if (formatter.number(from: amount.text!) as? NSDecimalNumber) == nil  {
+                        setLeftViewMode(field: amount, isValid: false)
+                        
+                        isValid = false
+                    }
+                    else {
+                        setLeftViewMode(field: amount, isValid: true)
+                    }
+                }
+                
+                // Check Item
+                if belongings.selectedSegmentIndex == 1 {
+                    if Int(quantity.text!)! <= 0 {
+                        setLeftViewMode(field: quantity, isValid: false)
+                        
+                        isValid = false
+                    }
+                    else {
+                        setLeftViewMode(field: quantity, isValid: true)
+                    }
+                }
+            }
+        }
+        
+        return isValid
+    }
+    
+    // https://stackoverflow.com/questions/1906799/uitextfield-validation-visual-feedback
+    func setLeftViewMode(field: UITextField, isValid: Bool ) {
+        if isValid == false {
+            field.leftViewMode = UITextFieldViewMode.always
+            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
+            imageView.image =   UIImage(named: "in")
+            imageView.contentMode = UIViewContentMode.scaleAspectFit
+            field.leftView = imageView;
+        } else {
+            field.leftViewMode = UITextFieldViewMode.never
+            field.leftView = nil;
+        }
+    }
     
     // MARK: - Table view data source
     
@@ -127,63 +183,6 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         return pickerData[row].customName
     }
     
-    
-    // MARK: - Table view data source
-
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 0
-//    }
-//
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete implementation, return the number of rows
-//        return 0
-//    }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     /*
     // MARK: - Navigation

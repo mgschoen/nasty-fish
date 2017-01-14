@@ -31,9 +31,7 @@ class TransactionDetailViewController: UIViewController {
     {
     
         super.viewWillAppear(animated)
-        
-        print("* * * * * * Transaction description: \(transaction?.itemDescription)")
-        
+                
         transactionDescription.text = transaction?.itemDescription
         
         amount.text = String(describing: (transaction?.quantity)!)
