@@ -62,6 +62,8 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
     // https://www.raywenderlich.com/113772/uisearchcontroller-tutorial
     let searchController = UISearchController(searchResultsController: nil)
     
+    
+    
     var transactions = [Transaction]()
     var preFilterdTransactions = [Transaction]()
     var filteredTransactions = [Transaction]()
@@ -72,6 +74,8 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let dataController = (UIApplication.shared.delegate as! AppDelegate).dataController
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -91,7 +95,7 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
 //        searchController.searchBar.sizeToFit()
 //        self.tableView.tableHeaderView = searchController.searchBar
         
-        transactions = ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchTransactions())!
+        transactions = dataController!.fetchTransactions()
         // Sorting transcactions by startDate, so that the newest commes first
         // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
         transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
@@ -99,8 +103,7 @@ class TransactionsViewController: UITableViewController, UISearchResultsUpdating
         preFilterContent(scope: 0)
         
         tableView.scrollToRow(at: NSIndexPath(item: 0, section: 0) as IndexPath, at: UITableViewScrollPosition.top, animated: false)
-
-}
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

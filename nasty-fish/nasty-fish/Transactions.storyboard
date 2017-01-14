@@ -91,7 +91,7 @@
                     <tabBarItem key="tabBarItem" title="Transactions" image="cans" id="Bi7-lE-jgK"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="6qI-ql-0yI">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6qI-ql-0yI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.0" green="0.087107305271511185" blue="0.78644511421319796" alpha="0.9376070205479452" colorSpace="custom" customColorSpace="sRGB"/>

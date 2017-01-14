@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3232F5B11E05ACA900E8A7F9 /* NewTransactionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */; };
+		3254CA4D1E2A908D009729C8 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3254CA4C1E2A908D009729C8 /* MainController.swift */; };
 		327D46BA1DF82D89004F151C /* MoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327D46B91DF82D89004F151C /* MoreController.swift */; };
 		32C21DE01E211ECA0088EE84 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32C21DDE1E211ECA0088EE84 /* Settings.storyboard */; };
 		32C21DE21E2125B80088EE84 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C21DE11E2125B80088EE84 /* SettingsController.swift */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTransactionController.swift; sourceTree = "<group>"; };
+		3254CA4C1E2A908D009729C8 /* MainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		327D46B91DF82D89004F151C /* MoreController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreController.swift; sourceTree = "<group>"; };
 		32C21DDF1E211ECA0088EE84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
 		32C21DE11E2125B80088EE84 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				F7B2B3631DDF758E00A0B1A9 /* DataModel */,
 				F75B97021DDC9F3300093D14 /* AppDelegate.swift */,
 				F75B97081DDC9F3300093D14 /* Main.storyboard */,
+				3254CA4C1E2A908D009729C8 /* MainController.swift */,
 				F75B970B1DDC9F3300093D14 /* Assets.xcassets */,
 				F75B970D1DDC9F3300093D14 /* LaunchScreen.storyboard */,
 				F75B97101DDC9F3300093D14 /* Info.plist */,
@@ -198,6 +201,7 @@
 				B8EF177B1E081E510028220C /* TransactionDetailViewController.swift in Sources */,
 				327D46BA1DF82D89004F151C /* MoreController.swift in Sources */,
 				F7B2B3661DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld in Sources */,
+				3254CA4D1E2A908D009729C8 /* MainController.swift in Sources */,
 				3232F5B11E05ACA900E8A7F9 /* NewTransactionController.swift in Sources */,
 				32EC1B5F1DF4A34400B6B4BB /* TransactionsViewController.swift in Sources */,
 				F7B2B3621DDF758400A0B1A9 /* DataController.swift in Sources */,

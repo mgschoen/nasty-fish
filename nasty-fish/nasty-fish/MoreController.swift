@@ -10,22 +10,20 @@ import UIKit
 
 class MoreController: UITableViewController {
     
-    @IBAction func initWithDefaultData(_ sender: UIButton) {
-    }
     
+    // MARK: - IBOutlet
     @IBOutlet weak var AppInstanceIdLabel: UILabel!
     @IBOutlet weak var UserCustomNameLabel: UILabel!
     
+    
+    // MARK: - IBAction
+    @IBAction func initWithDefaultData(_ sender: UIButton) {
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let dc = (UIApplication.shared.delegate as! AppDelegate).dataController
-        AppInstanceIdLabel.text = "\(dc!.appInstanceId!)"
-        if let customName = dc!.fetchUserCustomName() {
-            UserCustomNameLabel.text = "\(customName)"
-        } else {
-            UserCustomNameLabel.text = "[noname]"
-        }
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -39,6 +37,17 @@ class MoreController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        let dc = (UIApplication.shared.delegate as! AppDelegate).dataController
+        AppInstanceIdLabel.text = "\(dc!.appInstanceId!)"
+        if let customName = dc!.fetchUserCustomName() {
+            UserCustomNameLabel.text = "\(customName)"
+        } else {
+            UserCustomNameLabel.text = "[noname]"
+        }
+    }
+    
+    
     // MARK: - Table view data source
 
 //    override func numberOfSections(in tableView: UITableView) -> Int {

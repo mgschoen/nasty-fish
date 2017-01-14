@@ -62,7 +62,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="3uf-4s-9cm" kind="show" id="LVj-4M-ply"/>
+                                            <segue destination="3uf-4s-9cm" kind="presentation" identifier="Settings" id="LVj-4M-ply"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
