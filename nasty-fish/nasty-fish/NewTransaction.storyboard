@@ -29,7 +29,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jsZ-8a-ZiI">
-                                                    <rect key="frame" x="87" y="8" width="200" height="29"/>
+                                                    <rect key="frame" x="87" y="8" width="201" height="29"/>
                                                     <segments>
                                                         <segment title="Loan"/>
                                                         <segment title="Debt"/>
@@ -81,7 +81,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yPs-dG-gIh">
-                                                    <rect key="frame" x="87" y="8" width="200" height="29"/>
+                                                    <rect key="frame" x="87" y="8" width="201" height="29"/>
                                                     <segments>
                                                         <segment title="Money"/>
                                                         <segment title="Item"/>
@@ -106,13 +106,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sgt-8F-Rlu">
-                                                    <rect key="frame" x="15" y="12" width="60" height="21"/>
+                                                    <rect key="frame" x="15" y="11" width="60" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="0,00" textAlignment="right" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ep5-CQ-rfl">
-                                                    <rect key="frame" x="285" y="7" width="75" height="30"/>
+                                                    <rect key="frame" x="285" y="6" width="75" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="75" id="iMG-eV-pTl"/>
                                                     </constraints>
@@ -166,13 +166,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quantity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wAA-LO-60E">
-                                                    <rect key="frame" x="15" y="12" width="65" height="21"/>
+                                                    <rect key="frame" x="15" y="11" width="65" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" borderStyle="roundedRect" placeholder="1" textAlignment="right" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="LLS-L3-Gvw">
-                                                    <rect key="frame" x="263" y="7" width="97" height="30"/>
+                                                    <rect key="frame" x="263" y="6" width="97" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="97" id="xVI-Yo-Fwp"/>
                                                     </constraints>
@@ -275,9 +275,10 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="K4c-9P-C7Z" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7n3-l8-o5i">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="7n3-l8-o5i">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="1" green="0.50588235290000005" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -289,4 +290,5 @@
             <point key="canvasLocation" x="3109.5999999999999" y="-392.65367316341832"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.0" green="0.087107305270000004" blue="0.78644511419999996" alpha="0.9376070205" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

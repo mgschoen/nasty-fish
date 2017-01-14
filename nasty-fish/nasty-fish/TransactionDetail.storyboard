@@ -68,4 +68,5 @@
     <resources>
         <image name="peer" width="200" height="200"/>
     </resources>
+    <color key="tintColor" red="0.0" green="0.087107305270000004" blue="0.78644511419999996" alpha="0.9376070205" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
