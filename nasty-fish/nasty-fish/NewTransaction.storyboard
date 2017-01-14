@@ -179,6 +179,9 @@
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
+                                                    <connections>
+                                                        <action selector="quantityEditingEnd:" destination="heC-rO-qO9" eventType="editingDidEnd" id="1yd-tA-nOg"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -196,8 +199,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Txe-Bh-nsh">
+                                                <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Txe-Bh-nsh">
                                                     <rect key="frame" x="266" y="7" width="94" height="29"/>
+                                                    <connections>
+                                                        <action selector="quickQuantityTapped:" destination="heC-rO-qO9" eventType="valueChanged" id="AIM-mw-wWx"/>
+                                                    </connections>
                                                 </stepper>
                                             </subviews>
                                             <constraints>
@@ -255,6 +261,7 @@
                         <outlet property="direction" destination="jsZ-8a-ZiI" id="NJj-Kq-yjp"/>
                         <outlet property="peerPicker" destination="Sst-RG-N6S" id="khw-fJ-LNv"/>
                         <outlet property="quantity" destination="LLS-L3-Gvw" id="dni-vt-wHE"/>
+                        <outlet property="quantityStepper" destination="Txe-Bh-nsh" id="Rwx-LK-R98"/>
                         <outlet property="transactionDescription" destination="FzN-Dz-Nff" id="kCW-JE-uyO"/>
                     </connections>
                 </tableViewController>
