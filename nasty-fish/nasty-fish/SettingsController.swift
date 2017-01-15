@@ -10,7 +10,30 @@ import UIKit
 
 class SettingsController: UITableViewController {
 
-    @IBOutlet weak var nickName: UITextField!
+    
+    // MARK: - @IBOutlet
+    
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var nickNameTextField: UITextField!
+    
+    
+    // MARK: - @IBAction
+    
+    @IBAction func nickNameEditingChanged(_ sender: UITextField) {
+        checkUserInput()
+    }
+    
+    
+    // MARK: - Getter
+    
+    var nickName: String {
+        get {
+            return nickNameTextField.text!
+        }
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,37 +44,22 @@ class SettingsController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     
-        nickName.text = (UIApplication.shared.delegate as! AppDelegate).dataController!.fetchUserCustomName()
-    
+        // Handle the text field’s user input through delegate callbacks.
+        self.nickNameTextField.delegate = self
+        
+        // hide keyboard when user taps outside of textfield
+        // https://stackoverflow.com/questions/27878732/swift-how-to-dismiss-number-keyboard-after-tapping-outside-of-the-textfield
+        let tapRecognizer = UITapGestureRecognizer()
+        tapRecognizer.addTarget(self, action: #selector(NewTransactionController.didTapView))
+        
+        nickNameTextField.text = (UIApplication.shared.delegate as! AppDelegate).dataController!.fetchUserCustomName()
+        
+        checkUserInput()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-
-    
-    override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
-        var isValid = true
-        
-        if let ident = identifier {
-            if ident == "SaveToMain" || ident == "CancelToMain" {
-            
-                // Check Descriptin
-                if (nickName.text?.isEmpty)! {
-                    setLeftViewMode(field: nickName, isValid: false)
-                    
-                    isValid = false
-                }
-                else {
-                    setLeftViewMode(field: nickName, isValid: true)
-                }
- 
-            
-            }
-        }
-        
-        return isValid
     }
     
     
@@ -66,18 +74,45 @@ class SettingsController: UITableViewController {
     */
     
     
-    // https://stackoverflow.com/questions/1906799/uitextfield-validation-visual-feedback
-    func setLeftViewMode(field: UITextField, isValid: Bool ) {
-        if isValid == false {
-            field.leftViewMode = UITextFieldViewMode.always
-            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
-            imageView.image =   UIImage(named: "in")
-            imageView.contentMode = UIViewContentMode.scaleAspectFit
-            field.leftView = imageView;
-        } else {
-            field.leftViewMode = UITextFieldViewMode.never
-            field.leftView = nil;
-        }
+    // MARK: - Helper
+    
+    func didTapView(){
+        self.view.endEditing(true)
     }
-
+    
+    func checkUserInput() {
+        var canCancel = true
+        var canSave = true
+        
+        
+        // Check saved Nickname if nil disable cancel button
+        if (UIApplication.shared.delegate as! AppDelegate).dataController!.fetchUserCustomName() == nil {
+            canCancel = false
+        }
+        
+        // Check nickNameTextField if isEmpty disable save button
+        if (nickNameTextField.text?.isEmpty)! {
+            canSave = false
+        }
+        
+        cancelButton.isEnabled = canCancel
+        saveButton.isEnabled = canSave
+    }
 }
+
+extension SettingsController: UITextFieldDelegate {
+    
+    // MARK: - UITextFieldDelegate
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide the keyboard.
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // Hide the keyboard.
+        textField.resignFirstResponder()
+    }
+}
+

@@ -11,14 +11,14 @@ import UIKit
 class MainController: UITabBarController {
     
     
+    // MARK: - @IBAction
+    
     @IBAction func cancelToMain(segue:UIStoryboardSegue) {
     }
     
     @IBAction func saveToMain(segue:UIStoryboardSegue) {
         if let settings = segue.source as? SettingsController {
-            if let nickName = settings.nickName.text {
-                dataController?.set (userCustomName: nickName)
-            }
+            dataController?.set (userCustomName: settings.nickName)
         }
     }
     
@@ -39,7 +39,6 @@ class MainController: UITabBarController {
 
     override func viewDidAppear(_ animated: Bool) {
         // If user has no nickname show settings view
-        
         if dataController?.fetchUserCustomName() == nil {
             self.performSegue(withIdentifier: "Settings", sender: self)
         }
