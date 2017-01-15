@@ -38,7 +38,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c1R-T0-IGE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1058" y="-100"/>
+            <point key="canvasLocation" x="652" y="-161"/>
         </scene>
         <!--More-->
         <scene sceneID="SVN-qE-X4h">
@@ -48,7 +48,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b4i-XS-WcT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1020" y="116"/>
+            <point key="canvasLocation" x="614" y="-1"/>
         </scene>
         <!--Settings-->
         <scene sceneID="uXZ-5c-vRq">
@@ -56,7 +56,7 @@
                 <viewControllerPlaceholder storyboardName="Settings" id="lrx-on-uYw" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Et3-3m-fi1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1021" y="266"/>
+            <point key="canvasLocation" x="630" y="150"/>
         </scene>
     </scenes>
     <color key="tintColor" red="0.0" green="0.087107305270000004" blue="0.78644511419999996" alpha="0.9376070205" colorSpace="custom" customColorSpace="sRGB"/>

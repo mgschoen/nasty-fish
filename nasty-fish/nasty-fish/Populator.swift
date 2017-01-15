@@ -46,7 +46,7 @@ class Populator : NSObject {
         // * * * Transactions * * *
         
         // With Peter
-        let flute = dataController.storeNewTransaction(
+        _ = dataController.storeNewTransaction(
             itemDescription: "Flöte",
             peer: peter!,
             incoming: false,
@@ -56,7 +56,7 @@ class Populator : NSObject {
             dueDate: nil,
             imageURL: nil,
             dueWhenTransactionIsDue: nil)
-        let hook = dataController.storeNewTransaction(
+        _ = dataController.storeNewTransaction(
             itemDescription: "Captain Hooks Haken",
             peer: peter!,
             incoming: true,
@@ -68,7 +68,7 @@ class Populator : NSObject {
             dueWhenTransactionIsDue: nil)
         
         // With Rudi
-        let trombone = dataController.storeNewTransaction(
+        _ = dataController.storeNewTransaction(
             itemDescription: "Tröte",
             peer: rudi!,
             incoming: true,
@@ -88,7 +88,7 @@ class Populator : NSObject {
             dueDate: nil,
             imageURL: "/images/transactions/braten.jpg",
             dueWhenTransactionIsDue: nil)
-        let preisgeld = dataController.storeNewTransaction(
+        _ = dataController.storeNewTransaction(
             itemDescription: "Preisgeld",
             peer: rudi!,
             incoming: true,
@@ -98,7 +98,7 @@ class Populator : NSObject {
             dueDate: NSDate(timeIntervalSinceNow: 2419200.0),
             imageURL: nil,
             dueWhenTransactionIsDue: braten)
-        let pokal = dataController.storeNewTransaction(
+        _ = dataController.storeNewTransaction(
             itemDescription: "Pokal",
             peer: rudi!,
             incoming: false,
@@ -108,7 +108,7 @@ class Populator : NSObject {
             dueDate: NSDate(timeIntervalSinceNow: 31536000.0),
             imageURL: nil,
             dueWhenTransactionIsDue: nil)
-        let seifenkiste = dataController.storeNewTransaction(
+        _ = dataController.storeNewTransaction(
             itemDescription: "Seifenkiste",
             peer: rudi!,
             incoming: false,
@@ -120,7 +120,7 @@ class Populator : NSObject {
             dueWhenTransactionIsDue: nil)
         
         // With Sindbad
-        let sail = dataController.storeNewTransaction(
+        _ = dataController.storeNewTransaction(
             itemDescription: "Segel",
             peer: sindbad!,
             incoming: true,
@@ -132,7 +132,7 @@ class Populator : NSObject {
             dueWhenTransactionIsDue: nil)
         
         // With Donald
-        let repair = dataController.storeNewTransaction(
+        _ = dataController.storeNewTransaction(
             itemDescription: "Autoreparatur",
             peer: donald!,
             incoming: false,
@@ -142,7 +142,7 @@ class Populator : NSObject {
             dueDate: nil,
             imageURL: nil,
             dueWhenTransactionIsDue: nil)
-        let debt = dataController.storeNewTransaction(
+        _ = dataController.storeNewTransaction(
             itemDescription: "Irgendwelche Schulden",
             peer: donald!,
             incoming: false,
@@ -154,7 +154,7 @@ class Populator : NSObject {
             dueWhenTransactionIsDue: nil)
         
         // With Mickey
-        let hat = dataController.storeNewTransaction(
+        _ = dataController.storeNewTransaction(
             itemDescription: "Schlapphut",
             peer: mickey!,
             incoming: false,
@@ -166,7 +166,7 @@ class Populator : NSObject {
             dueWhenTransactionIsDue: nil)
         
         // With Benjamin
-        let zooticket = dataController.storeNewTransaction(
+        _ = dataController.storeNewTransaction(
             itemDescription: "Zooticket",
             peer: benjamin!,
             incoming: true,
@@ -176,7 +176,7 @@ class Populator : NSObject {
             dueDate: nil,
             imageURL: nil,
             dueWhenTransactionIsDue: nil)
-        let book = dataController.storeNewTransaction(
+        _ = dataController.storeNewTransaction(
             itemDescription: "Bilderbuch",
             peer: benjamin!,
             incoming: false,

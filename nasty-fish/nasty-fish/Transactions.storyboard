@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Transactions View Controller-->
+        <!--Transactions Controller-->
         <scene sceneID="SN4-PJ-X14">
             <objects>
-                <tableViewController id="fyK-iN-km7" customClass="TransactionsViewController" customModule="nasty_fish" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="fyK-iN-km7" customClass="TransactionsController" customModule="nasty_fish" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="FEe-PT-pJF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

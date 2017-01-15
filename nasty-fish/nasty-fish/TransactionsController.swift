@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class TransactionsViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
+class TransactionsController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
     
     @IBOutlet weak var preFilter: UISegmentedControl!
