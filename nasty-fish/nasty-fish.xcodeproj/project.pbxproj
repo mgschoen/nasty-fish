@@ -81,9 +81,9 @@
 				32C0542A1E2B7B9800C69353 /* Storyboard */,
 				3254CA4C1E2A908D009729C8 /* MainController.swift */,
 				327D46B91DF82D89004F151C /* MoreController.swift */,
+				3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */,
 				32EC1B5E1DF4A34400B6B4BB /* TransactionsController.swift */,
 				B8EF177A1E081E510028220C /* TransactionDetailViewController.swift */,
-				3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */,
 				32C21DE11E2125B80088EE84 /* SettingsController.swift */,
 			);
 			name = UserInterface;

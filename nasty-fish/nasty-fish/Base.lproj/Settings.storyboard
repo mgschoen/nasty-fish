@@ -45,7 +45,7 @@
                             <outlet property="delegate" destination="o8x-So-XbN" id="x7l-kS-5w6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="2Gg-Ky-4Ue">
+                    <navigationItem key="navigationItem" title="Settings" id="2Gg-Ky-4Ue">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="auz-BF-a7u">
                             <connections>
                                 <segue destination="etv-SS-uXt" kind="unwind" identifier="CancelToMain" unwindAction="cancelToMainWithSegue:" id="Qwn-SF-dAn"/>
@@ -79,6 +79,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="vbN-Sn-y5b">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="1" green="0.50588235290000005" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
