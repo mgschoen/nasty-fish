@@ -11,27 +11,21 @@ import UIKit
 class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     // MARK: - @IBOutlet
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var direction: UISegmentedControl!
+    @IBOutlet weak var transactionDescription: UITextField!
     @IBOutlet weak var belongings: UISegmentedControl!
     @IBOutlet weak var amount: UITextField!
     @IBOutlet weak var quantity: UITextField!
-    @IBOutlet weak var transactionDescription: UITextField!
     @IBOutlet weak var peerPicker: UIPickerView!
     @IBOutlet weak var quantityStepper: UIStepper!
     
     
     // MARK: - IBActions
     @IBAction func belongingsChanged(_ sender: UISegmentedControl) {
-//        if sender.selectedSegmentIndex == 0 {
-//            TableViewCellMoney.isHidden = false
-//            TableViewCellItem.isHidden = true
-//            
-//        }else{
-//            TableViewCellMoney.isHidden = true
-//            TableViewCellItem.isHidden = false
-//        }
-        
         tableView.reloadData()
+        
+        checkUserInput()
     }
 
     @IBAction func quickAmountTapped(_ sender: UISegmentedControl) {
@@ -44,14 +38,23 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         else if sender.selectedSegmentIndex == 2 {
             amount.text = "20,00"
         }
+        
+        checkUserInput()
     }
     
+    @IBAction func editingChangedTextField(_ sender: UITextField) {
+        checkUserInput()
+    }
+    
+    // setting stepper value after user changed quntity via keyboard
     @IBAction func quantityEditingEnd(_ sender: UITextField) {
         quantityStepper.value = Double(sender.text!)!
     }
     
     @IBAction func quickQuantityTapped(_ sender: UIStepper) {
         quantity.text = String(Int(sender.value))
+        
+        checkUserInput()
     }
     
     
@@ -66,6 +69,11 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         self.peerPicker.delegate = self
         self.peerPicker.dataSource = self
         
+        // Handle the text field’s user input through delegate callbacks.
+        self.transactionDescription.delegate = self
+        self.amount.delegate = self
+        self.quantity.delegate = self
+        
         pickerData = ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchPeers())!
     }
 
@@ -74,68 +82,7 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         // Dispose of any resources that can be recreated.
     }
 
-    
-    override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
-        var isValid = true
         
-        if let ident = identifier {
-            if ident == "SaveNewTransaction" {
-                // Check Descriptin
-                if (transactionDescription.text?.isEmpty)! {
-                    setLeftViewMode(field: transactionDescription, isValid: false)
-                    
-                    isValid = false
-                }
-                else {
-                    setLeftViewMode(field: transactionDescription, isValid: true)
-                }
-                
-                // Check Money
-                if belongings.selectedSegmentIndex == 0 {
-                    let formatter = NumberFormatter()
-                    formatter.generatesDecimalNumbers = true
-                    formatter.numberStyle = NumberFormatter.Style.decimal
-                    if (formatter.number(from: amount.text!) as? NSDecimalNumber) == nil  {
-                        setLeftViewMode(field: amount, isValid: false)
-                        
-                        isValid = false
-                    }
-                    else {
-                        setLeftViewMode(field: amount, isValid: true)
-                    }
-                }
-                
-                // Check Item
-                if belongings.selectedSegmentIndex == 1 {
-                    if Int(quantity.text!)! <= 0 {
-                        setLeftViewMode(field: quantity, isValid: false)
-                        
-                        isValid = false
-                    }
-                    else {
-                        setLeftViewMode(field: quantity, isValid: true)
-                    }
-                }
-            }
-        }
-        
-        return isValid
-    }
-    
-    // https://stackoverflow.com/questions/1906799/uitextfield-validation-visual-feedback
-    func setLeftViewMode(field: UITextField, isValid: Bool ) {
-        if isValid == false {
-            field.leftViewMode = UITextFieldViewMode.always
-            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
-            imageView.image =   UIImage(named: "in")
-            imageView.contentMode = UIViewContentMode.scaleAspectFit
-            field.leftView = imageView;
-        } else {
-            field.leftViewMode = UITextFieldViewMode.never
-            field.leftView = nil;
-        }
-    }
-    
     // MARK: - Table view data source
     
     // https://stackoverflow.com/questions/29886642/hide-uitableview-cell
@@ -193,5 +140,78 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    
+    // Mark: - Helper
+    func checkUserInput() {
+        var isValid = true
+        
+        // Check Descriptin
+        if (transactionDescription.text?.isEmpty)! {
+            isValid = false
+        }
+        
+        // Check Money
+        if belongings.selectedSegmentIndex == 0 {
+            let formatter = NumberFormatter()
+            formatter.generatesDecimalNumbers = true
+            formatter.numberStyle = NumberFormatter.Style.currency
+            
+            print("amount.text as string: \(formatter.string(from: amount.text!))")
+            
+            if (formatter.number(from: amount.text!) as? NSDecimalNumber) == nil  {
+                isValid = false
+            }
+        }
+        
+        // Check Item
+        if belongings.selectedSegmentIndex == 1 {
+            if (quantity.text?.isEmpty)! {
+                isValid = false
+            }
+            else {
+                if Int(quantity.text!)! <= 0 {
+                    isValid = false
+                }
+            }
+        }
+        
+        saveButton.isEnabled = isValid
+    }
 
+}
+
+
+extension NewTransactionController: UITextFieldDelegate {
+    
+    // Mark: - UITextFieldDelegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide the keyboard.
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // Hide the keyboard.
+        textField.resignFirstResponder()
+    }
+    
+    func textField(_ textField: UITextField,
+                            shouldChangeCharactersIn range: NSRange,
+                            replacementString string: String) -> Bool {
+        
+        //
+        if textField == amount {
+            if  let amount = textField.text {
+                let amountArr = amount.components(separatedBy: ",")
+                
+                if amountArr.count == 2 && amountArr[1].characters.count > 1 && string != "" {
+                    return false
+                }
+            }
+        }
+        
+        return true
+    }
 }
