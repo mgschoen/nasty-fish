@@ -12,6 +12,8 @@ class Populator : NSObject {
     
     private var dataController : DataController
     
+    // * * * * * * Dummy Data Definition * * * * * * //
+    
     private struct transactionDummy {
         var itemDescription: String,
             peer: Int,
@@ -178,10 +180,15 @@ class Populator : NSObject {
             dueWhenTransactionIsDue: nil)
     ]
     
+    // * * * * * * END Dummy Data Definition * * * * * * //
+    
     init (dc:DataController) {
         dataController = dc
     }
     
+    // Checks persistent storage for dummy data.
+    // Returns true if all dummy data defined above is stored.
+    // Returns false if at least one entity is missing.
     func storageIsPopulated () -> Bool {
         
         for peer in peerDummyData {
@@ -207,7 +214,10 @@ class Populator : NSObject {
         return true
     }
     
+    // Saves a bunch of dummy data defined above into the persistent storage
     func populate () {
+        
+        unpopulate()
         
         // KnownPeers
         var storedPeers = Array<KnownPeer?>(repeating: nil, count: peerDummyData.count)
@@ -221,5 +231,33 @@ class Populator : NSObject {
         for (index, transaction) in transactionDummyData.enumerated() {
             storedTransactions[index] = dataController.storeNewTransaction(itemDescription: transaction.itemDescription, peer: storedPeers[transaction.peer]!, incoming: transaction.incoming, isMoney: transaction.isMoney, quantity: transaction.quantity, category: transaction.category, dueDate: transaction.dueDate, imageURL: transaction.imageURL, dueWhenTransactionIsDue: (transaction.dueWhenTransactionIsDue == nil) ? nil : storedTransactions[transaction.dueWhenTransactionIsDue!])
         }
+    }
+    
+    // Deletes every entity that is similar to one of the dummy data
+    // items defined above from the persistent storage
+    func unpopulate () {
+        
+        let storedTransactions = dataController.fetchTransactions()
+        let storedPeers = dataController.fetchPeers()
+        
+        for storedTransaction in storedTransactions {
+            for dummyTransaction in transactionDummyData {
+                if (storedTransaction.itemDescription == dummyTransaction.itemDescription
+                    && storedTransaction.peer?.icloudID == peerDummyData[dummyTransaction.peer]["icloudID"]) {
+                    dataController.delete(transaction: storedTransaction)
+                    break
+                }
+            }
+        }
+        
+        for storedPeer in storedPeers {
+            for dummyPeer in peerDummyData {
+                if (storedPeer.icloudID == dummyPeer["icloudID"]) {
+                    dataController.delete(peer: storedPeer)
+                    break
+                }
+            }
+        }
+        
     }
 }
