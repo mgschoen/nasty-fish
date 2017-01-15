@@ -12,13 +12,8 @@ import CoreData
 class TransactionDetailViewController: UIViewController {
     
     @IBOutlet weak var transactionDescription: UILabel!
-  
-    
     @IBOutlet weak var amount: UILabel!
     @IBOutlet weak var peer: UILabel!
-    @IBAction func deleteTransaction(_ sender: UIButton) {
-        (UIApplication.shared.delegate as! AppDelegate).dataController!.delete(transaction: transaction!)
-    }
     
     //var text:String?
 
@@ -28,10 +23,9 @@ class TransactionDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
-    override func viewWillAppear(_ animated: Bool)
-    {
+    
+    override func viewWillAppear(_ animated: Bool) {
     
         super.viewWillAppear(animated)
                 
@@ -41,9 +35,6 @@ class TransactionDetailViewController: UIViewController {
         
         peer.text = String(describing: (transaction?.peer?.customName)!)
         
-        
-            
-            
     }
 
     override func didReceiveMemoryWarning() {

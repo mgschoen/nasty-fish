@@ -53,6 +53,24 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         preFilterContent(scope: preFilter.selectedSegmentIndex)
     }
     
+    @IBAction func deleteTransaction (segue: UIStoryboardSegue) {
+        
+        if let detailController = segue.source as? TransactionDetailViewController {
+            
+            let dc = (UIApplication.shared.delegate as! AppDelegate).dataController!
+            
+            dc.delete(transaction: detailController.transaction!)
+            
+            transactions = dc.fetchTransactions()
+            // Sorting transcactions by startDate, so that the newest commes first
+            // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
+            transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
+            preFilterContent(scope: preFilter.selectedSegmentIndex)
+            
+        }
+        
+    }
+    
     @IBAction func preFilterChanged(_ sender: UISegmentedControl) {
         preFilterContent(scope: sender.selectedSegmentIndex)
     }
@@ -105,7 +123,7 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewWillAppear(animated)
         transactions = (UIApplication.shared.delegate as! AppDelegate).dataController!.fetchTransactions()
         // Sorting transcactions by startDate, so that the newest commes first
         // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
