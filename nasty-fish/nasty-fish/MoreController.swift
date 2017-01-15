@@ -18,6 +18,20 @@ class MoreController: UITableViewController {
     
     // MARK: - IBAction
     @IBAction func initWithDefaultData(_ sender: UIButton) {
+        
+        let dc = (UIApplication.shared.delegate as! AppDelegate).dataController
+        let populator = Populator(dc:dc!)
+        if (!populator.storageIsPopulated()) {
+            populator.populate()
+            let alert = UIAlertController(title: "Debug message", message: "Dummy Data created successfully.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Debug message", message: "Dummy Data already exists.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        
     }
     
     

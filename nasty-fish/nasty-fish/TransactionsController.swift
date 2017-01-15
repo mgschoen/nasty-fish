@@ -102,7 +102,15 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         
         preFilterContent(scope: 0)
         
-        tableView.scrollToRow(at: NSIndexPath(item: 0, section: 0) as IndexPath, at: UITableViewScrollPosition.top, animated: false)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        transactions = (UIApplication.shared.delegate as! AppDelegate).dataController!.fetchTransactions()
+        // Sorting transcactions by startDate, so that the newest commes first
+        // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
+        transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
+        preFilterContent(scope: preFilter.selectedSegmentIndex)
     }
 
     override func didReceiveMemoryWarning() {

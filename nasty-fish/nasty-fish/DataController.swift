@@ -151,7 +151,10 @@ class DataController : NSObject {
         saveContext()
     }
     
-    
+    func delete(peer: KnownPeer) {
+        persistentContainer.viewContext.delete(peer)
+        saveContext()
+    }
     
     /* ------------------------------------------------------------------------------------ *
      *   Transaction                                                                        *
@@ -332,6 +335,11 @@ class DataController : NSObject {
     func set(transaction: Transaction, dueWhenTransactionIsDue newValue: Transaction) {
         transaction.dueWhenTransactionIsDue = newValue
         transaction.dueDate = newValue.dueDate
+        saveContext()
+    }
+    
+    func delete(transaction: Transaction) {
+        persistentContainer.viewContext.delete(transaction)
         saveContext()
     }
 }

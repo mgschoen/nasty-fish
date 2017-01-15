@@ -16,6 +16,9 @@ class TransactionDetailViewController: UIViewController {
     
     @IBOutlet weak var amount: UILabel!
     @IBOutlet weak var peer: UILabel!
+    @IBAction func deleteTransaction(_ sender: UIButton) {
+        (UIApplication.shared.delegate as! AppDelegate).dataController!.delete(transaction: transaction!)
+    }
     
     //var text:String?
 

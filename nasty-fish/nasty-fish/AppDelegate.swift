@@ -18,30 +18,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         dataController = DataController()
-        
-        // * * * DEBUG: Populate persistent storage with dummy content * * *
         let populator = Populator(dc:dataController!)
-        if (!populator.storageIsPopulated()) {
-            print("Populating storage with dummy data...")
-            populator.populate()
-            print("Done populating.")
+        if (populator.storageIsPopulated()) {
+            NSLog("Storage is populated with dummy data")
+        } else {
+            NSLog("Dummy data not found or incomplete")
         }
-        
-        // * * * DEBUG: Print all persistently stored data * * *
-        print("\nAll known peers:")
-        let peers = dataController?.fetchPeers()
-        for peer in peers! {
-            print(peer.customName! + "s iCloud ID is " + peer.icloudID!)
-        }
-        
-        print("\nOpen Transactions:")
-        let transactions = dataController?.fetchOpenTransactions()
-        for transaction in transactions! {
-            print("\(transaction.uuid!) - \((transaction.incoming) ? "Incoming" : "Outgoing") transaction with \(transaction.peer!.customName!): \(transaction.itemDescription!)")
-        }
-        // * * * END DEBUG * * *
         
         return true
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
