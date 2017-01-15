@@ -224,7 +224,11 @@ class Populator : NSObject {
         var storedTransactions = Array<Transaction?>(repeating: nil, count: transactionDummyData.count)
         
         for (index, peer) in peerDummyData.enumerated() {
-            storedPeers[index] = dataController.storeNewPeer(icloudID: peer["icloudID"]!, customName: peer["customName"], avatarURL: nil)
+            var newPeer = dataController.storeNewPeer(icloudID: peer["icloudID"]!, customName: peer["customName"], avatarURL: nil)
+            if (newPeer == nil) {
+                newPeer = dataController.fetchPeer(icloudID: peer["icloudID"]!)
+            }
+            storedPeers[index] = newPeer
         }
         
         // Transactions
@@ -253,7 +257,9 @@ class Populator : NSObject {
         for storedPeer in storedPeers {
             for dummyPeer in peerDummyData {
                 if (storedPeer.icloudID == dummyPeer["icloudID"]) {
-                    dataController.delete(peer: storedPeer)
+                    if (storedPeer.transactions?.count == 0) {
+                        dataController.delete(peer: storedPeer)
+                    }
                     break
                 }
             }
