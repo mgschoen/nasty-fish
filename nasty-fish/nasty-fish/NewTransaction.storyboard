@@ -121,7 +121,7 @@
                                                     </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" enablesReturnKeyAutomatically="YES"/>
                                                     <connections>
                                                         <action selector="editingChangedTextField:" destination="heC-rO-qO9" eventType="editingChanged" id="BNf-QP-vYl"/>
                                                     </connections>
@@ -263,14 +263,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="amount" destination="ep5-CQ-rfl" id="70r-3A-ULf"/>
-                        <outlet property="belongings" destination="yPs-dG-gIh" id="dTb-qb-CgC"/>
-                        <outlet property="direction" destination="jsZ-8a-ZiI" id="NJj-Kq-yjp"/>
+                        <outlet property="amountTextField" destination="ep5-CQ-rfl" id="1Xt-Vw-qK8"/>
+                        <outlet property="belongingsSegmentControl" destination="yPs-dG-gIh" id="Me3-IH-NWs"/>
+                        <outlet property="descriptionTextField" destination="FzN-Dz-Nff" id="ydQ-m0-YoV"/>
+                        <outlet property="directionSegmentedControl" destination="jsZ-8a-ZiI" id="3h7-bo-bBV"/>
                         <outlet property="peerPicker" destination="Sst-RG-N6S" id="khw-fJ-LNv"/>
-                        <outlet property="quantity" destination="LLS-L3-Gvw" id="dni-vt-wHE"/>
                         <outlet property="quantityStepper" destination="Txe-Bh-nsh" id="Rwx-LK-R98"/>
+                        <outlet property="quantityTextField" destination="LLS-L3-Gvw" id="gik-Tw-0iI"/>
                         <outlet property="saveButton" destination="RRD-c6-73P" id="rZQ-Y5-Zon"/>
-                        <outlet property="transactionDescription" destination="FzN-Dz-Nff" id="kCW-JE-uyO"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S3a-4P-EYA" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -19,35 +19,19 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     }
     
     @IBAction func saveNewTransaction(segue:UIStoryboardSegue) {
-        if let newTransactionController = segue.source as? NewTransactionController {
-            let itemDescription = newTransactionController.transactionDescription.text
-            let knownPeer = newTransactionController.pickerData[newTransactionController.peerPicker.selectedRow(inComponent: 0)]
-            let incomming = (newTransactionController.direction.selectedSegmentIndex == 0 ? true : false)
-            let isMoney = (newTransactionController.belongings.selectedSegmentIndex == 0 ? true : false)
-            
-            var quantity = 0
-            if (isMoney) {
-//                let amount = newTransactionController.amount.text
-                quantity = 1
-            }
-            else {
-                quantity = Int(newTransactionController.quantity.text!)!
-            }
-            
+        if let newTransaction = segue.source as? NewTransactionController {
             let transaction = ((UIApplication.shared.delegate as! AppDelegate).dataController?.storeNewTransaction(
-                itemDescription: itemDescription!,
-                peer: knownPeer,
-                incoming: incomming,
-                isMoney: isMoney,
-                quantity: UInt(quantity),
+                itemDescription: newTransaction.transactionDescription,
+                peer: newTransaction.peer,
+                incoming: newTransaction.isIncomming,
+                isMoney: newTransaction.isMoney,
+                quantity: (newTransaction.isMoney ? newTransaction.amount : newTransaction.quantity ),
                 category: nil,
                 dueDate: nil,
                 imageURL: nil,
                 dueWhenTransactionIsDue: nil))
             
-            transactions.insert(transaction!, at: 0)     //.append(test!)
-            
-            //            print(test?.itemDescription ?? "No Transaction")
+            transactions.insert(transaction!, at: 0)
         }
         
         preFilterContent(scope: preFilter.selectedSegmentIndex)

@@ -8,15 +8,15 @@
 
 import UIKit
 
-class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class NewTransactionController: UITableViewController {
     
     // MARK: - @IBOutlet
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBOutlet weak var direction: UISegmentedControl!
-    @IBOutlet weak var transactionDescription: UITextField!
-    @IBOutlet weak var belongings: UISegmentedControl!
-    @IBOutlet weak var amount: UITextField!
-    @IBOutlet weak var quantity: UITextField!
+    @IBOutlet weak var directionSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var descriptionTextField: UITextField!
+    @IBOutlet weak var belongingsSegmentControl: UISegmentedControl!
+    @IBOutlet weak var amountTextField: UITextField!
+    @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var peerPicker: UIPickerView!
     @IBOutlet weak var quantityStepper: UIStepper!
     
@@ -30,13 +30,13 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
 
     @IBAction func quickAmountTapped(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            amount.text = "5,00"
+            amountTextField.text = "5,00"
         }
         else if sender.selectedSegmentIndex == 1 {
-            amount.text = "10,00"
+            amountTextField.text = "10,00"
         }
         else if sender.selectedSegmentIndex == 2 {
-            amount.text = "20,00"
+            amountTextField.text = "20,00"
         }
         
         checkUserInput()
@@ -52,14 +52,74 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
     }
     
     @IBAction func quickQuantityTapped(_ sender: UIStepper) {
-        quantity.text = String(Int(sender.value))
+        quantityTextField.text = String(Int(sender.value))
         
         checkUserInput()
     }
     
-    
     // MARK: - Variables
     var pickerData = [KnownPeer]()
+    
+    // MARK: - Getter
+    
+    var transactionDescription: String {
+        get {
+            return descriptionTextField.text!
+        }
+    }
+    
+    var peer: KnownPeer {
+        get {
+            return self.pickerData[self.peerPicker.selectedRow(inComponent: 0)]
+        }
+    }
+    
+    var isIncomming: Bool {
+        get {
+            return (self.directionSegmentedControl.selectedSegmentIndex == 0 ? true : false)
+        }
+    }
+    
+    var isMoney: Bool {
+        get {
+            return (self.belongingsSegmentControl.selectedSegmentIndex == 0 ? true : false)
+        }
+    }
+    
+    var amount: UInt {
+        get {
+            let formatter = NumberFormatter()
+            formatter.generatesDecimalNumbers = true
+            formatter.numberStyle = NumberFormatter.Style.decimal
+        
+            if let amount = (formatter.number(from: amountTextField.text!) as? Decimal) {
+                let size = (amount * Decimal(100))
+                let result = NSDecimalNumber(decimal: size)
+                
+                print("NewTransactionController.amount: \(result)")
+                return UInt(result)
+            }
+            else {
+                print("NewTransactionController.amount: Error")
+                return UInt(1)
+            }
+        }
+    }
+    
+    var quantity: UInt {
+        get {
+            if let quantity = UInt(quantityTextField.text!) {
+                print("NewTransactionController.quantity: \(quantity)")
+                return quantity
+            }
+            else {
+                print("NewTransactionController.quantity: Error")
+                return UInt(1)
+            }
+        }
+    }
+    
+    
     
     
     override func viewDidLoad() {
@@ -70,9 +130,15 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         self.peerPicker.dataSource = self
         
         // Handle the text field’s user input through delegate callbacks.
-        self.transactionDescription.delegate = self
-        self.amount.delegate = self
-        self.quantity.delegate = self
+        self.descriptionTextField.delegate = self
+        self.amountTextField.delegate = self
+        self.quantityTextField.delegate = self
+        
+        // hide keyboard when user taps outside of textfield
+        // https://stackoverflow.com/questions/27878732/swift-how-to-dismiss-number-keyboard-after-tapping-outside-of-the-textfield
+        let tapRecognizer = UITapGestureRecognizer()
+        tapRecognizer.addTarget(self, action: #selector(NewTransactionController.didTapView))
+        self.view.addGestureRecognizer(tapRecognizer)
         
         pickerData = ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchPeers())!
     }
@@ -85,21 +151,22 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         
     // MARK: - Table view data source
     
+    // hide and show rows of static table
     // https://stackoverflow.com/questions/29886642/hide-uitableview-cell
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 2 && indexPath.row == 1 && belongings.selectedSegmentIndex == 1 {
+        if indexPath.section == 2 && indexPath.row == 1 && belongingsSegmentControl.selectedSegmentIndex == 1 {
             return 0.0
         }
         
-        if indexPath.section == 2 && indexPath.row == 2 && belongings.selectedSegmentIndex == 1 {
+        if indexPath.section == 2 && indexPath.row == 2 && belongingsSegmentControl.selectedSegmentIndex == 1 {
             return 0.0
         }
         
-        if indexPath.section == 2 && indexPath.row == 3 && belongings.selectedSegmentIndex == 0 {
+        if indexPath.section == 2 && indexPath.row == 3 && belongingsSegmentControl.selectedSegmentIndex == 0 {
             return 0.0
         }
         
-        if indexPath.section == 2 && indexPath.row == 4 && belongings.selectedSegmentIndex == 0 {
+        if indexPath.section == 2 && indexPath.row == 4 && belongingsSegmentControl.selectedSegmentIndex == 0 {
             return 0.0
         }
         
@@ -111,6 +178,60 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
     }
     
     
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+    
+    
+    // Mark: - Helper
+    func didTapView(){
+        self.view.endEditing(true)
+    }
+    
+    func checkUserInput() {
+        var isValid = true
+        
+        // Check Descriptin
+        if (descriptionTextField.text?.isEmpty)! {
+            isValid = false
+        }
+        
+        // Check Money
+        if belongingsSegmentControl.selectedSegmentIndex == 0 {
+            let formatter = NumberFormatter()
+            formatter.generatesDecimalNumbers = true
+            formatter.numberStyle = NumberFormatter.Style.decimal
+            
+            
+            if (formatter.number(from: amountTextField.text!) as? NSDecimalNumber) == nil  {
+                isValid = false
+            }
+        }
+        
+        // Check Item
+        if belongingsSegmentControl.selectedSegmentIndex == 1 {
+            if (quantityTextField.text?.isEmpty)! {
+                isValid = false
+            }
+            else {
+                if Int(quantityTextField.text!)! <= 0 {
+                    isValid = false
+                }
+            }
+        }
+        
+        saveButton.isEnabled = isValid
+    }
+
+}
+
+extension NewTransactionController: UIPickerViewDelegate, UIPickerViewDataSource {
     // MARK: - UIPickerView
     
     // The number of columns of data
@@ -129,59 +250,7 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerData[row].customName
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    
-    
-    // Mark: - Helper
-    func checkUserInput() {
-        var isValid = true
-        
-        // Check Descriptin
-        if (transactionDescription.text?.isEmpty)! {
-            isValid = false
-        }
-        
-        // Check Money
-        if belongings.selectedSegmentIndex == 0 {
-            let formatter = NumberFormatter()
-            formatter.generatesDecimalNumbers = true
-            formatter.numberStyle = NumberFormatter.Style.currency
-            
-            print("amount.text as string: \(formatter.string(from: amount.text!))")
-            
-            if (formatter.number(from: amount.text!) as? NSDecimalNumber) == nil  {
-                isValid = false
-            }
-        }
-        
-        // Check Item
-        if belongings.selectedSegmentIndex == 1 {
-            if (quantity.text?.isEmpty)! {
-                isValid = false
-            }
-            else {
-                if Int(quantity.text!)! <= 0 {
-                    isValid = false
-                }
-            }
-        }
-        
-        saveButton.isEnabled = isValid
-    }
-
 }
-
 
 extension NewTransactionController: UITextFieldDelegate {
     
@@ -202,7 +271,7 @@ extension NewTransactionController: UITextFieldDelegate {
                             replacementString string: String) -> Bool {
         
         //
-        if textField == amount {
+        if textField == amountTextField {
             if  let amount = textField.text {
                 let amountArr = amount.components(separatedBy: ",")
                 
