@@ -18,7 +18,8 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="tintColor" red="0.0" green="0.087107305270000004" blue="0.78644511419999996" alpha="0.9376070205" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="selectedImageTintColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="b1g-MQ-T6U" kind="relationship" relationship="viewControllers" id="Crf-bW-Jxt"/>
@@ -59,5 +60,5 @@
             <point key="canvasLocation" x="630" y="150"/>
         </scene>
     </scenes>
-    <color key="tintColor" red="1" green="0.50588235290000005" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
+    <color key="tintColor" red="0.97254901959999995" green="0.45098039220000002" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

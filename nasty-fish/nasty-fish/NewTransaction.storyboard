@@ -252,16 +252,19 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Transaction" id="zhQ-4x-5ue">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Xap-n8-2LW">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="ZWs-uu-mPS" kind="unwind" unwindAction="cancelToTransactionsWithSegue:" id="40h-P1-0oZ"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="save" id="RRD-c6-73P">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="ZWs-uu-mPS" kind="unwind" identifier="SaveNewTransaction" unwindAction="saveNewTransactionWithSegue:" id="Gbb-Jb-FsG"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="amountTextField" destination="ep5-CQ-rfl" id="1Xt-Vw-qK8"/>
                         <outlet property="belongingsSegmentControl" destination="yPs-dG-gIh" id="Me3-IH-NWs"/>
@@ -283,10 +286,15 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="K4c-9P-C7Z" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7n3-l8-o5i">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="1" green="0.50588235290000005" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.97254901959999995" green="0.45098039220000002" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -298,5 +306,5 @@
             <point key="canvasLocation" x="3109.5999999999999" y="-392.65367316341832"/>
         </scene>
     </scenes>
-    <color key="tintColor" red="0.0" green="0.087107305270000004" blue="0.78644511419999996" alpha="0.9376070205" colorSpace="custom" customColorSpace="sRGB"/>
+    <color key="tintColor" red="0.97254901959999995" green="0.45098039220000002" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
