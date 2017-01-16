@@ -120,7 +120,8 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
             foundPartnersAdvertisedData[peerID] = info
         }
         
-        inviteAllPeers()
+        //inviteAllPeers()
+        browser.invitePeer(peerID, to: self.session, withContext: nil, timeout: 20)
         
         delegate?.foundPeers()
     }
