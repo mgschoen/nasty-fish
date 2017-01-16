@@ -10,7 +10,6 @@ import UIKit
 
 class PeerTableViewController: UITableViewController {
 
-    @IBOutlet weak var peer: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +20,8 @@ class PeerTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-
+    
+ 
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -19,6 +19,7 @@ class TransactionDetailViewController: UITableViewController {
     @IBOutlet weak var amount: UILabel!
     
      @IBOutlet weak var titelDescription: UINavigationItem!
+  
     /*
      
      @IBOutlet weak var titelDescription: UINavigationItem!
