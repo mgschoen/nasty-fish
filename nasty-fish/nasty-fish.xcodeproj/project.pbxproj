@@ -358,7 +358,7 @@
 				DEVELOPMENT_TEAM = C7PLUFBAM2;
 				INFOPLIST_FILE = "nasty-fish/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "de.lmu.ifi.mobile.iphonepraktikum.nasty-fish";
+				PRODUCT_BUNDLE_IDENTIFIER = de.lmu.ifi.mobile.nastyfish;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -371,7 +371,7 @@
 				DEVELOPMENT_TEAM = C7PLUFBAM2;
 				INFOPLIST_FILE = "nasty-fish/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "de.lmu.ifi.mobile.iphonepraktikum.nasty-fish";
+				PRODUCT_BUNDLE_IDENTIFIER = de.lmu.ifi.mobile.nastyfish;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
