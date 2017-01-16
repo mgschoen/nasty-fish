@@ -154,23 +154,23 @@ class NewTransactionController: UITableViewController {
     // hide and show rows of static table
     // https://stackoverflow.com/questions/29886642/hide-uitableview-cell
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 2 && indexPath.row == 1 && belongingsSegmentControl.selectedSegmentIndex == 1 {
+        if indexPath.section == 1 && indexPath.row == 1 && belongingsSegmentControl.selectedSegmentIndex == 1 {
             return 0.0
         }
         
-        if indexPath.section == 2 && indexPath.row == 2 && belongingsSegmentControl.selectedSegmentIndex == 1 {
+        if indexPath.section == 1 && indexPath.row == 2 && belongingsSegmentControl.selectedSegmentIndex == 1 {
             return 0.0
         }
         
-        if indexPath.section == 2 && indexPath.row == 3 && belongingsSegmentControl.selectedSegmentIndex == 0 {
+        if indexPath.section == 1 && indexPath.row == 3 && belongingsSegmentControl.selectedSegmentIndex == 0 {
             return 0.0
         }
         
-        if indexPath.section == 2 && indexPath.row == 4 && belongingsSegmentControl.selectedSegmentIndex == 0 {
+        if indexPath.section == 1 && indexPath.row == 4 && belongingsSegmentControl.selectedSegmentIndex == 0 {
             return 0.0
         }
         
-        if indexPath.section == 3 && indexPath.row == 0 {
+        if indexPath.section == 2 && indexPath.row == 0 {
             return 165.0
         }
         
