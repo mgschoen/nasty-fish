@@ -149,7 +149,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
 
     //MCSession Protocol START
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        switch state{
+        switch(state){
         case MCSessionState.connected:
             NSLog("%@", "didChangeStateConnected: \(peerID) connected to \(session)")
             delegate?.connectedWithPeer(peerID: peerID)
