@@ -90,9 +90,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0ID-ba-iHr" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Transactions" image="cans" id="Bi7-lE-jgK"/>
                     <toolbarItems/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="6qI-ql-0yI">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6qI-ql-0yI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.97254901960784312" green="0.45098039215686275" blue="0.16862745098039217" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

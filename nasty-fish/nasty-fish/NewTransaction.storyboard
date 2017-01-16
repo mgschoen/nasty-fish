@@ -260,7 +260,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="amountTextField" destination="ep5-CQ-rfl" id="1Xt-Vw-qK8"/>
                         <outlet property="belongingsSegmentControl" destination="yPs-dG-gIh" id="Me3-IH-NWs"/>
@@ -282,7 +281,6 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="K4c-9P-C7Z" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7n3-l8-o5i">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
