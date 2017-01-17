@@ -46,7 +46,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="Bl9-oR-5iH" kind="show" identifier="showDetail" id="Gnx-ba-FNp"/>
+                                    <segue destination="VhF-vX-tlT" kind="show" id="IQq-F2-YjE"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -121,6 +121,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vtv-gv-qqp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2766" y="-335"/>
+        </scene>
+        <!--DetailTransaction-->
+        <scene sceneID="mDE-1B-Z28">
+            <objects>
+                <viewControllerPlaceholder storyboardName="DetailTransaction" id="VhF-vX-tlT" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I4F-Bf-408" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2919" y="51"/>
         </scene>
     </scenes>
     <resources>
