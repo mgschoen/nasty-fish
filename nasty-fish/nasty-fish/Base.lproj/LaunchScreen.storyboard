@@ -34,7 +34,6 @@
                             <constraint firstItem="JLL-td-PqE" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="uTW-ao-qhp"/>
                         </constraints>
                     </view>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
