@@ -73,7 +73,6 @@
 				32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */,
 				32EC1B581DF4A0CE00B6B4BB /* Transactions.storyboard */,
 				B8005D9A1E2E4CFD0088EC18 /* DetailTransaction.storyboard */,
-				B8005D9C1E2E57570088EC18 /* DetailTransactionViewController.swift */,
 				32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */,
 			);
 			name = Storyboard;
@@ -87,6 +86,7 @@
 				327D46B91DF82D89004F151C /* MoreController.swift */,
 				3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */,
 				32EC1B5E1DF4A34400B6B4BB /* TransactionsController.swift */,
+				B8005D9C1E2E57570088EC18 /* DetailTransactionViewController.swift */,
 				32C21DE11E2125B80088EE84 /* SettingsController.swift */,
 			);
 			name = UserInterface;
