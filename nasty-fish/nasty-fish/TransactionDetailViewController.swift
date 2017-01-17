@@ -39,9 +39,11 @@ class TransactionDetailViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+     
         
-        self.navigationItem.title = transaction?.itemDescription
-        self.navigationController?.navigationBar.topItem?.title = "Back"
+//        self.navigationItem.title = transaction?.itemDescription
+        
+        self.navigationController?.navigationBar.topItem?.title = "itemDescription"
         
     }
     
