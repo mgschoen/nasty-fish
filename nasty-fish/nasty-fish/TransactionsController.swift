@@ -157,9 +157,9 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         cell.detailTextLabel?.text = transaction.peer?.customName
         
         if (transaction.incoming) {
-            cell.imageView?.image = UIImage(named: "in")
+            cell.imageView?.image = UIImage(named: "InFish")
         }else{
-            cell.imageView?.image = UIImage(named: "out")
+            cell.imageView?.image = UIImage(named: "OutFish")
         }
         
         return cell
