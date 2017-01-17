@@ -54,7 +54,8 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
 
     // MARK: - Variables
     var pickerData = [KnownPeer]()
-    
+    var discoveredPartners = [MCPeerID]()
+    var discoveredPartnersAsString = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +74,12 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         self.peerPicker.dataSource = self
         
         pickerData = ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchPeers())!
+        
+        discoveredPartners = ((UIApplication.shared.delegate as! AppDelegate).commController?.foundPartners)!
+        
+        //update the discoveredPartnersAsString Array
+        //should be moved later
+        pickerUpdateNames()
     }
 
     override func didReceiveMemoryWarning() {
@@ -128,6 +135,18 @@ class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIP
         return pickerData[row].customName
     }
     
+    func pickerUpdateNames(){
+        var tempInfo = [String]()
+        
+        for partner in discoveredPartners.enumerated() {
+            tempInfo.append(partner.element.displayName)
+        }
+        
+        for aPeer in pickerData.enumerated() {
+            tempInfo.append(aPeer.element.customName!)
+        }
+        discoveredPartnersAsString = tempInfo
+    }
     
     // MARK: - Table view data source
 
