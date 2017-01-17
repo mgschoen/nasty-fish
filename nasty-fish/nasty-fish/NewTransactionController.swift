@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
 class NewTransactionController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
