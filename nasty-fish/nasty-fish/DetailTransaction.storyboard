@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--Detail Transaction View Controller-->
         <scene sceneID="zcp-zl-WRl">
             <objects>
-                <tableViewController id="v8o-YH-dKd" sceneMemberID="viewController">
+                <tableViewController id="v8o-YH-dKd" customClass="DetailTransactionViewController" customModule="nasty_fish" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="hCp-HL-qcL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -123,6 +123,13 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="isMoney" destination="g7R-Ex-tWY" id="eh1-xj-eeL"/>
+                        <outlet property="itemDescription" destination="b6W-9X-p1R" id="Onv-jw-h9W"/>
+                        <outlet property="peer" destination="lw6-9d-ISN" id="a4T-ED-3B7"/>
+                        <outlet property="quantity" destination="Daa-TY-xEU" id="hxX-4K-WNR"/>
+                        <outlet property="return" destination="kas-By-S4o" id="J0Q-iy-5Mg"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J9o-jt-o7I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
