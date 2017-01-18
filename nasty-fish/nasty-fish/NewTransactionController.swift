@@ -12,6 +12,7 @@ class NewTransactionController: UITableViewController {
     
     // MARK: - @IBOutlet
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var directionImage: UIImageView!
     @IBOutlet weak var directionSegmentedControl: UISegmentedControl!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var belongingsSegmentControl: UISegmentedControl!
@@ -22,6 +23,18 @@ class NewTransactionController: UITableViewController {
     
     
     // MARK: - IBActions
+    
+    @IBAction func directionChanged(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            directionImage.image = #imageLiteral(resourceName: "InFish")
+        }
+        else {
+            directionImage.image = #imageLiteral(resourceName: "OutFish")
+        }
+    
+    
+    }
+    
     @IBAction func belongingsChanged(_ sender: UISegmentedControl) {
         tableView.reloadData()
         
