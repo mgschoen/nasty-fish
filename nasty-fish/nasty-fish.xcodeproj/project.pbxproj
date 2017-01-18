@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3232F5B11E05ACA900E8A7F9 /* NewTransactionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */; };
 		3254CA4D1E2A908D009729C8 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3254CA4C1E2A908D009729C8 /* MainController.swift */; };
+		327A16781E2F8E9700F3FC6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 327A16771E2F8E9700F3FC6D /* Assets.xcassets */; };
 		327D46BA1DF82D89004F151C /* MoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327D46B91DF82D89004F151C /* MoreController.swift */; };
 		32C21DE01E211ECA0088EE84 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32C21DDE1E211ECA0088EE84 /* Settings.storyboard */; };
 		32C21DE21E2125B80088EE84 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C21DE11E2125B80088EE84 /* SettingsController.swift */; };
@@ -18,10 +19,8 @@
 		32EC1B611DF4B79200B6B4BB /* NewTransaction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */; };
 		32EC1B631DF4B90100B6B4BB /* TransactionDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */; };
 		B8005D9B1E2E4CFD0088EC18 /* DetailTransaction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8005D9A1E2E4CFD0088EC18 /* DetailTransaction.storyboard */; };
-		B805AFBC1E2BA7B000CABAEE /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B805AFBB1E2BA7B000CABAEE /* TransactionDetailViewController.swift */; };
 		F75B97031DDC9F3300093D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75B97021DDC9F3300093D14 /* AppDelegate.swift */; };
 		F75B970A1DDC9F3300093D14 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F75B97081DDC9F3300093D14 /* Main.storyboard */; };
-		F75B970C1DDC9F3300093D14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F75B970B1DDC9F3300093D14 /* Assets.xcassets */; };
 		F75B970F1DDC9F3300093D14 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F75B970D1DDC9F3300093D14 /* LaunchScreen.storyboard */; };
 		F7B2B3621DDF758400A0B1A9 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B2B3611DDF758400A0B1A9 /* DataController.swift */; };
 		F7B2B3661DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7B2B3641DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld */; };
@@ -31,6 +30,7 @@
 /* Begin PBXFileReference section */
 		3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTransactionController.swift; sourceTree = "<group>"; };
 		3254CA4C1E2A908D009729C8 /* MainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		327A16771E2F8E9700F3FC6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		327D46B91DF82D89004F151C /* MoreController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreController.swift; sourceTree = "<group>"; };
 		32C21DDF1E211ECA0088EE84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
 		32C21DE11E2125B80088EE84 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
@@ -40,11 +40,9 @@
 		32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewTransaction.storyboard; sourceTree = "<group>"; };
 		32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TransactionDetail.storyboard; sourceTree = "<group>"; };
 		B8005D9A1E2E4CFD0088EC18 /* DetailTransaction.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DetailTransaction.storyboard; sourceTree = "<group>"; };
-		B805AFBB1E2BA7B000CABAEE /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
 		F75B96FF1DDC9F3200093D14 /* nasty-fish.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "nasty-fish.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F75B97021DDC9F3300093D14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F75B97091DDC9F3300093D14 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		F75B970B1DDC9F3300093D14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F75B970E1DDC9F3300093D14 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F75B97101DDC9F3300093D14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F7B2B3611DDF758400A0B1A9 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
@@ -68,7 +66,6 @@
 			children = (
 				F75B970D1DDC9F3300093D14 /* LaunchScreen.storyboard */,
 				F75B97081DDC9F3300093D14 /* Main.storyboard */,
-				32EC1B581DF4A0CE00B6B4BB /* Transactions.storyboard */,
 				32EC1B5A1DF4A27900B6B4BB /* More.storyboard */,
 				32C21DDE1E211ECA0088EE84 /* Settings.storyboard */,
 				32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */,
@@ -87,7 +84,6 @@
 				327D46B91DF82D89004F151C /* MoreController.swift */,
 				3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */,
 				32EC1B5E1DF4A34400B6B4BB /* TransactionsController.swift */,
-				B8EF177A1E081E510028220C /* TransactionDetailViewController.swift */,
 				32C21DE11E2125B80088EE84 /* SettingsController.swift */,
 			);
 			name = UserInterface;
@@ -115,7 +111,7 @@
 				32EC1B5D1DF4A2CA00B6B4BB /* UserInterface */,
 				F7B2B3631DDF758E00A0B1A9 /* DataModel */,
 				F75B97021DDC9F3300093D14 /* AppDelegate.swift */,
-				F75B970B1DDC9F3300093D14 /* Assets.xcassets */,
+				327A16771E2F8E9700F3FC6D /* Assets.xcassets */,
 				F75B97101DDC9F3300093D14 /* Info.plist */,
 				F7B2B3641DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld */,
 			);
@@ -193,12 +189,12 @@
 			files = (
 				F75B970F1DDC9F3300093D14 /* LaunchScreen.storyboard in Resources */,
 				32EC1B5C1DF4A27900B6B4BB /* More.storyboard in Resources */,
-				F75B970C1DDC9F3300093D14 /* Assets.xcassets in Resources */,
 				32C21DE01E211ECA0088EE84 /* Settings.storyboard in Resources */,
 				F75B970A1DDC9F3300093D14 /* Main.storyboard in Resources */,
 				B8005D9B1E2E4CFD0088EC18 /* DetailTransaction.storyboard in Resources */,
 				32EC1B611DF4B79200B6B4BB /* NewTransaction.storyboard in Resources */,
 				32EC1B591DF4A0CE00B6B4BB /* Transactions.storyboard in Resources */,
+				327A16781E2F8E9700F3FC6D /* Assets.xcassets in Resources */,
 				32EC1B631DF4B90100B6B4BB /* TransactionDetail.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -211,7 +207,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				32C21DE21E2125B80088EE84 /* SettingsController.swift in Sources */,
-				B8EF177B1E081E510028220C /* TransactionDetailViewController.swift in Sources */,
 				327D46BA1DF82D89004F151C /* MoreController.swift in Sources */,
 				F7B2B3661DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld in Sources */,
 				3254CA4D1E2A908D009729C8 /* MainController.swift in Sources */,
