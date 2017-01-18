@@ -36,13 +36,13 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         
 //        if !(appDelegate.dataController?.fetchUserCustomName() == nil){
 //        //get UIDevice.current.identifierForVendor?.uuid from DataController Instance
-//        peer = MCPeerID(displayName: (appDelegate.dataController?.fetchUserCustomName())!)
+        peer = MCPeerID(displayName: (appDelegate.dataController?.fetchUserCustomName())!)
 //        } else {
         
-        //170113 Changing the String:
-        //peer = MCPeerID(displayName: (UIDevice.current.identifierForVendor?.uuidString)!)
-        peer = MCPeerID(displayName: UIDevice.current.name)
-//        }
+//        //170113 Changing the String:
+//        //peer = MCPeerID(displayName: (UIDevice.current.identifierForVendor?.uuidString)!)
+//        peer = MCPeerID(displayName: UIDevice.current.name)
+////        }
         print(peer)
         print(peer.displayName)
         
