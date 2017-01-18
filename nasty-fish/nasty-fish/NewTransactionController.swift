@@ -2,7 +2,7 @@
 //  NewTransactionController.swift
 //  nasty-fish
 //
-//  Created by manu on 17.12.16.
+//  Created by Manuel Hartmann on 17.12.16.
 //  Copyright © 2016 Gruppe 08. All rights reserved.
 //
 

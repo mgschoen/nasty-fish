@@ -2,7 +2,7 @@
 //  SettingsController.swift
 //  nasty-fish
 //
-//  Created by manu on 07.01.17.
+//  Created by Manuel Hartmann on 07.01.17.
 //  Copyright © 2017 Gruppe 08. All rights reserved.
 //
 
