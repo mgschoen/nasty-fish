@@ -23,6 +23,12 @@ class DetailTransactionViewController: UITableViewController {
     
     @IBOutlet weak var `return`: UIButton!
     
+    @IBOutlet weak var loandebt: UILabel!
+    
+   
+    @IBOutlet weak var loandebtImage: UIImageView!
+    
+    
         override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,9 +71,26 @@ class DetailTransactionViewController: UITableViewController {
                 
             }
         }
+        if let incomingBool = transaction?.incoming {
+            if incomingBool{
+                loandebt.text = "loan"
+                
+                loandebtImage.image = UIImage(named: "in")
+                
+            }else{
+                loandebt.text = "debt"
+                
+                loandebtImage.image = UIImage(named: "out")
+            }
+          
+                
+            }
+      
+   
+        }
     
-        
-    }
+ 
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
