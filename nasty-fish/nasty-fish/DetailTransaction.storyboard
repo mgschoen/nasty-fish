@@ -137,7 +137,6 @@
                     <connections>
                         <outlet property="isMoney" destination="g7R-Ex-tWY" id="eh1-xj-eeL"/>
                         <outlet property="itemDescription" destination="b6W-9X-p1R" id="Onv-jw-h9W"/>
-                        <outlet property="loanImage" destination="yCw-H4-8a1" id="IHM-Kf-MfR"/>
                         <outlet property="loandebt" destination="hiq-K9-66x" id="6eS-0D-hYa"/>
                         <outlet property="loandebtImage" destination="yCw-H4-8a1" id="U1G-Yl-eru"/>
                         <outlet property="peer" destination="lw6-9d-ISN" id="a4T-ED-3B7"/>

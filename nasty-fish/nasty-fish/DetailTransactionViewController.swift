@@ -26,7 +26,7 @@ class DetailTransactionViewController: UITableViewController {
     @IBOutlet weak var loandebt: UILabel!
     
    
-    @IBOutlet weak var loandebtImage: UIImageView!
+   @IBOutlet weak var loandebtImage: UIImageView!
     
     
         override func viewDidLoad() {
@@ -74,17 +74,17 @@ class DetailTransactionViewController: UITableViewController {
         if let incomingBool = transaction?.incoming {
             if incomingBool{
                 loandebt.text = "loan"
-                
                 loandebtImage.image = UIImage(named: "in")
                 
+           
             }else{
                 loandebt.text = "debt"
-                
-                loandebtImage.image = UIImage(named: "out")
+                loandebtImage.image = UIImage (named: "out")
+           
             }
           
-                
             }
+        
       
    
         }
