@@ -408,6 +408,51 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     }
     //MCSession Protocol END
     
+    /*
+     function returns all online peers and their customName as a Dicionary
+     */
+    func fetchParticipatingIDsAndCustomNameFromInfo() -> (Dictionary<String, String>) {
+        var idNames = [String:String]()
+        
+        for peer in foundPartnersAdvertisedData.keys {
+            idNames[(foundPartnersAdvertisedData[peer]!.first?.key)!] = foundPartnersAdvertisedData[peer]!.first?.value
+        }
+//        
+//        for peer in foundPartnersAdvertisedData.keys {
+//            for key in (foundPartnersAdvertisedData[peer]?.keys)! {
+//                idNames[key] = foundPartnersAdvertisedData[peer]![key]
+//            }
+//        }
+        //idNames = [„uuid“ : String, „customName“: String]()
+        return idNames
+    }
+
+    func fetchParticipatingIDs() -> [String] {
+        let ids = [String](foundPartnersDictionary.keys)
+        return ids
+    }
+    
+    func getFoundPartnersInfo() -> ([String], [String]) {
+        return (foundPartnersIDs, foundPartnersCustomNames)
+    }
+    
+    func getFoundPartners() -> [MCPeerID] {
+        return foundPartners
+    }
+    
+    func getInvitingPartners() -> [MCPeerID] {
+        return invitingPartners
+    }
+    /**
+        Searches the corresponding MultipeerConnectivity Peer ID (MCPeerID) among all found peers
+     
+        - Parameter nastyFishPartnerIdentifier: The UUID-String that identifies each partner for transactions
+    */
+    func resolveMCPeerID(forKey nastyFishPartnerIdentifier: String) -> MCPeerID {
+        let index = foundPartnersIDs.index(of: nastyFishPartnerIdentifier)!
+        return foundPartners[index]
+    }
+    
     /* ------------------------------------------------------------------------------------ *
      *   Sending Data                                                                       *
      * ------------------------------------------------------------------------------------ */
