@@ -26,17 +26,33 @@ class NewTransactionController: UITableViewController {
     
     @IBAction func saveButtonTaped(_ sender: UIBarButtonItem) {
         
+        let transaction = TransactionData(userId: ((UIApplication.shared.delegate as! AppDelegate).dataController?.appInstanceId)!,
+                                          userName: ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchUserCustomName())!,
+                                          peerId: peer,
+                                          peerName: "[Undefined]",
+                                          transactionId: UUID(),
+                                          transactionDescription: transactionDescription,
+                                          isIncomming: isIncomming,
+                                          isMoney: isMoney,
+                                          quantity: quantity,
+                                          category: nil,
+                                          dueDate: nil,
+                                          imageURL: nil,
+                                          dueWhenTransactionIsDue: nil)
         
         
+        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.processTransaction(newTransaction: transaction)
+                
         
-        let alert = UIAlertController(title: "Order Placed!", message: "Thank you for your order.\nWe'll ship it to you soon!", preferredStyle: .alert)
-        let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
-            (_)in
-            self.performSegue(withIdentifier: "savedTransaction", sender: self)
-        })
         
-        alert.addAction(OKAction)
-        self.present(alert, animated: true, completion: nil)
+//        let alert = UIAlertController(title: "Order Placed!", message: "Thank you for your order.\nWe'll ship it to you soon!", preferredStyle: .alert)
+//        let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
+//            (_)in
+//            self.performSegue(withIdentifier: "savedTransaction", sender: self)
+//        })
+//        
+//        alert.addAction(OKAction)
+//        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func directionChanged(_ sender: UISegmentedControl) {
@@ -98,11 +114,11 @@ class NewTransactionController: UITableViewController {
         }
     }
     
-//    var peer: KnownPeer {
-//        get {
-//            return self.pickerData[self.peerPicker.selectedRow(inComponent: 0)]
-//        }
-//    }
+    var peer: String {
+        get {
+            return self.pickerData[self.peerPicker.selectedRow(inComponent: 0)]
+        }
+    }
     
     var isIncomming: Bool {
         get {

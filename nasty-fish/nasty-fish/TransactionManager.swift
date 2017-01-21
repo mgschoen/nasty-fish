@@ -65,6 +65,9 @@ class TransactionManager : NSObject {
         
             delegate?.transactionSaved(transaction: transaction)
         }
+        else {
+            delegate?.transactionSaved(transaction: nil)
+        }
     }
     
     func process(savedTranscaction: Transaction) {
