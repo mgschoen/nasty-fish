@@ -16,20 +16,34 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     var peer: MCPeerID!
     var browser: MCNearbyServiceBrowser!
     var advertiser: MCNearbyServiceAdvertiser!
+    var uuid: String!
     
     var delegate: CommControllerDelegate?
     
     var foundPartners = [MCPeerID]()
-    var advertisingPartners = [MCPeerID]()
+    var invitingPartners = [MCPeerID]()
     var foundPartnersAdvertisedData = Dictionary<MCPeerID, Dictionary<String, String>>()
     var nfTransactionsArray: [Dictionary<String, String>] = []
+    
+    var foundPartnersDictionary = [String:String]()
+    
+    var foundPartnersInfoKeys = [String]()
+    var foundPartnersInfoValues = [String]()
+    
+    var foundPartnersIDs = [String]()
+    var foundPartnersCustomNames = [String]()
+    
+    var isAdvertising: Bool
+    var isBrowsing: Bool
     
     //completion handler declaration
     var invitationHandler: ((Bool, MCSession?)->Void)!
     
     override init(){
-        super.init()
+        isAdvertising = false
+        isBrowsing = false
         
+        super.init()
         //  DONE FTM: Different name chosen by group; -> identifierForVendor?.uuid String managed by DataController
         //  WAS: 
         //peer = MCPeerID(displayName: UIDevice.current.name)
@@ -43,6 +57,9 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
 //        //peer = MCPeerID(displayName: (UIDevice.current.identifierForVendor?.uuidString)!)
 //        peer = MCPeerID(displayName: UIDevice.current.name)
 ////        }
+        
+        uuid = (appDelegate.dataController?.appInstanceId)!
+        
         print(peer)
         print(peer.displayName)
         
@@ -59,20 +76,26 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         advertiser = MCNearbyServiceAdvertiser(peer: peer, discoveryInfo: nil, serviceType: "nastyfish-mpc")
         advertiser.delegate = self
         
+        
         /* Init Browser */
         browser = MCNearbyServiceBrowser(peer: peer, serviceType: "nastyfish-mpc")
         browser.delegate = self
         
         //FOR NOW
         //Define this object as Observer for following notification
-        NotificationCenter.default.addObserver(self, selector: #selector(handleMPCReceivedDataWithNotification), name: NSNotification.Name("receivedMPCDataNotification"), object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleMPCReceivedDataWithNotification),
+                                               name: NSNotification.Name("receivedMPCDataNotification"),
+                                               object: nil)
         
         //instantiation of the CommControllerDelegate
         //has to be done before the startBrowsingForPeers call
         delegate = ServiceDel()
         
         //start browsing
-        browser.startBrowsingForPeers()
+        //browser.startBrowsingForPeers()
+        //isBrowsing = true
+        startBrowsingForPartners()
         
         //start advertising right at the beginning
         //advertiser.startAdvertisingPeer()
@@ -284,15 +307,14 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
      * ------------------------------------------------------------------------------------ */
     //MCNearbyServiceAdvertiser Protocol START
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping ((Bool, MCSession?) -> Void)) {
-        //TODO
-        //foundPartners.append(peerID)
         
-        //TODO
-        //FURTHER UNDERSTAND THIS
+        invitingPartners.append(peerID)
+        
         self.invitationHandler = invitationHandler as ((Bool, MCSession?) -> Void)!
         
         //call the delegate instance to handle the invitation
-        delegate?.invitationWasReceived(fromPeer: peerID.displayName)
+        //delegate?.invitationWasReceived(fromPeer: peerID.displayName)
+        invitationHandler(true, self.session)
         print("advertiser didReceiveInvitation from \(peerID)")
     }
     
@@ -312,14 +334,16 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         
         foundPartners.append(peerID)
-        
-        //Get additional info from the Data sent during the advertising process
-        if(foundPartnersAdvertisedData.isEmpty || foundPartnersAdvertisedData.index(forKey: peerID) == nil){
-            
-            //if key not already in dictionary add it
-            foundPartnersAdvertisedData[peerID] = info
+        if (!(info == nil)) {
+            //Get additional info from the Data sent during the advertising process
+            if(foundPartnersAdvertisedData.isEmpty || foundPartnersAdvertisedData[peerID] == nil){
+                //if key not already in dictionary add it
+                foundPartnersAdvertisedData[peerID] = info
+            }
+            //foundPartnersDictionary[(info?.first?.key)!] = info!.first?.value
+            foundPartnersIDs.append((info?["nastyFishPartnerIdentifier"])!)
+            foundPartnersCustomNames.append((info?["customNames"])!)
         }
-        
         //inviteAllPeers()
         browser.invitePeer(peerID, to: self.session, withContext: nil, timeout: 20)
         
