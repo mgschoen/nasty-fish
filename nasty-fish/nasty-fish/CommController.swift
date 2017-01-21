@@ -235,7 +235,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     */
     func sendTransactionToPeer(transaction: [String:Any]) -> (Bool, uuid: String) {
         //May be changed
-        return sendUsingUserInfo(uuid: (transaction["uuid"])!, customName: (transaction["customName"])!, data: transaction)
+        return sendUsingUserInfo(uuid: (transaction["uuid"])! as! String, customName: (transaction["customName"])! as! String, data: transaction) as! (Bool, uuid: String)
     }
     
     /**
@@ -248,6 +248,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         - Parameter data: a Dictionary taking a String key and String value with data to be sent
      
     */
+    
     func sendUsingUserInfo(uuid : String, customName : String, data : [String : Any]) -> (successful:Bool, receiverUUID : String){
         
         var peerID = resolveMCPeerID(forKey: uuid)
@@ -260,9 +261,10 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         if session.connectedPeers.contains(peerID) {
             let dataToSend = NSKeyedArchiver.archivedData(withRootObject: data)
             do {
-                sentSuccessful = try session.send(dataToSend,
-                                                  toPeers: peerID,
-                                                  with: MCSessionSendDataMode.reliable)
+                try session.send(dataToSend,
+                                 toPeers: [peerID],
+                                 with: MCSessionSendDataMode.reliable)
+                sentSuccessful = true
             } catch {
                 NSLog("%@", "\(error.localizedDescription)")
                 return (sentSuccessful, uuid)
@@ -298,8 +300,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         transaction["imageURL"] = imageURL
         transaction["sameDueDate"] = sameDueDate
         
-        return sendTransactionToPeer(transaction)
-        
+        return sendTransactionToPeer(transaction: transaction)
     }
     
     /* ------------------------------------------------------------------------------------ *
