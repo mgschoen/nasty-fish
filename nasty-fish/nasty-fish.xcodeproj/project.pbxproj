@@ -24,7 +24,6 @@
 		F7E8CA121E009F1C00374429 /* Populator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E8CA111E009F1C00374429 /* Populator.swift */; };
 		FE2D5E421E25CA7600722376 /* CommController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2D5E411E25CA7600722376 /* CommController.swift */; };
 		FE2D5E441E265D5500722376 /* ServiceDel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2D5E431E265D5500722376 /* ServiceDel.swift */; };
-		FE933E451E20FDEF009FD0C5 /* CommunicationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE933E441E20FDEF009FD0C5 /* CommunicationHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +46,6 @@
 		F7E8CA111E009F1C00374429 /* Populator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Populator.swift; sourceTree = "<group>"; };
 		FE2D5E411E25CA7600722376 /* CommController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommController.swift; sourceTree = "<group>"; };
 		FE2D5E431E265D5500722376 /* ServiceDel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceDel.swift; sourceTree = "<group>"; };
-		FE933E441E20FDEF009FD0C5 /* CommunicationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,7 +118,6 @@
 		FE933E431E20FBB2009FD0C5 /* NetCommunication */ = {
 			isa = PBXGroup;
 			children = (
-				FE933E441E20FDEF009FD0C5 /* CommunicationHandler.swift */,
 				FE2D5E411E25CA7600722376 /* CommController.swift */,
 				FE2D5E431E265D5500722376 /* ServiceDel.swift */,
 			);
@@ -205,7 +202,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8EF177B1E081E510028220C /* TransactionDetailViewController.swift in Sources */,
-				FE933E451E20FDEF009FD0C5 /* CommunicationHandler.swift in Sources */,
 				327D46BA1DF82D89004F151C /* MoreController.swift in Sources */,
 				FE2D5E421E25CA7600722376 /* CommController.swift in Sources */,
 				F7B2B3661DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld in Sources */,
