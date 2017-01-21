@@ -26,6 +26,8 @@
 		F7B2B3621DDF758400A0B1A9 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B2B3611DDF758400A0B1A9 /* DataController.swift */; };
 		F7B2B3661DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7B2B3641DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld */; };
 		F7E8CA121E009F1C00374429 /* Populator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E8CA111E009F1C00374429 /* Populator.swift */; };
+		FE2D5E421E25CA7600722376 /* CommController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2D5E411E25CA7600722376 /* CommController.swift */; };
+		FE2D5E441E265D5500722376 /* ServiceDel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2D5E431E265D5500722376 /* ServiceDel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +52,8 @@
 		F7B2B3611DDF758400A0B1A9 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		F7B2B3651DDF76AA00A0B1A9 /* NastyFish.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NastyFish.xcdatamodel; sourceTree = "<group>"; };
 		F7E8CA111E009F1C00374429 /* Populator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Populator.swift; sourceTree = "<group>"; };
+		FE2D5E411E25CA7600722376 /* CommController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommController.swift; sourceTree = "<group>"; };
+		FE2D5E431E265D5500722376 /* ServiceDel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceDel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,7 @@
 			children = (
 				32EC1B5D1DF4A2CA00B6B4BB /* UserInterface */,
 				F7B2B3631DDF758E00A0B1A9 /* DataModel */,
+				FE933E431E20FBB2009FD0C5 /* NetCommunication */,
 				327A167A1E2FC6DD00F3FC6D /* TransactionManager */,
 				F75B97021DDC9F3300093D14 /* AppDelegate.swift */,
 				327A16771E2F8E9700F3FC6D /* Assets.xcassets */,
@@ -136,6 +141,15 @@
 				F7E8CA111E009F1C00374429 /* Populator.swift */,
 			);
 			name = DataModel;
+			sourceTree = "<group>";
+		};
+		FE933E431E20FBB2009FD0C5 /* NetCommunication */ = {
+			isa = PBXGroup;
+			children = (
+				FE2D5E411E25CA7600722376 /* CommController.swift */,
+				FE2D5E431E265D5500722376 /* ServiceDel.swift */,
+			);
+			name = NetCommunication;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,6 +233,7 @@
 			files = (
 				32C21DE21E2125B80088EE84 /* SettingsController.swift in Sources */,
 				327D46BA1DF82D89004F151C /* MoreController.swift in Sources */,
+				FE2D5E421E25CA7600722376 /* CommController.swift in Sources */,
 				F7B2B3661DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld in Sources */,
 				3254CA4D1E2A908D009729C8 /* MainController.swift in Sources */,
 				327A167C1E2FC72A00F3FC6D /* TransactionManager.swift in Sources */,
@@ -226,6 +241,7 @@
 				32EC1B5F1DF4A34400B6B4BB /* TransactionsController.swift in Sources */,
 				F7B2B3621DDF758400A0B1A9 /* DataController.swift in Sources */,
 				F75B97031DDC9F3300093D14 /* AppDelegate.swift in Sources */,
+				FE2D5E441E265D5500722376 /* ServiceDel.swift in Sources */,
 				F7E8CA121E009F1C00374429 /* Populator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,6 +385,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = C7PLUFBAM2;
 				INFOPLIST_FILE = "nasty-fish/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.lmu.ifi.mobile.nastyfish;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -382,6 +399,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = C7PLUFBAM2;
 				INFOPLIST_FILE = "nasty-fish/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.lmu.ifi.mobile.nastyfish;
 				PRODUCT_NAME = "$(TARGET_NAME)";

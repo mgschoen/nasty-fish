@@ -13,11 +13,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var dataController: DataController?
+    var commController: CommController!
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         dataController = DataController()
+        commController = CommController()
+        
+        // * * * DEBUG: Populate persistent storage with dummy content * * *
         let populator = Populator(dc:dataController!)
         if (populator.storageIsPopulated()) {
             NSLog("Storage is populated with dummy data")
