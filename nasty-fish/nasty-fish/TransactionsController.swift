@@ -19,19 +19,21 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     }
     
     @IBAction func saveNewTransaction(segue:UIStoryboardSegue) {
-        if let newTransaction = segue.source as? NewTransactionController {
-            let transaction = ((UIApplication.shared.delegate as! AppDelegate).dataController?.storeNewTransaction(
-                itemDescription: newTransaction.transactionDescription,
-                peer: newTransaction.peer,
-                incoming: newTransaction.isIncomming,
-                isMoney: newTransaction.isMoney,
-                quantity: (newTransaction.isMoney ? newTransaction.amount : newTransaction.quantity ),
-                category: nil,
-                dueDate: nil,
-                imageURL: nil,
-                dueWhenTransactionIsDue: nil))
+        if let controller = segue.source as? NewTransactionController {
+//            let transaction = ((UIApplication.shared.delegate as! AppDelegate).dataController?.storeNewTransaction(
+//                itemDescription: newTransaction.transactionDescription,
+//                peer: newTransaction.peer,
+//                incoming: newTransaction.isIncomming,
+//                isMoney: newTransaction.isMoney,
+//                quantity: (newTransaction.isMoney ? newTransaction.amount : newTransaction.quantity ),
+//                category: nil,
+//                dueDate: nil,
+//                imageURL: nil,
+//                dueWhenTransactionIsDue: nil))
             
-            transactions.insert(transaction!, at: 0)
+            if let transaction = controller.savedTransaction {
+                transactions.insert(transaction, at: 0)
+            }
         }
         
         preFilterContent(scope: preFilter.selectedSegmentIndex)

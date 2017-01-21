@@ -13,19 +13,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var dataController: DataController?
-    var commController: CommController!
+//    var commController: CommController!
     var transactionManager: TransactionManager?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         dataController = DataController()
-        assert(dataController == nil, "The dataController canot be nil")
+//        assert(dataController == nil, "The dataController canot be nil")
         
-       commController = CommController()
+//       commController = CommController()
         
         transactionManager = TransactionManager()
-        assert(transactionManager == nil, "The transactionManager canot be nil")
+//        assert(transactionManager == nil, "The transactionManager canot be nil")
         
         
         // * * * DEBUG: Populate persistent storage with dummy content * * *

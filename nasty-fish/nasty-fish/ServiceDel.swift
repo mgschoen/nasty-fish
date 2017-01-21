@@ -38,7 +38,7 @@ class ServiceDel : NSObject, CommControllerDelegate {
         
         //NO USER QUESTIONING
         //Completion
-        self.appDelegate.commController?.invitationHandler(true, self.appDelegate.commController.session)
+        self.appDelegate.transactionManager?.commController?.invitationHandler(true, self.appDelegate.transactionManager?.commController?.session)
         
         //Show Alert-Window
         

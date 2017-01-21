@@ -263,7 +263,7 @@
                         <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="save" id="RRD-c6-73P">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="ZWs-uu-mPS" kind="unwind" identifier="SaveNewTransaction" unwindAction="saveNewTransactionWithSegue:" id="Gbb-Jb-FsG"/>
+                                <action selector="saveButtonTaped:" destination="heC-rO-qO9" id="wIB-5m-Be1"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -277,6 +277,7 @@
                         <outlet property="quantityStepper" destination="Txe-Bh-nsh" id="Rwx-LK-R98"/>
                         <outlet property="quantityTextField" destination="LLS-L3-Gvw" id="gik-Tw-0iI"/>
                         <outlet property="saveButton" destination="RRD-c6-73P" id="rZQ-Y5-Zon"/>
+                        <segue destination="ZWs-uu-mPS" kind="unwind" identifier="savedTransaction" unwindAction="saveNewTransactionWithSegue:" id="fzb-fD-ElU"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S3a-4P-EYA" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -9,55 +9,103 @@
 import UIKit
 import Foundation
 
+
+protocol TransactionManagerDelegate {
+    
+    func transactionSaved(transaction: Transaction?)
+}
+
+
 class TransactionManager : NSObject {
 
-    var dataController: DataController
+    var dataController: DataController?
     var commController: CommController? = nil
     
-    
+    var delegate: TransactionManagerDelegate?
     
     override init(){
-        dataController = (UIApplication.shared.delegate as! AppDelegate).dataController!
-        
+        dataController = (UIApplication.shared.delegate as! AppDelegate).dataController
         
         super.init()
-        
-        
-        initializeCommunicationController()
-        
     }
     
     func initializeCommunicationController() {
-        if let customName = dataController.fetchUserCustomName() {
-            if let uuid = dataController.appInstanceId {
+        print("TransactionManager.initializeCommunicationController()")
+        
+        if commController != nil {
+            return
+        }
+        
+        if let customName = dataController?.fetchUserCustomName() {
+            if let uuid = dataController?.appInstanceId {
                 commController = CommController(customName, uuid)
             }
         }
-    }
-    
-    func fetchClients() -> Dictionary<String, String> {
-        return commController!.foundPartnersDictionary
-    }
-    
-    func processTransaction(userId: String, customName: String, incoming: Bool, isMoney: Bool, quantity: UInt, category: Any, dueDate: Any, imageURL: String, sameDueDate: Any) -> (Bool, uuid: String) {
         
-        let result = commController!.sendExplicitDataToPartner(uuid: userId, customName: customName, incoming: incoming, isMoney: isMoney, quantity: quantity, category: category, dueDate: dueDate, imageURL: imageURL, sameDueDate: sameDueDate)
+//        assert(commController == nil, "The commController canot be nil")
+    }
     
-        return result
+    func fetchClients() -> [String] {
+        return commController!.foundPartnersIDs
+    }
+    
+    func processTransaction(newTransaction: TransactionData) {
+        
+        let result = commController!.sendExplicitDataToPartner(uuid: newTransaction.peerId,
+                                                               customName: newTransaction.peerName,
+                                                               incoming: newTransaction.isIncomming,
+                                                               isMoney: newTransaction.isMoney,
+                                                               quantity: newTransaction.quantity!,
+                                                               category: newTransaction.category!,
+                                                               dueDate: newTransaction.dueDate!,
+                                                               imageURL: newTransaction.imageURL!,
+                                                               sameDueDate: newTransaction.dueWhenTransactionIsDue!)
+        if (result.0) {
+            let transaction = storeNewTransaction(newTransaction: newTransaction)
+        
+            delegate?.transactionSaved(transaction: transaction)
+        }
     }
     
     func process(savedTranscaction: Transaction) {
     
+        
+        
     }
     
     func finalize(clientId: String, transactionId: String, successful: Bool) {
     
     }
     
+    
+    
+    // MARK: - DataController
+    
+    func storeNewTransaction(newTransaction: TransactionData) -> Transaction? {
+        
+        var peer = dataController?.fetchPeer(icloudID: newTransaction.peerId)
+        if peer == nil {
+            peer = dataController?.storeNewPeer(icloudID: newTransaction.peerId, customName: newTransaction.peerName, avatarURL: nil)
+        }
+        
+        let transaction = dataController?.storeNewTransaction(
+            itemDescription: newTransaction.transactionDescription,
+            peer: peer!,
+            incoming: newTransaction.isIncomming,
+            isMoney: newTransaction.isMoney,
+            quantity: newTransaction.quantity,
+            category: nil,
+            dueDate: nil,
+            imageURL: nil,
+            dueWhenTransactionIsDue: nil)
+        
+        return transaction
+    }
+    
 }
 
 //extension TransactionManager : CommControllerDelegate {
-//    
+//
 //    
 //    
 ////    override init(){

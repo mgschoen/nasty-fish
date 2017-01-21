@@ -24,12 +24,12 @@ class MainController: UITabBarController {
     
     
     var dataController: DataController? = nil
-    
+    var transactionManager: TransactionManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         dataController = (UIApplication.shared.delegate as! AppDelegate).dataController!
-        
+        transactionManager = (UIApplication.shared.delegate as! AppDelegate).transactionManager!
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,6 +41,9 @@ class MainController: UITabBarController {
         // If user has no nickname show settings view
         if dataController?.fetchUserCustomName() == nil {
             self.performSegue(withIdentifier: "Settings", sender: self)
+        }
+        else {
+            transactionManager.initializeCommunicationController()
         }
     }
 

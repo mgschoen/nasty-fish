@@ -24,6 +24,21 @@ class NewTransactionController: UITableViewController {
     
     // MARK: - IBActions
     
+    @IBAction func saveButtonTaped(_ sender: UIBarButtonItem) {
+        
+        
+        
+        
+        let alert = UIAlertController(title: "Order Placed!", message: "Thank you for your order.\nWe'll ship it to you soon!", preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
+            (_)in
+            self.performSegue(withIdentifier: "savedTransaction", sender: self)
+        })
+        
+        alert.addAction(OKAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func directionChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             directionImage.image = #imageLiteral(resourceName: "InFish")
@@ -71,9 +86,11 @@ class NewTransactionController: UITableViewController {
     }
     
     // MARK: - Variables
-    var pickerData = [KnownPeer]()
+    var pickerData = [String]()
     
     // MARK: - Getter
+    
+    var savedTransaction: Transaction?
     
     var transactionDescription: String {
         get {
@@ -81,11 +98,11 @@ class NewTransactionController: UITableViewController {
         }
     }
     
-    var peer: KnownPeer {
-        get {
-            return self.pickerData[self.peerPicker.selectedRow(inComponent: 0)]
-        }
-    }
+//    var peer: KnownPeer {
+//        get {
+//            return self.pickerData[self.peerPicker.selectedRow(inComponent: 0)]
+//        }
+//    }
     
     var isIncomming: Bool {
         get {
@@ -153,7 +170,7 @@ class NewTransactionController: UITableViewController {
         tapRecognizer.addTarget(self, action: #selector(NewTransactionController.didTapView))
         self.view.addGestureRecognizer(tapRecognizer)
         
-        pickerData = ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchPeers())!
+        pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchClients())!
     }
 
     override func didReceiveMemoryWarning() {
@@ -200,6 +217,12 @@ class NewTransactionController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        
+        
+        return true
+    }
     
     
     // Mark: - Helper
@@ -261,7 +284,7 @@ extension NewTransactionController: UIPickerViewDelegate, UIPickerViewDataSource
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row].customName
+        return pickerData[row]
     }
 }
 
@@ -295,5 +318,13 @@ extension NewTransactionController: UITextFieldDelegate {
         }
         
         return true
+    }
+}
+
+extension NewTransactionController: TransactionManagerDelegate {
+    func transactionSaved(transaction: Transaction?) {
+        if (transaction != nil) {
+            self.performSegue(withIdentifier: "savedTransaction", sender: self)
+        }
     }
 }
