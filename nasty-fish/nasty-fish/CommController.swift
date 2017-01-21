@@ -75,7 +75,207 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         browser.startBrowsingForPeers()
         
         //start advertising right at the beginning
-        advertiser.startAdvertisingPeer()
+        //advertiser.startAdvertisingPeer()
+        //isAdvertising = true
+        startAdvertisingForPartners()
+    }
+    
+    init(_ customName: String, _ uuid: String) {
+        
+        isAdvertising = false
+        isBrowsing = false
+        
+        super.init()
+        
+        //init MCPeerID with customName
+        peer = MCPeerID(displayName: customName)
+        
+        /* Init Session */
+        initSession()
+        
+        /* Init Advertiser */
+        let discoveryInfo = ["nastyFishPartnerIdentifier":uuid,
+                             "customName":customName]
+        initAdvertiser(withDiscoveryInfo: discoveryInfo)
+        
+        /* Init Browser */
+        initBrowser()
+        
+        //Define this object as Observer for following notification
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleMPCReceivedDataWithNotification),
+                                               name: NSNotification.Name("receivedMPCDataNotification"),
+                                               object: nil)
+        // TODO
+        // Check this again
+        delegate = ServiceDel()
+        
+    }
+    deinit {
+        session.disconnect()
+    }
+    
+    func initSession(){
+        session = MCSession(peer: self.peer,
+                            securityIdentity: nil,
+                            encryptionPreference: MCEncryptionPreference.required)
+        session.delegate = self
+    }
+    
+    func initSession(withSecurityIdentity securityIdent: [Any]){
+        session = MCSession(peer: self.peer,
+                            securityIdentity: securityIdent,
+                            encryptionPreference: MCEncryptionPreference.required)
+        session.delegate = self
+    }
+    
+    func initSession(forPeer peer: MCPeerID, withSecurityIdentity securityIdent: [Any]?){
+        if !(securityIdent == nil){
+            self.peer = peer
+            initSession(withSecurityIdentity: securityIdent!)
+        } else {
+            //for the case that the customName will be changed
+            self.peer = peer
+            initSession()
+        }
+    }
+    
+    func initAdvertiser(){
+        advertiser = MCNearbyServiceAdvertiser(peer: self.peer,
+                                               discoveryInfo: nil,
+                                               serviceType: "nastyfish-mpc")
+        advertiser.delegate = self
+    }
+    
+    func initAdvertiser(withDiscoveryInfo discInfo: [String:String]){
+        advertiser = MCNearbyServiceAdvertiser(peer: self.peer,
+                                               discoveryInfo: discInfo,
+                                               serviceType: "nastyfish-mpc")
+        advertiser.delegate = self
+    }
+    
+    func initBrowser(){
+        browser = MCNearbyServiceBrowser(peer: self.peer,
+                                         serviceType: "nastyfish-mpc")
+        browser.delegate = self
+    }
+    /**
+        Starts advertising for nearby peers via MultipeerConnectivity Framework
+     */
+    func startAdvertisingForPartners(){
+        if self.isAdvertising == true {
+            NSLog("%@", "did not start to advertise, already are advertising")
+        } else {
+            advertiser.startAdvertisingPeer()
+            self.isAdvertising = true
+        }
+    }
+    /**
+        Stops browsing for nearby peers via MultipeerConnectivity Framework
+     */
+    func stopAdvertisingForPartners(){
+        if self.isAdvertising == false {
+            NSLog("%@", "could not stop to advertise, are not advertising")
+        } else {
+            advertiser.stopAdvertisingPeer()
+            self.isAdvertising = false
+        }
+    }
+    /**
+        Starts browsing for nearby peers via MultipeerConnectivity Framework
+     */
+    func startBrowsingForPartners(){
+        if self.isBrowsing == true {
+            NSLog("%@", "did not start to browse for peers, already are browsing")
+        } else {
+            browser.startBrowsingForPeers()
+            self.isBrowsing = true
+        }
+    }
+    /**
+        Stops browsing for nearby peers via MultipeerConnectivity Framework
+    */
+    func stopBrowsingForPartners(){
+        if self.isBrowsing == false {
+            NSLog("%@", "can not stop to browse for peers, are not browsing")
+        } else {
+            browser.stopBrowsingForPeers()
+            self.isBrowsing = false
+        }
+
+    }
+    /**
+        Sends data over a MultipeerConnectivity session. Takes a Dictionary containing the composed Transaction Information
+     
+        - Parameter transaction: the composed data that has to be sent
+     
+    */
+    func sendTransactionToPeer(transaction: [String:Any]) -> (Bool, uuid: String) {
+        //May be changed
+        return sendUsingUserInfo(uuid: (transaction["uuid"])!, customName: (transaction["customName"])!, data: transaction)
+    }
+    
+    /**
+        Sends data over a MultipeerConnectivity session. Resolves a peer using its unique identifier and takes a Dictionary containing the Information that has to be sent
+     
+        - Parameter uuid: the users unique identifying string
+     
+        - Parameter customName: the human easily readable name chosen by the user
+     
+        - Parameter data: a Dictionary taking a String key and String value with data to be sent
+     
+    */
+    func sendUsingUserInfo(uuid : String, customName : String, data : [String : Any]) -> (successful:Bool, receiverUUID : String){
+        
+        var peerID = resolveMCPeerID(forKey: uuid)
+//        var transaction = [String:Any]()
+//        transaction["uuid"] = uuid
+//        transaction["customName"] = customName
+//        transaction.
+        var sentSuccessful : Bool = false
+        
+        if session.connectedPeers.contains(peerID) {
+            let dataToSend = NSKeyedArchiver.archivedData(withRootObject: data)
+            do {
+                sentSuccessful = try session.send(dataToSend,
+                                                  toPeers: peerID,
+                                                  with: MCSessionSendDataMode.reliable)
+            } catch {
+                NSLog("%@", "\(error.localizedDescription)")
+                return (sentSuccessful, uuid)
+            }
+            
+        }
+        return (sentSuccessful, uuid)
+    }
+    
+    /**
+ 
+     //itemDescription: itemDescription!,
+     //            peer: knownPeer,
+     //            incoming: incomming,
+     //            isMoney: isMoney,
+     //            quantity: UInt(quantity),
+     //            category: nil,
+     //            dueDate: nil,
+     //            imageURL: nil,
+     //            dueWhenTransactionIsDue: nil))
+    */
+    func sendExplicitDataToPartner(uuid: String, customName: String, incoming: Bool, isMoney: Bool, quantity: UInt, category: Any, dueDate: Any, imageURL: String, sameDueDate: Any) -> (Bool, uuid: String){
+        
+        var transaction = [String:Any]()
+        
+        transaction["uuid"] = uuid
+        transaction["customName"] = customName
+        transaction["incoming"] = incoming
+        transaction["isMoney"] = isMoney
+        transaction["quantity"] = quantity
+        transaction["category"] = category
+        transaction["dueDate"] = dueDate
+        transaction["imageURL"] = imageURL
+        transaction["sameDueDate"] = sameDueDate
+        
+        return sendTransactionToPeer(transaction)
         
     }
     
