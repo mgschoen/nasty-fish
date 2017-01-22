@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Helper datatype to work with unsaved transactions
 struct TransactionData {
     var senderId: String
     var senderName: String
@@ -27,6 +28,7 @@ struct TransactionData {
     
 }
 
+// extending Notification with the nastyfish notifications
 extension Notification.Name {
     static let transactionSavedNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionSaved")
     

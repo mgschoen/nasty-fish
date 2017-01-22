@@ -11,6 +11,7 @@ import UIKit
 class NewTransactionController: UITableViewController {
     
     // MARK: - @IBOutlet
+    
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var directionImage: UIImageView!
     @IBOutlet weak var directionSegmentedControl: UISegmentedControl!
@@ -41,8 +42,6 @@ class NewTransactionController: UITableViewController {
         
         
         (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendAndProcess(create: transaction)
-                
-        
         
 //        let alert = UIAlertController(title: "Order Placed!", message: "Thank you for your order.\nWe'll ship it to you soon!", preferredStyle: .alert)
 //        let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
@@ -99,7 +98,7 @@ class NewTransactionController: UITableViewController {
     }
     
     
-    // MARK: - Variables
+    // MARK: - Variable
     
     var pickerData = [String]()
     

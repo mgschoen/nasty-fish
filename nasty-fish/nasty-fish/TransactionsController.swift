@@ -11,34 +11,18 @@ import CoreData
 
 class TransactionsController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
+    // MARK: - @IBOutlet
     
     @IBOutlet weak var preFilter: UISegmentedControl!
     
+    
     // MARK: - @IBAction
+    
     @IBAction func cancelToTransactions(segue:UIStoryboardSegue) {
     }
     
     @IBAction func saveNewTransaction(segue:UIStoryboardSegue) {
         // Now done by notification and TransactionManager
-        
-//        if let controller = segue.source as? NewTransactionController {
-////            let transaction = ((UIApplication.shared.delegate as! AppDelegate).dataController?.storeNewTransaction(
-////                itemDescription: newTransaction.transactionDescription,
-////                peer: newTransaction.peer,
-////                incoming: newTransaction.isIncomming,
-////                isMoney: newTransaction.isMoney,
-////                quantity: (newTransaction.isMoney ? newTransaction.amount : newTransaction.quantity ),
-////                category: nil,
-////                dueDate: nil,
-////                imageURL: nil,
-////                dueWhenTransactionIsDue: nil))
-//            
-//            if let transaction = controller.savedTransaction {
-//                transactions.insert(transaction, at: 0)
-//            }
-//        }
-//        
-//        preFilterContent(scope: preFilter.selectedSegmentIndex)
     }
     
     @IBAction func deleteTransaction (segue: UIStoryboardSegue) {
@@ -57,7 +41,7 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     }
     
     
-    // MARK: - Variables
+    // MARK: - Variable
     
     // https://www.raywenderlich.com/113772/uisearchcontroller-tutorial
     let searchController = UISearchController(searchResultsController: nil)
@@ -67,7 +51,7 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     var filteredTransactions = [Transaction]()
     
 
-    // MARK: - viewDidLoad
+    // MARK: - Default override
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,26 +104,25 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         fetchData()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    // only needed for debug data remove in releas version
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         fetchData()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive && searchController.searchBar.text != "" {
             return filteredTransactions.count
@@ -170,7 +153,6 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
 //    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
 //        performSegue(withIdentifier: "TransactionDetailViewController", sender: indexPath)
 //    }
-   
     
     
     /*
@@ -222,8 +204,8 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
                 } else {
                     transaction = preFilterdTransactions[indexPath.row]
                 }
-                //                let controller = segue.destination as! DetailTransactionViewController
-                //                controller.transaction = transaction
+//                let controller = segue.destination as! DetailTransactionViewController
+//                controller.transaction = transaction
                 
                 //controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
                 //controller.navigationItem.leftItemsSupplementBackButton = true
@@ -233,6 +215,7 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     
     
     // MARK: - UISearchResultsUpdating
+    
     @available(iOS 8.0, *)
     public func updateSearchResults(for searchController: UISearchController) {
 //        let searchBar = searchController.searchBar

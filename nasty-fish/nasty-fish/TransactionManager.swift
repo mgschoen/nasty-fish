@@ -12,9 +12,12 @@ import Foundation
 
 class TransactionManager : NSObject {
 
+    // MARK: - Variable
+    
     var dataController: DataController?
     var commController: CommController? = nil
     
+    // MARK: - Init
     
     override init(){
         dataController = (UIApplication.shared.delegate as! AppDelegate).dataController
@@ -23,7 +26,7 @@ class TransactionManager : NSObject {
     }
 
     
-    // MARK: -
+    // MARK: - Public functions
     
     // create transaction sender
     func sendAndProcess(create transaction: TransactionData) {
@@ -107,9 +110,11 @@ class TransactionManager : NSObject {
     
     func fetchClients() -> [String] {
         // Todo: use CommController
-//        return commController!.foundPartnersIDs
+        var partnerIds = ["[User1]", "[User2]", "[User3]"]
         
-        return ["[User1]", "[User2]", "[User3]"]
+        partnerIds.append(contentsOf: commController!.foundPartnersIDs)
+        
+        return partnerIds
     }
     
     func sendExplicitDataToPartner(newTransaction: TransactionData) -> (Bool, uuid: String) {
