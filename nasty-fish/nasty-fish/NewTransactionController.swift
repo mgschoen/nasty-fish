@@ -11,6 +11,7 @@ import UIKit
 class NewTransactionController: UITableViewController {
     
     // MARK: - @IBOutlet
+    
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var directionImage: UIImageView!
     @IBOutlet weak var directionSegmentedControl: UISegmentedControl!
@@ -25,18 +26,31 @@ class NewTransactionController: UITableViewController {
     // MARK: - IBActions
     
     @IBAction func saveButtonTaped(_ sender: UIBarButtonItem) {
+        let transaction = TransactionData(senderId: ((UIApplication.shared.delegate as! AppDelegate).dataController?.appInstanceId)!,
+                                          senderName: ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchUserCustomName())!,
+                                          receiverId: peer,
+                                          receiverName: "[Undefined]",
+                                          transactionId: UUID(),
+                                          transactionDescription: transactionDescription,
+                                          isIncomming: isIncomming,
+                                          isMoney: isMoney,
+                                          quantity: quantity,
+                                          category: nil,
+                                          dueDate: nil,
+                                          imageURL: nil,
+                                          dueWhenTransactionIsDue: nil)
         
         
+        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendAndProcess(create: transaction)
         
-        
-        let alert = UIAlertController(title: "Order Placed!", message: "Thank you for your order.\nWe'll ship it to you soon!", preferredStyle: .alert)
-        let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
-            (_)in
-            self.performSegue(withIdentifier: "savedTransaction", sender: self)
-        })
-        
-        alert.addAction(OKAction)
-        self.present(alert, animated: true, completion: nil)
+//        let alert = UIAlertController(title: "Order Placed!", message: "Thank you for your order.\nWe'll ship it to you soon!", preferredStyle: .alert)
+//        let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
+//            (_)in
+//            self.performSegue(withIdentifier: "savedTransaction", sender: self)
+//        })
+//        
+//        alert.addAction(OKAction)
+//        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func directionChanged(_ sender: UISegmentedControl) {
@@ -46,8 +60,6 @@ class NewTransactionController: UITableViewController {
         else {
             directionImage.image = #imageLiteral(resourceName: "OutFish")
         }
-    
-    
     }
     
     @IBAction func belongingsChanged(_ sender: UISegmentedControl) {
@@ -85,8 +97,11 @@ class NewTransactionController: UITableViewController {
         checkUserInput()
     }
     
-    // MARK: - Variables
+    
+    // MARK: - Variable
+    
     var pickerData = [String]()
+    
     
     // MARK: - Getter
     
@@ -98,11 +113,11 @@ class NewTransactionController: UITableViewController {
         }
     }
     
-//    var peer: KnownPeer {
-//        get {
-//            return self.pickerData[self.peerPicker.selectedRow(inComponent: 0)]
-//        }
-//    }
+    var peer: String {
+        get {
+            return self.pickerData[self.peerPicker.selectedRow(inComponent: 0)]
+        }
+    }
     
     var isIncomming: Bool {
         get {
@@ -150,7 +165,7 @@ class NewTransactionController: UITableViewController {
     }
     
     
-    
+    // MARK: - Default override
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -170,6 +185,14 @@ class NewTransactionController: UITableViewController {
         tapRecognizer.addTarget(self, action: #selector(NewTransactionController.didTapView))
         self.view.addGestureRecognizer(tapRecognizer)
         
+        // Register to receive notification
+        // Observe listen for transactionSavedNotification
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnTransactionSavedNotification),
+                                               name: .transactionSavedNotification,
+                                               object: nil)
+        
+        // load P2P clients
         pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchClients())!
     }
 
@@ -218,14 +241,35 @@ class NewTransactionController: UITableViewController {
     }
     */
     
+    /*
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        
-        
         return true
+    }
+    */
+    
+    
+    // MARK: - Notification
+    
+    func actOnTransactionSavedNotification(_ notification: NSNotification) {
+        if (notification.userInfo?["isCreated"] as! Bool) {
+            self.performSegue(withIdentifier: "savedTransaction", sender: self)
+        }
+        else {
+            let alert = UIAlertController(title: "Transmission failed",
+                                          message: "Transaction was not created successfully.",
+                                          preferredStyle: UIAlertControllerStyle.alert)
+            
+            alert.addAction(UIAlertAction(title: "Ok",
+                                          style: UIAlertActionStyle.default,
+                                          handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     
-    // Mark: - Helper
+    // MARK: - Helper
+    
     func didTapView(){
         self.view.endEditing(true)
     }
@@ -244,7 +288,7 @@ class NewTransactionController: UITableViewController {
             formatter.generatesDecimalNumbers = true
             formatter.numberStyle = NumberFormatter.Style.decimal
             
-            
+            print("checkUserInput amountTextField.text: \(amountTextField.text)")
             if (formatter.number(from: amountTextField.text!) as? NSDecimalNumber) == nil  {
                 isValid = false
             }
@@ -290,7 +334,7 @@ extension NewTransactionController: UIPickerViewDelegate, UIPickerViewDataSource
 
 extension NewTransactionController: UITextFieldDelegate {
     
-    // Mark: - UITextFieldDelegate
+    // MARK: - UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Hide the keyboard.
         textField.resignFirstResponder()
@@ -302,11 +346,8 @@ extension NewTransactionController: UITextFieldDelegate {
         textField.resignFirstResponder()
     }
     
-    func textField(_ textField: UITextField,
-                            shouldChangeCharactersIn range: NSRange,
-                            replacementString string: String) -> Bool {
-        
-        //
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // checks amountTextField, so the user only can enter valide values for money
         if textField == amountTextField {
             if  let amount = textField.text {
                 let amountArr = amount.components(separatedBy: ",")
@@ -318,13 +359,5 @@ extension NewTransactionController: UITextFieldDelegate {
         }
         
         return true
-    }
-}
-
-extension NewTransactionController: TransactionManagerDelegate {
-    func transactionSaved(transaction: Transaction?) {
-        if (transaction != nil) {
-            self.performSegue(withIdentifier: "savedTransaction", sender: self)
-        }
     }
 }

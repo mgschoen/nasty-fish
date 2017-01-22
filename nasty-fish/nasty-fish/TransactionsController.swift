@@ -11,50 +11,29 @@ import CoreData
 
 class TransactionsController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
+    // MARK: - @IBOutlet
     
     @IBOutlet weak var preFilter: UISegmentedControl!
     
+    
     // MARK: - @IBAction
+    
     @IBAction func cancelToTransactions(segue:UIStoryboardSegue) {
     }
     
     @IBAction func saveNewTransaction(segue:UIStoryboardSegue) {
-        if let controller = segue.source as? NewTransactionController {
-//            let transaction = ((UIApplication.shared.delegate as! AppDelegate).dataController?.storeNewTransaction(
-//                itemDescription: newTransaction.transactionDescription,
-//                peer: newTransaction.peer,
-//                incoming: newTransaction.isIncomming,
-//                isMoney: newTransaction.isMoney,
-//                quantity: (newTransaction.isMoney ? newTransaction.amount : newTransaction.quantity ),
-//                category: nil,
-//                dueDate: nil,
-//                imageURL: nil,
-//                dueWhenTransactionIsDue: nil))
-            
-            if let transaction = controller.savedTransaction {
-                transactions.insert(transaction, at: 0)
-            }
-        }
-        
-        preFilterContent(scope: preFilter.selectedSegmentIndex)
+        // Now done by notification and TransactionManager
     }
     
     @IBAction func deleteTransaction (segue: UIStoryboardSegue) {
-        
 //        if let detailController = segue.source as? DetailTransactionViewController {
 //            
 //            let dc = (UIApplication.shared.delegate as! AppDelegate).dataController!
 //            
 //            dc.delete(transaction: detailController.transaction!)
 //            
-//            transactions = dc.fetchTransactions()
-//            // Sorting transcactions by startDate, so that the newest commes first
-//            // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
-//            transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
-//            preFilterContent(scope: preFilter.selectedSegmentIndex)
-//            
+//            fetchData()
 //        }
-        
     }
     
     @IBAction func preFilterChanged(_ sender: UISegmentedControl) {
@@ -62,30 +41,26 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     }
     
     
+    // MARK: - Variable
     
     // https://www.raywenderlich.com/113772/uisearchcontroller-tutorial
     let searchController = UISearchController(searchResultsController: nil)
-    
-    
     
     var transactions = [Transaction]()
     var preFilterdTransactions = [Transaction]()
     var filteredTransactions = [Transaction]()
     
 
-    // MARK: - viewDidLoad
+    // MARK: - Default override
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let dataController = (UIApplication.shared.delegate as! AppDelegate).dataController
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
         
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
@@ -99,37 +74,55 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
 //        searchController.searchBar.sizeToFit()
 //        self.tableView.tableHeaderView = searchController.searchBar
         
-        transactions = dataController!.fetchTransactions()
-        // Sorting transcactions by startDate, so that the newest commes first
-        // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
-        transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
         
-        preFilterContent(scope: 0)
+        // Register to receive notification
         
+        // Observe listen for transactionSavedNotification
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnTransactionSavedNotification),
+                                               name: .transactionSavedNotification,
+                                               object: nil)
+        
+        // Observe listen for transactionClosedNotification
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnTransactionClosedNotification),
+                                               name: .transactionClosedNotification,
+                                               object: nil)
+        
+        // Observe listen for transactionSavedNotification
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnCreateTransactionNotification),
+                                               name: .createTransactionNotification,
+                                               object: nil)
+        
+        // Observe listen for transactionSavedNotification
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnCloseTransactionNotification),
+                                               name: .closeTransactionNotification,
+                                               object: nil)
+        
+        fetchData()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        transactions = (UIApplication.shared.delegate as! AppDelegate).dataController!.fetchTransactions()
-        // Sorting transcactions by startDate, so that the newest commes first
-        // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
-        transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
-        preFilterContent(scope: preFilter.selectedSegmentIndex)
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+    
+    // only needed for debug data remove in releas version
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchData()
     }
 
     
+    // MARK: - Table view data source
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive && searchController.searchBar.text != "" {
             return filteredTransactions.count
@@ -137,17 +130,7 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         return preFilterdTransactions.count
     }
     
- 
-    
-    
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "customcell", for: indexPath)
-//        cell.textLabel?.text = descriptions[indexPath.item]
-//        cell.detailTextLabel?.text = peers[indexPath.item]
-//        cell.im.imageView = Assets
-//        return cell
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "customcell", for: indexPath)
         let transaction: Transaction
         if searchController.isActive && searchController.searchBar.text != "" {
@@ -170,7 +153,6 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
 //    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
 //        performSegue(withIdentifier: "TransactionDetailViewController", sender: indexPath)
 //    }
-   
     
     
     /*
@@ -208,17 +190,32 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        //
+        if segue.identifier == "showDetail" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let transaction: Transaction
+                if searchController.isActive && searchController.searchBar.text != "" {
+                    transaction = filteredTransactions[indexPath.row]
+                } else {
+                    transaction = preFilterdTransactions[indexPath.row]
+                }
+//                let controller = segue.destination as! DetailTransactionViewController
+//                controller.transaction = transaction
+                
+                //controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+                //controller.navigationItem.leftItemsSupplementBackButton = true
+            }
+        }
     }
-    */
+    
     
     // MARK: - UISearchResultsUpdating
+    
     @available(iOS 8.0, *)
     public func updateSearchResults(for searchController: UISearchController) {
 //        let searchBar = searchController.searchBar
@@ -258,46 +255,99 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     
     func filterContentForSearchText(searchText: String) {
         filteredTransactions = preFilterdTransactions.filter { transaction in
-//            var categoryMatch = false
-//            
-//            if scope == "Loan" {
-//                categoryMatch = transaction.incoming
-//            }
-//            else if scope == "Debt" {
-//                categoryMatch = !transaction.incoming
-//            }
-//            else if scope == "Past" {
-//                categoryMatch = false
-//            }
-//            else {
-//                categoryMatch = true
-//            }
-            
-//            return categoryMatch && ((transaction.itemDescription?.lowercased().contains(searchText.lowercased()))! || (transaction.peer?.customName!.lowercased().contains(searchText.lowercased()))!)
-            
             return ((transaction.itemDescription?.lowercased().contains(searchText.lowercased()))! || (transaction.peer?.customName!.lowercased().contains(searchText.lowercased()))!)
         }
         
         tableView.reloadData()
     }
     
-    // MARK: - Segues
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //
-        if segue.identifier == "showDetail" {
-            if let indexPath = tableView.indexPathForSelectedRow {
-                let transaction: Transaction
-                if searchController.isActive && searchController.searchBar.text != "" {
-                    transaction = filteredTransactions[indexPath.row]
-                } else {
-                    transaction = preFilterdTransactions[indexPath.row]
-                }
-//                let controller = segue.destination as! DetailTransactionViewController
-//                controller.transaction = transaction
-                
-                //controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
-                //controller.navigationItem.leftItemsSupplementBackButton = true
-            }
+    
+    // MARK: - Notification
+    
+    func actOnTransactionSavedNotification(_ notification: NSNotification) {
+        if (notification.userInfo?["isCreated"] as! Bool) {
+            fetchData()
         }
+    }
+    
+    func actOnTransactionClosedNotification(_ notification: NSNotification) {
+        if (notification.userInfo?["isClosed"] as! Bool) {
+            fetchData()
+        }
+    }
+    
+    func actOnCreateTransactionNotification(_ notification: NSNotification) {
+        if let transaction = (notification.userInfo?["transaction"] as? TransactionData) {
+            showAcceptTransactionAlert(transaction: transaction)
+        }
+    }
+    
+    func actOnCloseTransactionNotification(_ notification: NSNotification) {
+        if let transaction = (notification.userInfo?["transaction"] as? Transaction) {
+            showCloseTransactionAlert(transaction: transaction)
+        }
+    }
+    
+    
+    // MARK: - Helper
+    
+    func fetchData() {
+        transactions = (UIApplication.shared.delegate as! AppDelegate).dataController!.fetchTransactions()
+        
+        // Sorting transcactions by startDate, so that the newest commes first
+        // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
+        transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
+        
+        preFilterContent(scope: preFilter.selectedSegmentIndex)
+    }
+    
+    func showAcceptTransactionAlert(transaction: TransactionData) {
+        let alert = UIAlertController(title: "Accept Transaction?",
+                                      message: "\(transaction.senderName) wants to send you the transaction:\n\(transaction.transactionDescription)\n\nDo you accept it?",
+                                      preferredStyle: .alert)
+    
+        let noAction = UIAlertAction(title: "No",
+                                     style: .cancel,
+                                     handler: {
+                                        (_)in
+                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.receiveAndProcess(create: transaction, accepted: false)
+        })
+    
+        let yesAction = UIAlertAction(title: "Yes",
+                                      style: .default,
+                                      handler: {
+                                        (_)in
+                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.receiveAndProcess(create: transaction, accepted: true)
+        })
+    
+    
+        alert.addAction(noAction)
+        alert.addAction(yesAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showCloseTransactionAlert(transaction: Transaction) {
+        let alert = UIAlertController(title: "Close Transaction?",
+                                      message: "\(transaction.peer?.customName) wants to close the transaction:\n\(transaction.itemDescription)\n\nDo you accept that?",
+                                      preferredStyle: .alert)
+        
+        let noAction = UIAlertAction(title: "No",
+                                     style: .cancel,
+                                     handler: {
+                                        (_)in
+                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.receiveAndProcess(close: transaction, accepted: false)
+        })
+        
+        let yesAction = UIAlertAction(title: "Yes",
+                                      style: .default,
+                                      handler: {
+                                        (_)in
+                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.receiveAndProcess(close: transaction, accepted: true)
+        })
+        
+        
+        alert.addAction(noAction)
+        alert.addAction(yesAction)
+        self.present(alert, animated: true, completion: nil)
     }
 }

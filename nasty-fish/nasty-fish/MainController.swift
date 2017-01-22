@@ -10,7 +10,6 @@ import UIKit
 
 class MainController: UITabBarController {
     
-    
     // MARK: - @IBAction
     
     @IBAction func cancelToMain(segue:UIStoryboardSegue) {
@@ -23,8 +22,13 @@ class MainController: UITabBarController {
     }
     
     
+    // MARK: - Variable
+    
     var dataController: DataController? = nil
     var transactionManager: TransactionManager!
+    
+    
+    // MARK: - Default override
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +42,7 @@ class MainController: UITabBarController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        // If user has no nickname show settings view
+        // Ckeck for user custom name, if user has no custom name show settings view
         if dataController?.fetchUserCustomName() == nil {
             self.performSegue(withIdentifier: "Settings", sender: self)
         }
@@ -46,15 +50,4 @@ class MainController: UITabBarController {
             transactionManager.initializeCommunicationController()
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
