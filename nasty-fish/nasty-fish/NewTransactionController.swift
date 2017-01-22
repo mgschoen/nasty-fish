@@ -101,8 +101,11 @@ class NewTransactionController: UITableViewController {
         checkUserInput()
     }
     
+    
     // MARK: - Variables
+    
     var pickerData = [String]()
+    
     
     // MARK: - Getter
     
@@ -166,7 +169,7 @@ class NewTransactionController: UITableViewController {
     }
     
     
-    
+    // MARK: - Default override
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -186,6 +189,13 @@ class NewTransactionController: UITableViewController {
         tapRecognizer.addTarget(self, action: #selector(NewTransactionController.didTapView))
         self.view.addGestureRecognizer(tapRecognizer)
         
+        // Register to receive notification in your class
+        // Observe listen for transactionSavedNotificationKey
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(NewTransactionController.actOnTransactionSavedNotification),
+                                               name: .transactionSavedNotification,
+                                               object: nil)
+        // load P2P clients
         pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchClients())!
     }
 
@@ -234,14 +244,39 @@ class NewTransactionController: UITableViewController {
     }
     */
     
+    /*
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        
-        
         return true
+    }
+    */
+    
+    
+    // MARK: - Notification
+    
+    func actOnTransactionSavedNotification(_ notification: NSNotification) {
+        if let transaction = notification.userInfo?["transaction"] as? Transaction {
+            savedTransaction = transaction;
+            
+            self.performSegue(withIdentifier: "savedTransaction", sender: self)
+        }
+        else {
+            savedTransaction = nil
+            
+            let alert = UIAlertController(title: "Transmission failed",
+                                          message: "Transaction was not created successfully.",
+                                          preferredStyle: UIAlertControllerStyle.alert)
+            
+            alert.addAction(UIAlertAction(title: "Ok",
+                                          style: UIAlertActionStyle.default,
+                                          handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     
-    // Mark: - Helper
+    // MARK: - Helper
+    
     func didTapView(){
         self.view.endEditing(true)
     }
@@ -260,7 +295,7 @@ class NewTransactionController: UITableViewController {
             formatter.generatesDecimalNumbers = true
             formatter.numberStyle = NumberFormatter.Style.decimal
             
-            
+            print("checkUserInput amountTextField.text: \(amountTextField.text)")
             if (formatter.number(from: amountTextField.text!) as? NSDecimalNumber) == nil  {
                 isValid = false
             }
@@ -306,7 +341,7 @@ extension NewTransactionController: UIPickerViewDelegate, UIPickerViewDataSource
 
 extension NewTransactionController: UITextFieldDelegate {
     
-    // Mark: - UITextFieldDelegate
+    // MARK: - UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Hide the keyboard.
         textField.resignFirstResponder()
@@ -337,10 +372,10 @@ extension NewTransactionController: UITextFieldDelegate {
     }
 }
 
-extension NewTransactionController: TransactionManagerDelegate {
-    func transactionSaved(transaction: Transaction?) {
-        if (transaction != nil) {
-            self.performSegue(withIdentifier: "savedTransaction", sender: self)
-        }
-    }
-}
+//extension NewTransactionController: TransactionManagerDelegate {
+//    func transactionSaved(transaction: Transaction?) {
+//        if (transaction != nil) {
+//            self.performSegue(withIdentifier: "savedTransaction", sender: self)
+//        }
+//    }
+//}

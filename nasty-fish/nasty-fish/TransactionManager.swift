@@ -10,10 +10,10 @@ import UIKit
 import Foundation
 
 
-protocol TransactionManagerDelegate {
-    
-    func transactionSaved(transaction: Transaction?)
-}
+//protocol TransactionManagerDelegate {
+//    
+//    func transactionSaved(transaction: Transaction?)
+//}
 
 
 class TransactionManager : NSObject {
@@ -21,12 +21,13 @@ class TransactionManager : NSObject {
     var dataController: DataController?
     var commController: CommController? = nil
     
-    var delegate: TransactionManagerDelegate?
+//    var delegate: TransactionManagerDelegate?
     
     override init(){
         dataController = (UIApplication.shared.delegate as! AppDelegate).dataController
-        
+
         super.init()
+        
     }
     
     func initializeCommunicationController() {
@@ -50,7 +51,6 @@ class TransactionManager : NSObject {
     }
     
     func processTransaction(newTransaction: TransactionData) {
-        
         let result = commController!.sendExplicitDataToPartner(uuid: newTransaction.peerId,
                                                                customName: newTransaction.peerName,
                                                                incoming: newTransaction.isIncomming,
@@ -60,14 +60,27 @@ class TransactionManager : NSObject {
                                                                dueDate: newTransaction.dueDate!,
                                                                imageURL: newTransaction.imageURL!,
                                                                sameDueDate: newTransaction.dueWhenTransactionIsDue!)
+        
+        var userInfo:[String: Transaction?] = ["transaction": nil]
+        
         if (result.0) {
             let transaction = storeNewTransaction(newTransaction: newTransaction)
-        
-            delegate?.transactionSaved(transaction: transaction)
+            
+            userInfo["transaction"] = transaction
+            
+            // post a notification
+            NotificationCenter.default.post(name: .transactionSavedNotification,
+                                            object: nil,
+                                            userInfo: userInfo)
         }
         else {
-            delegate?.transactionSaved(transaction: nil)
+            // post a notification
+            NotificationCenter.default.post(name: .transactionSavedNotification,
+                                            object: nil,
+                                            userInfo: userInfo)
         }
+        
+    
     }
     
     func process(savedTranscaction: Transaction) {
