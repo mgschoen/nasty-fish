@@ -227,6 +227,8 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         }
 
     }
+    
+    
     /**
         Sends data over a MultipeerConnectivity session. Takes a Dictionary containing the composed Transaction Information
      
@@ -476,14 +478,53 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     }
     
     /* 
-     Function to send Strings to all connected peers
+        Function to send Strings to all connected peers
+     
+        - Parameter transactionInfo : String contaiing all Information that should be sent
      */
     func sendNFTransaction(transactionInfo : String) -> Bool {
         NSLog("%@", "sendNFTransaction: \(transactionInfo)")
+        
+        if session.connectedPeers.isEmpty {
+            NSLog("%@", "sendNFTransaction failed: no peers available" +
+                "\(session.connectedPeers) \(transactionInfo)")
+        }
+        return sendNFTransaction(transactionInfo, session.connectedPeers)
+    }
+    
+    /*
+        Function to send Strings to the specified Partner
+     
+     - Parameter transactionInfo : String containing all Information that should be sent
+     
+     - Parameter partner: String indentifiying the receiving partner
+     */
+    func sendNFTransaction(transactionInfo : String, partner : String) -> Bool {
+        var peerID = MCPeerID()
+        if (foundPartnersIDs.contains(partner)) {
+            //search for the partnerID in the ID Array and use index to resolve the
+            var index = foundPartnersIDs.index(where: {$0 == partner})
+            peerID = foundPartners[index!]
+        }
+        return sendNFTransaction(transactionInfo, [peerID])
+    }
+    
+    /*
+     Function to send Strings to the specified Partner
+     
+     - Parameter transactionInfo : String contaiing all Information to be sent
+     
+     - Parameter peer: MCPeerID Instance indentifiying the receiving partner
+     */
+    func sendNFTransaction(_ transactionInfo : String, _ peer : [MCPeerID]) -> Bool {
+        
+        NSLog("%@", "sendNFTransaction: \(transactionInfo)")
+        
         var transactionSent : Bool = true
+        
         if !(session.connectedPeers.isEmpty) {
             do {
-                try self.session.send(transactionInfo.data(using: String.Encoding.utf8, allowLossyConversion: false)!, toPeers: session.connectedPeers, with: MCSessionSendDataMode.reliable)
+                try self.session.send(transactionInfo.data(using: String.Encoding.utf8, allowLossyConversion: false)!, toPeers: peer, with: MCSessionSendDataMode.reliable)
             }
             catch {
                 NSLog("%@", "\(error)")
@@ -491,6 +532,10 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
             }
         }
         return transactionSent
+    }
+    
+    func sendToPartner(_ data: TransactionData) {
+        
     }
     
     /* ------------------------------------------------------------------------------------ *
