@@ -40,7 +40,7 @@ class NewTransactionController: UITableViewController {
                                           dueWhenTransactionIsDue: nil)
         
         
-        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendAndProcess(newTransaction: transaction)
+        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendAndProcess(create: transaction)
                 
         
         
@@ -189,7 +189,7 @@ class NewTransactionController: UITableViewController {
         // Register to receive notification
         // Observe listen for transactionSavedNotification
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(NewTransactionController.actOnTransactionSavedNotification),
+                                               selector: #selector(self.actOnTransactionSavedNotification),
                                                name: .transactionSavedNotification,
                                                object: nil)
         
@@ -252,7 +252,7 @@ class NewTransactionController: UITableViewController {
     // MARK: - Notification
     
     func actOnTransactionSavedNotification(_ notification: NSNotification) {
-        if (notification.userInfo?["transaction"] as? Transaction) != nil {
+        if (notification.userInfo?["isCreated"] as! Bool) {
             self.performSegue(withIdentifier: "savedTransaction", sender: self)
         }
         else {

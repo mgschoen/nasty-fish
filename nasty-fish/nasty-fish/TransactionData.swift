@@ -2,7 +2,7 @@
 //  TransactionData.swift
 //  nasty-fish
 //
-//  Created by manu on 21.01.17.
+//  Created by Manuel Hartmann on 21.01.17.
 //  Copyright © 2017 Gruppe 08. All rights reserved.
 //
 
@@ -31,4 +31,8 @@ extension Notification.Name {
     static let transactionSavedNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionSaved")
     
     static let transactionClosedNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionClosed")
+    
+    static let createTransactionNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.creatTransaction")
+    
+    static let closeTransactionNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.closeTransaction")
 }
