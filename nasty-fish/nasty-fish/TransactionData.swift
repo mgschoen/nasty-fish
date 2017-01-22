@@ -9,11 +9,11 @@
 import Foundation
 
 struct TransactionData {
-    var userId: String
-    var userName: String
+    var senderId: String
+    var senderName: String
     
-    var peerId: String
-    var peerName: String
+    var receiverId: String
+    var receiverName: String
     
     var transactionId: UUID
     var transactionDescription: String
@@ -32,4 +32,3 @@ extension Notification.Name {
     
     static let transactionClosedNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionClosed")
 }
-

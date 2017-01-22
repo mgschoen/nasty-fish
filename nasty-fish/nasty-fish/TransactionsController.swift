@@ -99,22 +99,34 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
 //        searchController.searchBar.sizeToFit()
 //        self.tableView.tableHeaderView = searchController.searchBar
         
-        transactions = dataController!.fetchTransactions()
-        // Sorting transcactions by startDate, so that the newest commes first
-        // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
-        transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
+        // Register to receive notification
+        // Observe listen for transactionSavedNotification
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(NewTransactionController.actOnTransactionSavedNotification),
+                                               name: .transactionSavedNotification,
+                                               object: nil)
         
-        preFilterContent(scope: 0)
+        fetchData()
+        
+//        transactions = dataController!.fetchTransactions()
+//        // Sorting transcactions by startDate, so that the newest commes first
+//        // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
+//        transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
+//        
+//        preFilterContent(scope: 0)
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        transactions = (UIApplication.shared.delegate as! AppDelegate).dataController!.fetchTransactions()
-        // Sorting transcactions by startDate, so that the newest commes first
-        // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
-        transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
-        preFilterContent(scope: preFilter.selectedSegmentIndex)
+        
+        fetchData()
+        
+//        transactions = (UIApplication.shared.delegate as! AppDelegate).dataController!.fetchTransactions()
+//        // Sorting transcactions by startDate, so that the newest commes first
+//        // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
+//        transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
+//        preFilterContent(scope: preFilter.selectedSegmentIndex)
     }
 
     override func didReceiveMemoryWarning() {
@@ -122,6 +134,7 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         // Dispose of any resources that can be recreated.
     }
 
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -136,10 +149,6 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         }
         return preFilterdTransactions.count
     }
-    
- 
-    
-    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "customcell", for: indexPath)
@@ -258,23 +267,6 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     
     func filterContentForSearchText(searchText: String) {
         filteredTransactions = preFilterdTransactions.filter { transaction in
-//            var categoryMatch = false
-//            
-//            if scope == "Loan" {
-//                categoryMatch = transaction.incoming
-//            }
-//            else if scope == "Debt" {
-//                categoryMatch = !transaction.incoming
-//            }
-//            else if scope == "Past" {
-//                categoryMatch = false
-//            }
-//            else {
-//                categoryMatch = true
-//            }
-            
-//            return categoryMatch && ((transaction.itemDescription?.lowercased().contains(searchText.lowercased()))! || (transaction.peer?.customName!.lowercased().contains(searchText.lowercased()))!)
-            
             return ((transaction.itemDescription?.lowercased().contains(searchText.lowercased()))! || (transaction.peer?.customName!.lowercased().contains(searchText.lowercased()))!)
         }
         
@@ -299,5 +291,29 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
                 //controller.navigationItem.leftItemsSupplementBackButton = true
             }
         }
+    }
+    
+    
+    // MARK: - Notification
+    
+    func actOnTransactionSavedNotification(_ notification: NSNotification) {
+        if let transaction = notification.userInfo?["transaction"] as? Transaction {
+            transactions.insert(transaction, at: 0)
+        }
+        
+        preFilterContent(scope: preFilter.selectedSegmentIndex)
+    }
+    
+    
+    // MARK: - Helper
+    
+    func fetchData() {
+        transactions = (UIApplication.shared.delegate as! AppDelegate).dataController!.fetchTransactions()
+        
+        // Sorting transcactions by startDate, so that the newest commes first
+        // https://stackoverflow.com/questions/26577496/how-do-i-sort-a-swift-array-containing-instances-of-nsmanagedobject-subclass-by
+        transactions.sort(by: {($0.startDate as! Date) > ($1.startDate as! Date)})
+        
+        preFilterContent(scope: preFilter.selectedSegmentIndex)
     }
 }

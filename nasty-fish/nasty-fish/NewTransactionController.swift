@@ -25,10 +25,10 @@ class NewTransactionController: UITableViewController {
     // MARK: - IBActions
     
     @IBAction func saveButtonTaped(_ sender: UIBarButtonItem) {
-        let transaction = TransactionData(userId: ((UIApplication.shared.delegate as! AppDelegate).dataController?.appInstanceId)!,
-                                          userName: ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchUserCustomName())!,
-                                          peerId: peer,
-                                          peerName: "[Undefined]",
+        let transaction = TransactionData(senderId: ((UIApplication.shared.delegate as! AppDelegate).dataController?.appInstanceId)!,
+                                          senderName: ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchUserCustomName())!,
+                                          receiverId: peer,
+                                          receiverName: "[Undefined]",
                                           transactionId: UUID(),
                                           transactionDescription: transactionDescription,
                                           isIncomming: isIncomming,
@@ -40,7 +40,7 @@ class NewTransactionController: UITableViewController {
                                           dueWhenTransactionIsDue: nil)
         
         
-        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.process(newTransaction: transaction)
+        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendAndProcess(newTransaction: transaction)
                 
         
         
@@ -61,8 +61,6 @@ class NewTransactionController: UITableViewController {
         else {
             directionImage.image = #imageLiteral(resourceName: "OutFish")
         }
-    
-    
     }
     
     @IBAction func belongingsChanged(_ sender: UISegmentedControl) {
@@ -188,12 +186,13 @@ class NewTransactionController: UITableViewController {
         tapRecognizer.addTarget(self, action: #selector(NewTransactionController.didTapView))
         self.view.addGestureRecognizer(tapRecognizer)
         
-        // Register to receive notification in your class
-        // Observe listen for transactionSavedNotificationKey
+        // Register to receive notification
+        // Observe listen for transactionSavedNotification
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(NewTransactionController.actOnTransactionSavedNotification),
                                                name: .transactionSavedNotification,
                                                object: nil)
+        
         // load P2P clients
         pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchClients())!
     }
@@ -253,14 +252,10 @@ class NewTransactionController: UITableViewController {
     // MARK: - Notification
     
     func actOnTransactionSavedNotification(_ notification: NSNotification) {
-        if let transaction = notification.userInfo?["transaction"] as? Transaction {
-            savedTransaction = transaction;
-            
+        if (notification.userInfo?["transaction"] as? Transaction) != nil {
             self.performSegue(withIdentifier: "savedTransaction", sender: self)
         }
         else {
-            savedTransaction = nil
-            
             let alert = UIAlertController(title: "Transmission failed",
                                           message: "Transaction was not created successfully.",
                                           preferredStyle: UIAlertControllerStyle.alert)
