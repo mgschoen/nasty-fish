@@ -10,18 +10,11 @@ import UIKit
 import Foundation
 
 
-//protocol TransactionManagerDelegate {
-//    
-//    func transactionSaved(transaction: Transaction?)
-//}
-
-
 class TransactionManager : NSObject {
 
     var dataController: DataController?
     var commController: CommController? = nil
     
-//    var delegate: TransactionManagerDelegate?
     
     override init(){
         dataController = (UIApplication.shared.delegate as! AppDelegate).dataController
@@ -29,6 +22,44 @@ class TransactionManager : NSObject {
         super.init()
         
     }
+
+    
+    // MARK: -
+    
+    // create Transaction
+    func process(newTransaction: TransactionData) {
+        let result = sendExplicitDataToPartner(newTransaction: newTransaction)
+        
+        var userInfo:[String: Transaction?] = ["transaction": nil]
+        if (result.0) {
+            let transaction = storeNewTransaction(newTransaction: newTransaction)
+            
+            userInfo["transaction"] = transaction
+        }
+        
+        // post a notification
+        NotificationCenter.default.post(name: .transactionSavedNotification,
+                                        object: nil,
+                                        userInfo: userInfo)
+    }
+    
+    // close Transaction
+    func process(savedTranscaction: Transaction) {
+        
+        
+        dataController?.closeTransaction(savedTranscaction, returnDate: NSDate())
+        
+        // post a notification
+        NotificationCenter.default.post(name: .transactionClosedNotification,
+                                        object: nil)
+    }
+    
+    func finalize(clientId: String, transactionId: String, successful: Bool) {
+        
+    }
+    
+    
+    // MARK: - CommunicationController
     
     func initializeCommunicationController() {
         print("TransactionManager.initializeCommunicationController()")
@@ -50,8 +81,8 @@ class TransactionManager : NSObject {
         return commController!.foundPartnersIDs
     }
     
-    func processTransaction(newTransaction: TransactionData) {
-        let result = commController!.sendExplicitDataToPartner(uuid: newTransaction.peerId,
+    func sendExplicitDataToPartner(newTransaction: TransactionData) -> (Bool, uuid: String) {
+        return commController!.sendExplicitDataToPartner(uuid: newTransaction.peerId,
                                                                customName: newTransaction.peerName,
                                                                incoming: newTransaction.isIncomming,
                                                                isMoney: newTransaction.isMoney,
@@ -60,45 +91,12 @@ class TransactionManager : NSObject {
                                                                dueDate: newTransaction.dueDate!,
                                                                imageURL: newTransaction.imageURL!,
                                                                sameDueDate: newTransaction.dueWhenTransactionIsDue!)
-        
-        var userInfo:[String: Transaction?] = ["transaction": nil]
-        
-        if (result.0) {
-            let transaction = storeNewTransaction(newTransaction: newTransaction)
-            
-            userInfo["transaction"] = transaction
-            
-            // post a notification
-            NotificationCenter.default.post(name: .transactionSavedNotification,
-                                            object: nil,
-                                            userInfo: userInfo)
-        }
-        else {
-            // post a notification
-            NotificationCenter.default.post(name: .transactionSavedNotification,
-                                            object: nil,
-                                            userInfo: userInfo)
-        }
-        
-    
     }
-    
-    func process(savedTranscaction: Transaction) {
-    
-        
-        
-    }
-    
-    func finalize(clientId: String, transactionId: String, successful: Bool) {
-    
-    }
-    
     
     
     // MARK: - DataController
     
     func storeNewTransaction(newTransaction: TransactionData) -> Transaction? {
-        
         var peer = dataController?.fetchPeer(icloudID: newTransaction.peerId)
         if peer == nil {
             peer = dataController?.storeNewPeer(icloudID: newTransaction.peerId, customName: newTransaction.peerName, avatarURL: nil)

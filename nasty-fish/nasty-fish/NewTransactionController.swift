@@ -25,7 +25,6 @@ class NewTransactionController: UITableViewController {
     // MARK: - IBActions
     
     @IBAction func saveButtonTaped(_ sender: UIBarButtonItem) {
-        
         let transaction = TransactionData(userId: ((UIApplication.shared.delegate as! AppDelegate).dataController?.appInstanceId)!,
                                           userName: ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchUserCustomName())!,
                                           peerId: peer,
@@ -41,7 +40,7 @@ class NewTransactionController: UITableViewController {
                                           dueWhenTransactionIsDue: nil)
         
         
-        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.processTransaction(newTransaction: transaction)
+        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.process(newTransaction: transaction)
                 
         
         
@@ -353,11 +352,8 @@ extension NewTransactionController: UITextFieldDelegate {
         textField.resignFirstResponder()
     }
     
-    func textField(_ textField: UITextField,
-                            shouldChangeCharactersIn range: NSRange,
-                            replacementString string: String) -> Bool {
-        
-        //
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // checks amountTextField, so the user only can enter valide values for money
         if textField == amountTextField {
             if  let amount = textField.text {
                 let amountArr = amount.components(separatedBy: ",")
@@ -371,11 +367,3 @@ extension NewTransactionController: UITextFieldDelegate {
         return true
     }
 }
-
-//extension NewTransactionController: TransactionManagerDelegate {
-//    func transactionSaved(transaction: Transaction?) {
-//        if (transaction != nil) {
-//            self.performSegue(withIdentifier: "savedTransaction", sender: self)
-//        }
-//    }
-//}

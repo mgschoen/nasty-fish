@@ -29,5 +29,7 @@ struct TransactionData {
 
 extension Notification.Name {
     static let transactionSavedNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionSaved")
+    
+    static let transactionClosedNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionClosed")
 }
 
