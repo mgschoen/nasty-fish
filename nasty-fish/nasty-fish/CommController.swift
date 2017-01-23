@@ -452,6 +452,9 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         - Parameter nastyFishPartnerIdentifier: The UUID-String that identifies each partner for transactions
     */
     func resolveMCPeerID(forKey nastyFishPartnerIdentifier: String) -> MCPeerID {
+        if !(foundPartnersIDs.contains(nastyFishPartnerIdentifier)){
+           NSLog("%@", "Could not resolve Transaction Receiver - Unknown Peer String")
+        }
         let index = foundPartnersIDs.index(of: nastyFishPartnerIdentifier)!
         return foundPartners[index]
     }
