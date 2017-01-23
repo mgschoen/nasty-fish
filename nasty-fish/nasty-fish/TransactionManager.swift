@@ -9,7 +9,6 @@
 import UIKit
 import Foundation
 
-
 class TransactionManager : NSObject {
 
     // MARK: - Variable

@@ -22,18 +22,18 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tuy-r6-3D7" id="TGA-d8-2E1">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="59.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="342" height="59"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0tF-XS-DyZ">
-                                            <rect key="frame" x="80" y="11" width="39" height="24"/>
+                                            <rect key="frame" x="80" y="10" width="39" height="24"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IIp-vv-tUQ">
-                                            <rect key="frame" x="80" y="35" width="44" height="14.5"/>
+                                            <rect key="frame" x="80" y="34" width="44" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
@@ -88,7 +88,7 @@
         <scene sceneID="gMW-TI-ZRE">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0ID-ba-iHr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Transactions" image="cans" id="Bi7-lE-jgK"/>
+                    <tabBarItem key="tabBarItem" title="Transactions" image="can_unselected" selectedImage="can_selected" id="Bi7-lE-jgK"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="6qI-ql-0yI">
@@ -132,7 +132,8 @@
     </scenes>
     <resources>
         <image name="OutFish" width="50" height="50"/>
-        <image name="cans" width="22" height="22"/>
+        <image name="can_selected" width="25" height="25"/>
+        <image name="can_unselected" width="25" height="25"/>
     </resources>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

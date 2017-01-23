@@ -26,7 +26,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <items>
-                                    <tabBarItem title="Transactions" image="cans" id="LNc-2o-Qa3"/>
+                                    <tabBarItem title="Transactions" image="can_unselected" selectedImage="can_selected" id="LNc-2o-Qa3"/>
                                     <tabBarItem systemItem="more" id="okD-WT-pGo"/>
                                 </items>
                             </tabBar>
@@ -35,8 +35,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="NvD-in-4mr">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="NNS-3b-yXU">
-                            <rect key="frame" x="98" y="7" width="179" height="30"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="NNS-3b-yXU">
+                            <rect key="frame" x="70" y="7" width="235" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="All"/>
@@ -73,7 +73,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cans" width="22" height="22"/>
+        <image name="can_selected" width="25" height="25"/>
+        <image name="can_unselected" width="25" height="25"/>
     </resources>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
