@@ -19,7 +19,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     var uuid: String!
     
     var delegate: CommControllerDelegate?
-    
+        
     var foundPartners = [MCPeerID]()
     var invitingPartners = [MCPeerID]()
     var foundPartnersAdvertisedData = Dictionary<MCPeerID, Dictionary<String, String>>()
@@ -129,10 +129,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
                                                selector: #selector(handleMPCReceivedDataWithNotification),
                                                name: NSNotification.Name("receivedMPCDataNotification"),
                                                object: nil)
-        // TODO
-        // Check this again
-        delegate = ServiceDel()
-        
     }
     deinit {
         session.disconnect()
