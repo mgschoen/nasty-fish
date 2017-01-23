@@ -28,27 +28,31 @@ class DetailTransactionViewController: UITableViewController {
    
    @IBOutlet weak var loandebtImage: UIImageView!
   
+    @IBOutlet weak var deleted: UIBarButtonItem!
 
 
    //popup Msg for delete Transaction
         
         @IBAction func showAlert() {
-            let alertController = UIAlertController(title: "Are you sure, you what to delete the Transaction ?", message: "What do you want to do?", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Transaction", message: "Are you sure you what to delete ur transaction?", preferredStyle: .alert)
             
             
+           
             
-            let defaultActionYes = UIAlertAction(title: "delete", style: .default, handler: nil)
-            alertController.addAction(defaultActionYes)
+            let confirmAction = UIAlertAction(title: "delete", style: .destructive, handler: nil)
+            alertController.addAction(confirmAction)
+           
             
             
-            let defaultActionNo
-                = UIAlertAction(title: "cancel", style: .default, handler: nil)
+            let cancelAction
+                = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
             
-            alertController.addAction(defaultActionNo)
             
-            present(alertController, animated: true, completion: nil)
-          
+            //present(alertController, animated: true, completion: nil)
+          self.present(alertController, animated: true, completion: nil)
         }
+    
     
     
 

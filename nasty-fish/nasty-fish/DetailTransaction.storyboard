@@ -72,7 +72,7 @@
                             <tableViewSection headerTitle="Detail" id="lbz-Md-CSk">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="eId-dC-S3H">
-                                        <rect key="frame" x="0.0" y="216" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="215" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eId-dC-S3H" id="XP9-O4-BVJ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -100,7 +100,7 @@
                             <tableViewSection id="8C1-QA-oul">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="sS8-iz-fI8">
-                                        <rect key="frame" x="0.0" y="296" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="295" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sS8-iz-fI8" id="cIY-9a-qtx">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -135,6 +135,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="deleted" destination="vxD-8o-nzh" id="ndq-BF-L7h"/>
                         <outlet property="isMoney" destination="g7R-Ex-tWY" id="eh1-xj-eeL"/>
                         <outlet property="itemDescription" destination="b6W-9X-p1R" id="Onv-jw-h9W"/>
                         <outlet property="loandebt" destination="hiq-K9-66x" id="6eS-0D-hYa"/>
@@ -146,7 +147,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J9o-jt-o7I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3334" y="19"/>
+            <point key="canvasLocation" x="3375" y="-54"/>
         </scene>
     </scenes>
     <resources>
