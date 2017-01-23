@@ -22,7 +22,8 @@ class DetailTransactionViewController: UITableViewController {
     
     @IBOutlet weak var quantity: UILabel!
     
-    @IBOutlet weak var `return`: UIButton!
+   
+    @IBOutlet weak var returnD: UIButton!
     
     @IBOutlet weak var loandebt: UILabel!
     
@@ -94,7 +95,7 @@ class DetailTransactionViewController: UITableViewController {
             
             if let quantityInt = transaction?.quantity {
                 if moneyBool {
-                    quantity.text = "Money"
+                    quantity.text = String(quantityInt) + "€"
                     
                 }else{
                     
@@ -107,17 +108,16 @@ class DetailTransactionViewController: UITableViewController {
         if let incomingBool = transaction?.incoming {
             if incomingBool{
                 loandebt.text = "loan"
-                loandebtImage.image = UIImage(named: "in")
+                loandebtImage.image = #imageLiteral(resourceName: "InFish")
                 
            
             }else{
                 loandebt.text = "debt"
-                loandebtImage.image = UIImage (named: "out")
+                loandebtImage.image = #imageLiteral(resourceName: "OutFish")
            
             }
           
             }
-        
       
    
         }

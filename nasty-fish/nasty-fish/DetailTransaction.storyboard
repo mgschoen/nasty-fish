@@ -60,7 +60,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kas-By-S4o">
-                                                    <rect key="frame" x="143" y="6" width="46" height="30"/>
+                                                    <rect key="frame" x="117" y="6" width="72" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Button"/>
                                                 </button>
@@ -95,11 +95,11 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="9AN-ZJ-GFD">
-                                        <rect key="frame" x="0.0" y="260" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="46" id="9AN-ZJ-GFD">
+                                        <rect key="frame" x="0.0" y="260" width="375" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9AN-ZJ-GFD" id="zj1-8X-zNg">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KH6-x1-i6k">
@@ -140,7 +140,7 @@
                         <outlet property="loandebtImage" destination="yCw-H4-8a1" id="U1G-Yl-eru"/>
                         <outlet property="peer" destination="KH6-x1-i6k" id="pna-Cv-fej"/>
                         <outlet property="quantity" destination="Daa-TY-xEU" id="hxX-4K-WNR"/>
-                        <outlet property="return" destination="kas-By-S4o" id="J0Q-iy-5Mg"/>
+                        <outlet property="returnD" destination="kas-By-S4o" id="rML-kO-IVD"/>
                         <segue destination="HJb-jH-HKX" kind="unwind" identifier="deleteTransaction" unwindAction="deleteTransactionWithSegue:" id="ECs-sO-i9w"/>
                     </connections>
                 </tableViewController>
