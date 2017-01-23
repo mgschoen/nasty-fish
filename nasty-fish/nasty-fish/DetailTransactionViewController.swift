@@ -17,6 +17,7 @@ class DetailTransactionViewController: UITableViewController {
     
     @IBOutlet weak var peer: UILabel!
     
+    
     @IBOutlet weak var isMoney: UILabel!
     
     @IBOutlet weak var quantity: UILabel!
@@ -28,20 +29,22 @@ class DetailTransactionViewController: UITableViewController {
    
    @IBOutlet weak var loandebtImage: UIImageView!
   
-    @IBOutlet weak var deleted: UIBarButtonItem!
 
 
    //popup Msg for delete Transaction
         
         @IBAction func showAlert() {
-            let alertController = UIAlertController(title: "Transaction", message: "Are you sure you what to delete ur transaction?", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Delete Transaction", message: "Are you sure you what to delete the Transaction?", preferredStyle: .alert)
             
             
            
             
-            let confirmAction = UIAlertAction(title: "delete", style: .destructive, handler: nil)
-            alertController.addAction(confirmAction)
-           
+            let deleteAction = UIAlertAction(title: "delete", style: .destructive, handler: nil)
+            alertController.addAction(deleteAction)
+            
+            
+            
+            
             
             
             let cancelAction
@@ -49,8 +52,11 @@ class DetailTransactionViewController: UITableViewController {
             alertController.addAction(cancelAction)
             
             
+            
             //present(alertController, animated: true, completion: nil)
           self.present(alertController, animated: true, completion: nil)
+            
+            
         }
     
     
