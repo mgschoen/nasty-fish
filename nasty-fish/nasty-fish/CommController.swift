@@ -628,23 +628,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     //Create new peer : MCPeerID
     //reinit session etc
     
-    func inviteAllPeers(){
-        for foundPeer in foundPartners.enumerated(){
-            print("+++ inviting: \(foundPeer.element)")
-            var peerToBeInvited = foundPeer.element
-            browser.invitePeer(peerToBeInvited, to: self.session, withContext: nil, timeout: 20)
-        }
-    }
-    
-    func resolvePeerByPartnerID(_ partnerID : String) -> MCPeerID {
-        var peerID = MCPeerID()
-        if (foundPartnersIDs.contains(partnerID)) {
-            //search for the partnerID in the ID Array and use index to resolve the
-            var index = foundPartnersIDs.index(where: {$0 == partnerID})
-            peerID = foundPartners[index!]
-        }
-        return peerID
-    }
 }
 
 protocol CommControllerDelegate {
