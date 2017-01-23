@@ -46,7 +46,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="VhF-vX-tlT" kind="show" id="IQq-F2-YjE"/>
+                                    <segue destination="VhF-vX-tlT" kind="show" identifier="showDetail" id="IQq-F2-YjE"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
