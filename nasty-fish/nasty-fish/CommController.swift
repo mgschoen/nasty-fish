@@ -503,13 +503,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
      - Parameter partner: String indentifiying the receiving partner
      */
     func sendNFTransaction(transactionInfo : String, partner : String) -> Bool {
-        var peerID = MCPeerID()
-        if (foundPartnersIDs.contains(partner)) {
-            //search for the partnerID in the ID Array and use index to resolve the
-            var index = foundPartnersIDs.index(where: {$0 == partner})
-            peerID = foundPartners[index!]
-        }
-        return sendNFTransaction(transactionInfo, [peerID])
+        return sendNFTransaction(transactionInfo, [resolveMCPeerID(forKey: partner)])
     }
     
     /*
