@@ -602,6 +602,15 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         }
     }
     
+    func resolvePeerByPartnerID(_ partnerID : String) -> MCPeerID {
+        var peerID = MCPeerID()
+        if (foundPartnersIDs.contains(partnerID)) {
+            //search for the partnerID in the ID Array and use index to resolve the
+            var index = foundPartnersIDs.index(where: {$0 == partnerID})
+            peerID = foundPartners[index!]
+        }
+        return peerID
+    }
 }
 
 protocol CommControllerDelegate {
