@@ -548,16 +548,16 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         let dataToSend = NSKeyedArchiver.archivedData(withRootObject: data)
         //let peersArray = NSArray(object: targetPeer)
         
-        var wasSentSuccessful : Bool = true
+        var sentSuccessful : Bool = false
         do {
             try session.send(dataToSend, toPeers: [peer], with: MCSessionSendDataMode.reliable)
             //session.send returns true if the message was successfully enqueued for delivery, or false if an error occurred
+            sentSuccessful = true
         } catch {
             NSLog("%@", "\(error.localizedDescription)")
-            wasSentSuccessful = false
-            return wasSentSuccessful
+            return sentSuccessful
         }
-        return wasSentSuccessful
+        return sentSuccessful
         
     }
     
