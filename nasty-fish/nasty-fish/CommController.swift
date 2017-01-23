@@ -639,5 +639,6 @@ protocol CommControllerDelegate {
     func lostPeer()
     func invitationWasReceived(fromPeer: String)
     func connectedWithPeer(peerID: MCPeerID)
+    func receivedData(_ transaction: TransactionData)
 
 }
