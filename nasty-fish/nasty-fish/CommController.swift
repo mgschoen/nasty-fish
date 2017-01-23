@@ -574,36 +574,50 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         
         // "Extract" the data and the source peer from the received dictionary.
         let data = receivedDataDictionary["data"] as? NSData
-        let fromPeer = receivedDataDictionary["fromPeer"] as! MCPeerID
+//        let fromPeer = receivedDataDictionary["fromPeer"] as! MCPeerID
         
         // Convert the data (NSData) into a Dictionary object.
-        let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data! as Data) as! Dictionary<String, String>
+        //let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data! as Data) as! Dictionary<String, String>
+        let transaction = NSKeyedUnarchiver.unarchiveObject(with: data! as Data) as! TransactionData
         
         // Check if there's an entry with the "message" key.
-        if let nftransaction = dataDictionary["nftransaction"] {
-            // Make sure that the transaction-text is different to "_end_nfcommunication_".
-            if nftransaction != "_end_nfcommunication_"{
-                // Create a new dictionary and set the sender and the received transaction to it.
-                var nfTransactionsDictionary: [String: String] = ["sender": fromPeer.displayName, "nftransaction": nftransaction]
-                
-                // Add this dictionary to the messagesArray array.
-                nfTransactionsArray.append(nfTransactionsDictionary)
-                NSLog("%@", "NFTransaction appended to array")
-                
-                //UPDATE VIEW LIKE
-                // Reload the tableview data and scroll to the bottom using the main thread.
-//                OperationQueue.main.addOperation({ () -> Void in
-//                    self.updateTableview()
-//                })
-            }
-            else{
-                // In this case an "_end_nfcommunication_" transaction-text was received.
-                // One could show an alert view to the user.
-                
-                    session.disconnect()
-                
-            }
-        }
+//        if let nftransaction = dataDictionary["nftransaction"] {
+//            // Make sure that the transaction-text is different to "_end_nfcommunication_".
+//            if nftransaction != "_end_nfcommunication_"{
+//                // Create a new dictionary and set the sender and the received transaction to it.
+//                var nfTransactionsDictionary: [String: String] = ["sender": fromPeer.displayName, "nftransaction": nftransaction]
+//                
+//                // Add this dictionary to the messagesArray array.
+//                nfTransactionsArray.append(nfTransactionsDictionary)
+//                NSLog("%@", "NFTransaction appended to array")
+//                
+//                //UPDATE VIEW LIKE
+//                // Reload the tableview data and scroll to the bottom using the main thread.
+////                OperationQueue.main.addOperation({ () -> Void in
+////                    self.updateTableview()
+////                })
+//            }
+//            else{
+//                // In this case an "_end_nfcommunication_" transaction-text was received.
+//                // One could show an alert view to the user.
+//                
+//                    session.disconnect()
+//                
+//            }
+//        }
+        
+        delegate?.receivedData(transaction)
+        
+        //IF Close 
+        //session.disconnect()
+        
+        // Case Peer new & Transaction New
+        // Case Peer known & Transaction New
+        // Case Peer new & Transaction Old -> Err
+        // Case Peer known & Transaction old -> close
+        
+        //delegate
+        
     }
     
     //TODO
