@@ -438,7 +438,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         var wasSentSuccessful : Bool = true
         do {
             try session.send(dataToSend, toPeers: peersArray as! [MCPeerID], with: MCSessionSendDataMode.reliable)
-            //session.send returns true if the message was successfully enqueued for delivery, or false if an error occurred
         } catch {
             NSLog("%@", "\(error.localizedDescription)")
             wasSentSuccessful = false
@@ -446,21 +445,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         }
         return wasSentSuccessful
     }
-    
-    /* 
-        Function to send Strings to all connected peers
-     
-        - Parameter transactionInfo : String contaiing all Information that should be sent
-     */
-    
-    
-    /*
-        Function to send Strings to the specified Partner
-     
-     - Parameter transactionInfo : String containing all Information that should be sent
-     
-     - Parameter partner: String indentifiying the receiving partner
-     */
     
     /**
      Function to send a TransactioneMessage defined in TransactionManagerHelper.
