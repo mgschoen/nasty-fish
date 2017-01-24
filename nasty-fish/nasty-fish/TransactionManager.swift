@@ -16,6 +16,8 @@ class TransactionManager : NSObject {
     var dataController: DataController?
     var commController: CommController? = nil
     
+    var processingTransaction: TransactionMessage? = nil
+    
     // MARK: - Init
     
     override init(){
@@ -27,66 +29,49 @@ class TransactionManager : NSObject {
     
     // MARK: - Public functions
     
-    // create transaction sender
-    func sendAndProcess(create transaction: TransactionData) {
-        let result = sendExplicitDataToPartner(newTransaction: transaction)
-        
-        var userInfo:[String: Bool] = ["isCreated": false]
-        if (result.0) {
-            let transaction = storeNewTransaction(newTransaction: transaction, isSender: true)
+    // transaction sender
+    func process(send transaction: TransactionMessage) {
+
+        if (transaction.status == .accepted) {
+            if transaction.type == .create {
+                _ = storeTransaction(transaction)
+            }
             
-            if transaction != nil {
-                userInfo["isCreated"] = true
+            if transaction.type == .close {
+                closeTransaction(transaction)
             }
         }
         
         // post a notification
-        NotificationCenter.default.post(name: .transactionSavedNotification,
+        let userInfo:[String: TransactionMessage] = ["TransactionMessage": transaction]
+        NotificationCenter.default.post(name: .transactionReplyNotification,
                                         object: nil,
                                         userInfo: userInfo)
     }
     
-    // close transaction sender
-    func sendAndProcess(close transaction: Transaction) {
-        // Todo use CommController
+    // transaction receiver
+    func process(received transaction: TransactionMessage, accepted: Bool) {
+        var temp = transaction
+        temp.status = accepted ? .accepted : .declined
+        // Todo call CommController
         
-        var userInfo:[String: Bool] = ["isClosed": false]
+        if accepted {
+            if transaction.type == .create {
+                _ = storeTransaction(transaction)
+            }
         
-        dataController?.closeTransaction(transaction, returnDate: NSDate())
-        userInfo["isClosed"] = true
-        
-        
+            if transaction.type == .close {
+                closeTransaction(transaction)
+            }
+        }
+            
         // post a notification
-        NotificationCenter.default.post(name: .transactionClosedNotification,
+        let userInfo:[String: TransactionMessage] = ["TransactionMessage": temp]
+        NotificationCenter.default.post(name: .transactionReplyNotification,
                                         object: nil,
                                         userInfo: userInfo)
     }
     
-    // create transaction receiver
-    func receiveAndProcess(create transaction: TransactionData, accepted: Bool) {
-        // called by delegat from CommController
-        
-        let newTransaction = storeNewTransaction(newTransaction: transaction, isSender: false)
-        let userInfo:[String: Transaction?] = ["transaction": newTransaction]
-        
-        // post a notification
-        NotificationCenter.default.post(name: .transactionSavedNotification,
-                                        object: nil,
-                                        userInfo: userInfo)
-    }
-    
-    
-    // close transaction receiver
-    func receiveAndProcess(close transaction: Transaction, accepted: Bool) {
-        // called by delegat from CommController
-        
-        
-        dataController?.closeTransaction(transaction, returnDate: NSDate())
-        
-        // post a notification
-        NotificationCenter.default.post(name: .transactionClosedNotification,
-                                        object: nil)
-    }
     
     
     // MARK: - CommunicationController
@@ -101,6 +86,9 @@ class TransactionManager : NSObject {
         if let customName = dataController?.fetchUserCustomName() {
             if let uuid = dataController?.appInstanceId {
                 commController = CommController(customName, uuid)
+                
+                commController?.startAdvertisingForPartners()
+                commController?.startBrowsingForPartners()
             }
         }
         
@@ -116,7 +104,7 @@ class TransactionManager : NSObject {
         return partnerIds
     }
     
-    func sendExplicitDataToPartner(newTransaction: TransactionData) -> (Bool, uuid: String) {
+    func sendData(_ transaction: TransactionMessage) -> (Bool) {
         // Todo: use CommController
 //        return commController!.sendExplicitDataToPartner(uuid: newTransaction.peerId,
 //                                                               customName: newTransaction.peerName,
@@ -128,54 +116,79 @@ class TransactionManager : NSObject {
 //                                                               imageURL: newTransaction.imageURL!,
 //                                                               sameDueDate: newTransaction.dueWhenTransactionIsDue!)
         
-        return (true, uuid: "[uuid]")
+        return (true)
     }
-    
     
     // MARK - CommunicationControllerDelegate
     
-    func receivedData(create transaction: TransactionData) {
-        let userInfo:[String: TransactionData?] = ["transactionData": transaction]
+    func receivedData(_ transaction: TransactionMessage) {
+        let userInfo:[String: TransactionMessage] = ["TransactionMessage": transaction]
         
-        // post a notification
-        NotificationCenter.default.post(name: .createTransactionNotification,
-                                        object: nil,
-                                        userInfo: userInfo)
-    }
-    
-    func receiveData(close transactionId: String)
-    {
-        if let transaction = dataController?.fetchTransaction(uuid: transactionId) {
-            let userInfo:[String: Transaction] = ["transaction": transaction]
-        
-            // post a notification
-            NotificationCenter.default.post(name: .closeTransactionNotification,
+        if transaction.status == MessageStatus.request {
+            // message send to the receiver
+            NotificationCenter.default.post(name: .transactionRequestNotification,
                                             object: nil,
                                             userInfo: userInfo)
         }
+        else {
+            process(send: transaction)
+        }
+        
+        
+//        if transaction.status == MessageStatus.accepted {
+//            var userInfo:[String: Bool] = ["isCreated": false]
+//            
+//            
+//            let transaction = storeNewTransaction(newTransaction: transaction, isSender: true)
+//                
+//                if transaction != nil {
+//                    userInfo["isCreated"] = true
+//                }
+//            
+//            
+//            // post a notification
+//            NotificationCenter.default.post(name: .transactionSavedNotification,
+//                                            object: nil,
+//                                            userInfo: userInfo)
+//        }
+//        
+//        // message send to the sender
+//        if transaction.status == MessageStatus.declined {
+//            // Todo use CommController
+//    
+//            var userInfo:[String: Bool] = ["isClosed": false]
+//    
+//            dataController?.closeTransaction(transaction, returnDate: NSDate())
+//            userInfo["isClosed"] = true
+//    
+//    
+//            // post a notification
+//            NotificationCenter.default.post(name: .transactionClosedNotification,
+//                object: nil,
+//                userInfo: userInfo)
+//        }
     }
-    
-    
+
+
     // MARK: - DataController
-    
-    func storeNewTransaction(newTransaction: TransactionData, isSender: Bool) -> Transaction? {
+
+    func storeTransaction(_ newTransaction: TransactionMessage) -> Transaction? {
         
         var peer: KnownPeer?
-        if (isSender) {
-            peer = dataController?.fetchPeer(icloudID: newTransaction.receiverId)
-            if peer == nil {
-                peer = dataController?.storeNewPeer(icloudID: newTransaction.receiverId, customName: newTransaction.receiverName, avatarURL: nil)
-            }
-        }
-        else {
+        if (newTransaction.status == .request) {
             peer = dataController?.fetchPeer(icloudID: newTransaction.senderId)
             if peer == nil {
                 peer = dataController?.storeNewPeer(icloudID: newTransaction.senderId, customName: newTransaction.senderName, avatarURL: nil)
             }
         }
+        else {
+            peer = dataController?.fetchPeer(icloudID: newTransaction.receiverId)
+            if peer == nil {
+                peer = dataController?.storeNewPeer(icloudID: newTransaction.receiverId, customName: newTransaction.receiverName, avatarURL: nil)
+            }
+        }
         
-        let transaction = dataController?.storeNewTransaction(
-            itemDescription: newTransaction.transactionDescription,
+        let transaction = dataController?.storeNewTransaction(itemDescription: newTransaction.transactionDescription,
             peer: peer!,
             incoming: newTransaction.isIncomming,
             isMoney: newTransaction.isMoney,
@@ -186,6 +199,12 @@ class TransactionManager : NSObject {
             dueWhenTransactionIsDue: nil)
         
         return transaction
+    }
+    
+    func closeTransaction(_ closeTransaction: TransactionMessage) {
+        if let transaction = dataController?.fetchTransaction(uuid: String(describing: closeTransaction.transactionId)) {
+            dataController?.closeTransaction(transaction, returnDate: NSDate())
+        }
     }
     
 }

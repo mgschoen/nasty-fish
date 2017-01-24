@@ -534,7 +534,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         return transactionSent
     }
     
-    func sendToPartner(_ data: TransactionData) {
+    func sendToPartner(_ data: TransactionMessage) {
         
     }
     
