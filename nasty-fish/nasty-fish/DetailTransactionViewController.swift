@@ -22,14 +22,12 @@ class DetailTransactionViewController: UITableViewController {
     
     @IBOutlet weak var quantity: UILabel!
     
-   
-    @IBOutlet weak var returnD: UIButton!
     
     @IBOutlet weak var loandebt: UILabel!
-    
    
    @IBOutlet weak var loandebtImage: UIImageView!
   
+    @IBOutlet weak var returnStartDate: UIButton!
 
 
    //popup Msg for delete Transaction
@@ -45,9 +43,6 @@ class DetailTransactionViewController: UITableViewController {
             
             
             
-            
-            
-            
             let cancelAction
                 = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
             alertController.addAction(cancelAction)
@@ -59,10 +54,6 @@ class DetailTransactionViewController: UITableViewController {
             
             
         }
-    
-    
-    
-
         override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -73,10 +64,10 @@ class DetailTransactionViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
+  
     override func viewWillAppear(_ animated: Bool ){
         
         super.viewWillAppear(animated)
-        
         
         
         if let descript = transaction?.itemDescription {
@@ -92,19 +83,20 @@ class DetailTransactionViewController: UITableViewController {
             }else{
                 isMoney.text = "item"
             }
-            
+        
+        
             if let quantityInt = transaction?.quantity {
                 if moneyBool {
                     quantity.text = String(quantityInt) + "€"
-                    
+                   
                 }else{
                     
                     quantity.text = String(quantityInt)
                 }
                 
-                
             }
         }
+        
         if let incomingBool = transaction?.incoming {
             if incomingBool{
                 loandebt.text = "loan"
@@ -114,16 +106,11 @@ class DetailTransactionViewController: UITableViewController {
             }else{
                 loandebt.text = "debt"
                 loandebtImage.image = #imageLiteral(resourceName: "OutFish")
-           
-            }
-          
-            }
-      
+        
    
+            }
         }
-    
- 
-
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -131,6 +118,8 @@ class DetailTransactionViewController: UITableViewController {
     }
 
     
+    
+
     
     // MARK: - Table view data source
 
