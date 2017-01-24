@@ -192,8 +192,8 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
                 } else {
                     transaction = preFilterdTransactions[indexPath.row]
                 }
-//                let controller = segue.destination as! DetailTransactionViewController
-//                controller.transaction = transaction
+                let controller = segue.destination as! DetailTransactionViewController
+                controller.transaction = transaction
                 
                 //controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
                 //controller.navigationItem.leftItemsSupplementBackButton = true

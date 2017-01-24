@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-class TransactionManager : NSObject {
+class TransactionManager : NSObject, CommControllerDelegate {
 
     // MARK: - Variable
     
@@ -53,9 +53,16 @@ class TransactionManager : NSObject {
     func process(received transaction: TransactionMessage, accepted: Bool) {
         var temp = transaction
         temp.status = accepted ? .accepted : .declined
-        // Todo call CommController
         
-        if accepted {
+        temp.senderId = transaction.receiverId
+        temp.senderName = transaction.receiverName
+        temp.receiverId = transaction.senderId
+        temp.receiverName = transaction.senderName
+        
+        let succeed = sendData(transaction)
+        assert(!succeed, "sendData failed")
+        
+        if accepted && succeed {
             if transaction.type == .create {
                 _ = storeTransaction(transaction)
             }
@@ -87,36 +94,46 @@ class TransactionManager : NSObject {
             if let uuid = dataController?.appInstanceId {
                 commController = CommController(customName, uuid)
                 
-//                commController?.delegate = self
+                commController?.delegate = self
                 
                 commController?.startAdvertisingForPartners()
                 commController?.startBrowsingForPartners()
             }
         }
-        
-//        assert(commController == nil, "The commController canot be nil")
     }
     
     func fetchPeerNames() -> [String] {
         return (commController?.foundPartnersCustomNames)!
     }
     
-    func sendData(_ transaction: TransactionMessage) -> (Bool) {
-        // Todo call CommController
-//        return commController!.sendExplicitDataToPartner(uuid: newTransaction.peerId,
-//                                                               customName: newTransaction.peerName,
-//                                                               incoming: newTransaction.isIncomming,
-//                                                               isMoney: newTransaction.isMoney,
-//                                                               quantity: newTransaction.quantity!,
-//                                                               category: newTransaction.category!,
-//                                                               dueDate: newTransaction.dueDate!,
-//                                                               imageURL: newTransaction.imageURL!,
-//                                                               sameDueDate: newTransaction.dueWhenTransactionIsDue!)
+    func resolvePeerName(_ peerName: String) -> String {
+        let index = commController?.foundPartnersCustomNames.index(of: peerName)
         
-        return false
+        return (commController?.foundPartnersIDs[index!])!
     }
     
+    func sendData(_ transaction: TransactionMessage) -> (Bool) {
+        return commController!.sendToPartner(transaction)
+    }
+    
+    
     // MARK - CommunicationControllerDelegate
+    
+    func foundPeers() {
+        // Todo
+    }
+    
+    func lostPeer() {
+        // Todo
+    }
+    
+    func invitationWasReceived(fromPeer: String) {
+        // Todo
+    }
+    
+    func connectedWithPeer(peerID: String) {
+        // Todo
+    }
     
     func receivedData(_ transaction: TransactionMessage) {
         let userInfo:[String: TransactionMessage] = ["TransactionMessage": transaction]
@@ -138,18 +155,23 @@ class TransactionManager : NSObject {
     func storeTransaction(_ newTransaction: TransactionMessage) -> Transaction? {
         
         var peer: KnownPeer?
-        if (newTransaction.status == .request) {
-            peer = dataController?.fetchPeer(icloudID: newTransaction.senderId)
-            if peer == nil {
-                peer = dataController?.storeNewPeer(icloudID: newTransaction.senderId, customName: newTransaction.senderName, avatarURL: nil)
-            }
+        peer = dataController?.fetchPeer(icloudID: newTransaction.senderId)
+        if peer == nil {
+            peer = dataController?.storeNewPeer(icloudID: newTransaction.senderId, customName: newTransaction.senderName, avatarURL: nil)
         }
-        else {
-            peer = dataController?.fetchPeer(icloudID: newTransaction.receiverId)
-            if peer == nil {
-                peer = dataController?.storeNewPeer(icloudID: newTransaction.receiverId, customName: newTransaction.receiverName, avatarURL: nil)
-            }
-        }
+        
+//        if (newTransaction.status == .request) {
+//            peer = dataController?.fetchPeer(icloudID: newTransaction.senderId)
+//            if peer == nil {
+//                peer = dataController?.storeNewPeer(icloudID: newTransaction.senderId, customName: newTransaction.senderName, avatarURL: nil)
+//            }
+//        }
+//        else {
+//            peer = dataController?.fetchPeer(icloudID: newTransaction.receiverId)
+//            if peer == nil {
+//                peer = dataController?.storeNewPeer(icloudID: newTransaction.receiverId, customName: newTransaction.receiverName, avatarURL: nil)
+//            }
+//        }
         
         let transaction = dataController?.storeNewTransaction(itemId: newTransaction.transactionId,
                                                               itemDescription: newTransaction.transactionDescription,

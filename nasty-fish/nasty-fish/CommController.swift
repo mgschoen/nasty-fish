@@ -285,7 +285,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         switch(state){
         case MCSessionState.connected:
             NSLog("%@", "didChangeStateConnected: \(peerID) connected to \(session)")
-            delegate?.connectedWithPeer(peerID: peerID)
+            delegate?.connectedWithPeer(peerID: peerID.displayName)
             
         case MCSessionState.connecting:
             NSLog("%@", "didChangeStateConnecting: \(peerID) is connecting to \(session)")
@@ -422,7 +422,7 @@ protocol CommControllerDelegate {
     func foundPeers()
     func lostPeer()
     func invitationWasReceived(fromPeer: String)
-    func connectedWithPeer(peerID: MCPeerID)
+    func connectedWithPeer(peerID: String) // Brauchen wir die noch? Ich hab das mal auf String geändert
     func receivedData(_ transaction: TransactionMessage)
 
 }
