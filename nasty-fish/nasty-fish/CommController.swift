@@ -473,33 +473,32 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         return sendNFTransaction(transactionInfo, [resolveMCPeerID(forKey: partner)])
     }
     
-    /*
-     Function to send Strings to the specified Partner
+    /**
+     Function to send a TransactioneMessage defined in TransactionManagerHelper.
+     The Receiver info is contained within the TransactionMessage
      
-     - Parameter transactionInfo : String contaiing all Information to be sent
+     - Parameter data: TransactionMessage Struct containing all Information to be sent
      
-     - Parameter peer: MCPeerID Instance indentifiying the receiving partner
      */
     func sendToPartner(_ data: TransactionMessage) -> Bool {
 //        var senderId, senderName, receiverId, receiverName: String
 //        var transactionId: UUID, transactionDescription: String, isIncomming: Bool, imageURL: String?
 //        var dueWhenTransactionIsDue: Transaction?
-        var peer = resolveMCPeerID(forKey: data.receiverId)
-        
+        //Lookup the receiving MCPeerID
+        let peer = resolveMCPeerID(forKey: data.receiverId)
+        // unarchive TransactionMessage
         let dataToSend = NSKeyedArchiver.archivedData(withRootObject: data)
-        //let peersArray = NSArray(object: targetPeer)
-        
+        // variable to check if sent was successful
         var sentSuccessful : Bool = false
+        
         do {
             try session.send(dataToSend, toPeers: [peer], with: MCSessionSendDataMode.reliable)
-            //session.send returns true if the message was successfully enqueued for delivery, or false if an error occurred
             sentSuccessful = true
         } catch {
             NSLog("%@", "\(error.localizedDescription)")
             return sentSuccessful
         }
         return sentSuccessful
-        
     }
     
     /* ------------------------------------------------------------------------------------ *
