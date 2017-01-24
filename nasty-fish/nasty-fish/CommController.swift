@@ -224,18 +224,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
 
     }
     
-    
-    /**
-        Sends data over a MultipeerConnectivity session. Takes a Dictionary containing the composed Transaction Information
-     
-        - Parameter transaction: the composed data that has to be sent
-     
-    */
-    func sendTransactionToPeer(transaction: [String:Any]) -> (Bool, uuid: String) {
-        //May be changed
-        return sendUsingUserInfo(uuid: (transaction["uuid"])! as! String, customName: (transaction["customName"])! as! String, data: transaction) as! (Bool, uuid: String)
-    }
-    
     /* ------------------------------------------------------------------------------------ *
      *   Advertiser                                                                         *
      * ------------------------------------------------------------------------------------ */
