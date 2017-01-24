@@ -452,15 +452,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
      
         - Parameter transactionInfo : String contaiing all Information that should be sent
      */
-    func sendNFTransaction(transactionInfo : String) -> Bool {
-        NSLog("%@", "sendNFTransaction: \(transactionInfo)")
-        
-        if session.connectedPeers.isEmpty {
-            NSLog("%@", "sendNFTransaction failed: no peers available" +
-                "\(session.connectedPeers) \(transactionInfo)")
-        }
-        return sendNFTransaction(transactionInfo, session.connectedPeers)
-    }
+    
     
     /*
         Function to send Strings to the specified Partner
