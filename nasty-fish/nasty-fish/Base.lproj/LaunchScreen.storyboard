@@ -29,15 +29,15 @@
                                     <tabBarItem systemItem="more" id="okD-WT-pGo"/>
                                 </items>
                             </tabBar>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="1rD-SW-jaI">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="GUo-e9-XG3">
                                 <rect key="frame" x="62" y="233" width="250" height="200"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1rD-SW-jaI" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Zcu-uV-vsv"/>
-                            <constraint firstItem="1rD-SW-jaI" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="h5T-2i-zeJ"/>
-                            <constraint firstItem="1rD-SW-jaI" firstAttribute="centerX" secondItem="3Bf-fm-A11" secondAttribute="centerX" id="u2S-1u-OpB"/>
+                            <constraint firstItem="GUo-e9-XG3" firstAttribute="centerX" secondItem="3Bf-fm-A11" secondAttribute="centerX" id="6tT-s9-OQC"/>
+                            <constraint firstAttribute="trailing" secondItem="3Bf-fm-A11" secondAttribute="trailing" id="YlA-Vn-LM0"/>
+                            <constraint firstItem="GUo-e9-XG3" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="jFy-a8-Y2n"/>
                             <constraint firstItem="3Bf-fm-A11" firstAttribute="bottom" secondItem="xb3-aO-Qok" secondAttribute="top" id="wNY-XT-8hU"/>
                             <constraint firstItem="3Bf-fm-A11" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="zxP-GL-4bq"/>
                         </constraints>

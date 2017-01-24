@@ -115,7 +115,7 @@ class NewTransactionController: UITableViewController {
     
     var transactionDescription: String {
         get {
-            return descriptionTextField.text!
+            return descriptionTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         }
     }
     
