@@ -134,6 +134,10 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         session.disconnect()
     }
     
+    /* ------------------------------------------------------------------------------------ *
+     *   Initialize - Session, Browser, Advertiser                                          *
+     * ------------------------------------------------------------------------------------ */
+    
     func initSession(){
         session = MCSession(peer: self.peer,
                             securityIdentity: nil,
@@ -178,6 +182,12 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
                                          serviceType: "nastyfish-mpc")
         browser.delegate = self
     }
+    
+    
+    /* ------------------------------------------------------------------------------------ *
+     *   Start & Stop - Browser, Advertiser                                                 *
+     * ------------------------------------------------------------------------------------ */
+    
     /**
         Starts advertising for nearby peers via MultipeerConnectivity Framework
      */
