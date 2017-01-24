@@ -469,9 +469,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
      
      - Parameter partner: String indentifiying the receiving partner
      */
-    func sendNFTransaction(transactionInfo : String, partner : String) -> Bool {
-        return sendNFTransaction(transactionInfo, [resolveMCPeerID(forKey: partner)])
-    }
     
     /**
      Function to send a TransactioneMessage defined in TransactionManagerHelper.
