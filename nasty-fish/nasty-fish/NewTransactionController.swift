@@ -57,15 +57,6 @@ class NewTransactionController: UITableViewController {
             
             self.present(alert, animated: true, completion: nil)
         }
-        
-//        let alert = UIAlertController(title: "Order Placed!", message: "Thank you for your order.\nWe'll ship it to you soon!", preferredStyle: .alert)
-//        let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
-//            (_)in
-//            self.performSegue(withIdentifier: "savedTransaction", sender: self)
-//        })
-//        
-//        alert.addAction(OKAction)
-//        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func directionChanged(_ sender: UISegmentedControl) {
@@ -271,10 +262,8 @@ class NewTransactionController: UITableViewController {
                 self.performSegue(withIdentifier: "savedTransaction", sender: self)
             }
             else {
-                // Todo improve alert
-                
-                let alert = UIAlertController(title: "Transmission failed",
-                                              message: "Transaction was not created successfully.",
+                let alert = UIAlertController(title: "Transaction declined",
+                                              message: "\(transaction.receiverName) declined to accept the transaction:\n\(transaction.transactionDescription)",
                                               preferredStyle: UIAlertControllerStyle.alert)
                 
                 alert.addAction(UIAlertAction(title: "Ok",
@@ -323,6 +312,11 @@ class NewTransactionController: UITableViewController {
                     isValid = false
                 }
             }
+        }
+        
+        // Check Peer
+        if pickerData.count == 0 {
+            isValid = false
         }
         
         saveButton.isEnabled = isValid

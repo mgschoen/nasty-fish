@@ -102,7 +102,7 @@ class TransactionManager : NSObject {
     }
     
     func sendData(_ transaction: TransactionMessage) -> (Bool) {
-        // Todo: use CommController
+        // Todo call CommController
 //        return commController!.sendExplicitDataToPartner(uuid: newTransaction.peerId,
 //                                                               customName: newTransaction.peerName,
 //                                                               incoming: newTransaction.isIncomming,
@@ -113,7 +113,7 @@ class TransactionManager : NSObject {
 //                                                               imageURL: newTransaction.imageURL!,
 //                                                               sameDueDate: newTransaction.dueWhenTransactionIsDue!)
         
-        return (true)
+        return false
     }
     
     // MARK - CommunicationControllerDelegate
