@@ -272,35 +272,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         return (sentSuccessful, uuid)
     }
     
-    /**
- 
-     //itemDescription: itemDescription!,
-     //            peer: knownPeer,
-     //            incoming: incomming,
-     //            isMoney: isMoney,
-     //            quantity: UInt(quantity),
-     //            category: nil,
-     //            dueDate: nil,
-     //            imageURL: nil,
-     //            dueWhenTransactionIsDue: nil))
-    */
-    func sendExplicitDataToPartner(uuid: String, customName: String, incoming: Bool, isMoney: Bool, quantity: UInt, category: Any, dueDate: Any, imageURL: String, sameDueDate: Any) -> (Bool, uuid: String){
-        
-        var transaction = [String:Any]()
-        
-        transaction["uuid"] = uuid
-        transaction["customName"] = customName
-        transaction["incoming"] = incoming
-        transaction["isMoney"] = isMoney
-        transaction["quantity"] = quantity
-        transaction["category"] = category
-        transaction["dueDate"] = dueDate
-        transaction["imageURL"] = imageURL
-        transaction["sameDueDate"] = sameDueDate
-        
-        return sendTransactionToPeer(transaction: transaction)
-    }
-    
     /* ------------------------------------------------------------------------------------ *
      *   Advertiser                                                                         *
      * ------------------------------------------------------------------------------------ */
