@@ -360,40 +360,27 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         let dictionary: [String: AnyObject] = ["data": data as AnyObject, "fromPeer": peerID]
-        
-        //Notification Observer pattern
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "receivedMPCDataNotification"), object: dictionary)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "receivedMPCDataNotification"),
+                                        object: dictionary)
     }
     
-    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL, withError error: Error?) {
-        //NECESSARY ??
-    }
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL, withError error: Error?) { }
     
-    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
-        //NECESSARY ??
-    }
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) { }
     
-    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
-        //NECESSARY ??
-    }
+    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) { }
     //MCSession Protocol END
     
-    /*
-     function returns all online peers and their customName as a Dicionary
+    /**
+     Returns all online peers and their customName as a Dicionary
      */
     func fetchParticipatingIDsAndCustomNameFromInfo() -> (Dictionary<String, String>) {
         var idNames = [String:String]()
-        
+        //foundPartnersAdvertisedData : Dictionary<MCPeerID, Dictionary<String, String>>()
         for peer in foundPartnersAdvertisedData.keys {
+            //THIS MIGHT NEED SOME WORK
             idNames[(foundPartnersAdvertisedData[peer]!.first?.key)!] = foundPartnersAdvertisedData[peer]!.first?.value
         }
-//        
-//        for peer in foundPartnersAdvertisedData.keys {
-//            for key in (foundPartnersAdvertisedData[peer]?.keys)! {
-//                idNames[key] = foundPartnersAdvertisedData[peer]![key]
-//            }
-//        }
-        //idNames = [„uuid“ : String, „customName“: String]()
         return idNames
     }
 
