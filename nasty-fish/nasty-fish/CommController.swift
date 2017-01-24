@@ -44,41 +44,29 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         isBrowsing = false
         
         super.init()
-        //  DONE FTM: Different name chosen by group; -> identifierForVendor?.uuid String managed by DataController
-        //  WAS: 
-        //peer = MCPeerID(displayName: UIDevice.current.name)
-        
-//        if !(appDelegate.dataController?.fetchUserCustomName() == nil){
-//        //get UIDevice.current.identifierForVendor?.uuid from DataController Instance
+        //MAYBE: Care about the case that the dataContorller == nil
         peer = MCPeerID(displayName: (appDelegate.dataController?.fetchUserCustomName())!)
-//        } else {
-        
-//        //170113 Changing the String:
-//        //peer = MCPeerID(displayName: (UIDevice.current.identifierForVendor?.uuidString)!)
-//        peer = MCPeerID(displayName: UIDevice.current.name)
-////        }
-        
         uuid = (appDelegate.dataController?.appInstanceId)!
         
         print(peer)
         print(peer.displayName)
         
         /* Init Session */
-        //session's encryptionPreference is now MCEncryptionPreference.required
-        //session's encryptionPreference could be MCEncryptionPreference.none
-        //Changing to none could be a workaround for the notConnected issue
-        //session = MCSession(peer: peer)
-        //Using equivalent alternative:
-        session = MCSession(peer: peer, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.required)
+        session = MCSession(peer: peer,
+                            securityIdentity: nil,
+                            encryptionPreference: MCEncryptionPreference.required)
         session.delegate = self
         
         /* Init Advertiser */
-        advertiser = MCNearbyServiceAdvertiser(peer: peer, discoveryInfo: nil, serviceType: "nastyfish-mpc")
+        advertiser = MCNearbyServiceAdvertiser(peer: peer,
+                                               discoveryInfo: nil,
+                                               serviceType: "nastyfish-mpc")
         advertiser.delegate = self
         
         
         /* Init Browser */
-        browser = MCNearbyServiceBrowser(peer: peer, serviceType: "nastyfish-mpc")
+        browser = MCNearbyServiceBrowser(peer: peer,
+                                         serviceType: "nastyfish-mpc")
         browser.delegate = self
         
         //FOR NOW
@@ -88,18 +76,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
                                                name: NSNotification.Name("receivedMPCDataNotification"),
                                                object: nil)
         
-        //instantiation of the CommControllerDelegate
-        //has to be done before the startBrowsingForPeers call
-        delegate = ServiceDel()
-        
-        //start browsing
-        //browser.startBrowsingForPeers()
-        //isBrowsing = true
         startBrowsingForPartners()
-        
-        //start advertising right at the beginning
-        //advertiser.startAdvertisingPeer()
-        //isAdvertising = true
         startAdvertisingForPartners()
     }
     
