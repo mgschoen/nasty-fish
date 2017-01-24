@@ -236,42 +236,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         return sendUsingUserInfo(uuid: (transaction["uuid"])! as! String, customName: (transaction["customName"])! as! String, data: transaction) as! (Bool, uuid: String)
     }
     
-    /**
-        Sends data over a MultipeerConnectivity session. Resolves a peer using its unique identifier and takes a Dictionary containing the Information that has to be sent
-     
-        - Parameter uuid: the users unique identifying string
-     
-        - Parameter customName: the human easily readable name chosen by the user
-     
-        - Parameter data: a Dictionary taking a String key and String value with data to be sent
-     
-    */
-    
-    func sendUsingUserInfo(uuid : String, customName : String, data : [String : Any]) -> (successful:Bool, receiverUUID : String){
-        
-        var peerID = resolveMCPeerID(forKey: uuid)
-//        var transaction = [String:Any]()
-//        transaction["uuid"] = uuid
-//        transaction["customName"] = customName
-//        transaction.
-        var sentSuccessful : Bool = false
-        
-        if session.connectedPeers.contains(peerID) {
-            let dataToSend = NSKeyedArchiver.archivedData(withRootObject: data)
-            do {
-                try session.send(dataToSend,
-                                 toPeers: [peerID],
-                                 with: MCSessionSendDataMode.reliable)
-                sentSuccessful = true
-            } catch {
-                NSLog("%@", "\(error.localizedDescription)")
-                return (sentSuccessful, uuid)
-            }
-            
-        }
-        return (sentSuccessful, uuid)
-    }
-    
     /* ------------------------------------------------------------------------------------ *
      *   Advertiser                                                                         *
      * ------------------------------------------------------------------------------------ */
