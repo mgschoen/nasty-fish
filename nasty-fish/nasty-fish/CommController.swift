@@ -345,7 +345,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
             }
             //foundPartnersDictionary[(info?.first?.key)!] = info!.first?.value
             foundPartnersIDs.append((info?["nastyFishPartnerIdentifier"])!)
-            foundPartnersCustomNames.append((info?["customNames"])!)
+            foundPartnersCustomNames.append((info?["customName"])!)
         }
         //inviteAllPeers()
         browser.invitePeer(peerID, to: self.session, withContext: nil, timeout: 20)

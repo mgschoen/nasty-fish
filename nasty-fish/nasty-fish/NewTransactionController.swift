@@ -208,7 +208,7 @@ class NewTransactionController: UITableViewController {
                                                object: nil)
         
         // load P2P clients
-        pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchClients())!
+        pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchPeerNames())!
     }
 
     override func didReceiveMemoryWarning() {

@@ -87,6 +87,8 @@ class TransactionManager : NSObject {
             if let uuid = dataController?.appInstanceId {
                 commController = CommController(customName, uuid)
                 
+//                commController?.delegate = self
+                
                 commController?.startAdvertisingForPartners()
                 commController?.startBrowsingForPartners()
             }
@@ -95,13 +97,8 @@ class TransactionManager : NSObject {
 //        assert(commController == nil, "The commController canot be nil")
     }
     
-    func fetchClients() -> [String] {
-        // Todo: use CommController
-        var partnerIds = ["[User1]", "[User2]", "[User3]"]
-        
-        partnerIds.append(contentsOf: commController!.foundPartnersIDs)
-        
-        return partnerIds
+    func fetchPeerNames() -> [String] {
+        return (commController?.foundPartnersCustomNames)!
     }
     
     func sendData(_ transaction: TransactionMessage) -> (Bool) {
