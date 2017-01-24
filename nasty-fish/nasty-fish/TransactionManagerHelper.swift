@@ -30,7 +30,7 @@ struct TransactionMessage {
     var receiverId: String
     var receiverName: String
     
-    var transactionId: UUID
+    var transactionId: String
     var transactionDescription: String
     var isIncomming: Bool
     var isMoney: Bool
