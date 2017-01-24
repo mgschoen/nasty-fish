@@ -398,8 +398,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     }
 
     func fetchParticipatingIDs() -> [String] {
-        let ids = [String](foundPartnersDictionary.keys)
-        return ids
+        return [String](foundPartnersDictionary.keys)
     }
     
     func getFoundPartnersInfo() -> ([String], [String]) {
