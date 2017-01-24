@@ -480,39 +480,9 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
      
      - Parameter peer: MCPeerID Instance indentifiying the receiving partner
      */
-    func sendNFTransaction(_ transactionInfo : String, _ peer : [MCPeerID]) -> Bool {
-        
-        NSLog("%@", "sendNFTransaction: \(transactionInfo)")
-        
-        var transactionSent : Bool = true
-        
-        if !(session.connectedPeers.isEmpty) {
-            do {
-                try self.session.send(transactionInfo.data(using: String.Encoding.utf8, allowLossyConversion: false)!, toPeers: peer, with: MCSessionSendDataMode.reliable)
-            }
-            catch {
-                NSLog("%@", "\(error)")
-                transactionSent = false
-            }
-        }
-        return transactionSent
-    }
-    
-    func sendToPartner(_ data: TransactionData) -> Bool {
-//        var senderId: String
-//        var senderName: String
-//        
-//        var receiverId: String
-//        var receiverName: String
-//        
-//        var transactionId: UUID
-//        var transactionDescription: String
-//        var isIncomming: Bool
-//        var isMoney: Bool
-//        var quantity: UInt?
-//        var category: String?
-//        var dueDate: NSDate?
-//        var imageURL: String?
+    func sendToPartner(_ data: TransactionMessage) -> Bool {
+//        var senderId, senderName, receiverId, receiverName: String
+//        var transactionId: UUID, transactionDescription: String, isIncomming: Bool, imageURL: String?
 //        var dueWhenTransactionIsDue: Transaction?
         var peer = resolveMCPeerID(forKey: data.receiverId)
         
@@ -536,7 +506,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
      *   Receiving Data                                                                     *
      * ------------------------------------------------------------------------------------ */
     
-    /* 
+    /** 
      Function to react on the Notification for the case that data is received through MpC
      */
     func handleMPCReceivedDataWithNotification(notification: NSNotification) {
@@ -549,7 +519,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         
         // Convert the data (NSData) into a Dictionary object.
         //let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data! as Data) as! Dictionary<String, String>
-        let transaction = NSKeyedUnarchiver.unarchiveObject(with: data! as Data) as! TransactionData
+        let transaction = NSKeyedUnarchiver.unarchiveObject(with: data! as Data) as! TransactionMessage
         
         // Check if there's an entry with the "message" key.
 //        if let nftransaction = dataDictionary["nftransaction"] {
@@ -607,6 +577,6 @@ protocol CommControllerDelegate {
     func lostPeer()
     func invitationWasReceived(fromPeer: String)
     func connectedWithPeer(peerID: MCPeerID)
-    func receivedData(_ transaction: TransactionData)
+    func receivedData(_ transaction: TransactionMessage)
 
 }
