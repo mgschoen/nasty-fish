@@ -19,6 +19,7 @@
 		32EC1B5C1DF4A27900B6B4BB /* More.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B5A1DF4A27900B6B4BB /* More.storyboard */; };
 		32EC1B5F1DF4A34400B6B4BB /* TransactionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EC1B5E1DF4A34400B6B4BB /* TransactionsController.swift */; };
 		32EC1B611DF4B79200B6B4BB /* NewTransaction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */; };
+		32EC1B631DF4B90100B6B4BB /* TransactionDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */; };
 		B8005D9B1E2E4CFD0088EC18 /* DetailTransaction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8005D9A1E2E4CFD0088EC18 /* DetailTransaction.storyboard */; };
 		B8005D9D1E2E57570088EC18 /* DetailTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8005D9C1E2E57570088EC18 /* DetailTransactionViewController.swift */; };
 		F75B97031DDC9F3300093D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75B97021DDC9F3300093D14 /* AppDelegate.swift */; };
@@ -44,6 +45,7 @@
 		32EC1B5B1DF4A27900B6B4BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/More.storyboard; sourceTree = "<group>"; };
 		32EC1B5E1DF4A34400B6B4BB /* TransactionsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionsController.swift; sourceTree = "<group>"; };
 		32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewTransaction.storyboard; sourceTree = "<group>"; };
+		32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TransactionDetail.storyboard; sourceTree = "<group>"; };
 		B8005D9A1E2E4CFD0088EC18 /* DetailTransaction.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DetailTransaction.storyboard; sourceTree = "<group>"; };
 		B8005D9C1E2E57570088EC18 /* DetailTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTransactionViewController.swift; sourceTree = "<group>"; usesTabs = 0; };
 		F75B96FF1DDC9F3200093D14 /* nasty-fish.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "nasty-fish.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,7 +74,6 @@
 		323F91851E360F58000315A1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				B8005D9C1E2E57570088EC18 /* DetailTransactionViewController.swift */,
 				3254CA4C1E2A908D009729C8 /* MainController.swift */,
 				327D46B91DF82D89004F151C /* MoreController.swift */,
 				3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */,
@@ -100,6 +101,7 @@
 				32EC1B5A1DF4A27900B6B4BB /* More.storyboard */,
 				32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */,
 				32C21DDE1E211ECA0088EE84 /* Settings.storyboard */,
+				32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */,
 				32EC1B581DF4A0CE00B6B4BB /* Transactions.storyboard */,
 			);
 			name = Storyboard;
@@ -110,6 +112,15 @@
 			children = (
 				323F91851E360F58000315A1 /* Controller */,
 				32C0542A1E2B7B9800C69353 /* Storyboard */,
+<<<<<<< HEAD
+				3254CA4C1E2A908D009729C8 /* MainController.swift */,
+				327D46B91DF82D89004F151C /* MoreController.swift */,
+				3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */,
+				32EC1B5E1DF4A34400B6B4BB /* TransactionsController.swift */,
+				B8005D9C1E2E57570088EC18 /* DetailTransactionViewController.swift */,
+				32C21DE11E2125B80088EE84 /* SettingsController.swift */,
+=======
+>>>>>>> 22-transactionmanager-erstellen
 			);
 			name = UserInterface;
 			sourceTree = "<group>";
@@ -231,6 +242,7 @@
 				32EC1B611DF4B79200B6B4BB /* NewTransaction.storyboard in Resources */,
 				32EC1B591DF4A0CE00B6B4BB /* Transactions.storyboard in Resources */,
 				327A16781E2F8E9700F3FC6D /* Assets.xcassets in Resources */,
+				32EC1B631DF4B90100B6B4BB /* TransactionDetail.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,8 +259,11 @@
 				FE2D5E421E25CA7600722376 /* CommController.swift in Sources */,
 				F7B2B3661DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld in Sources */,
 				3254CA4D1E2A908D009729C8 /* MainController.swift in Sources */,
-				327A167C1E2FC72A00F3FC6D /* TransactionManager.swift in Sources */,
+<<<<<<< HEAD
 				B8005D9D1E2E57570088EC18 /* DetailTransactionViewController.swift in Sources */,
+=======
+				327A167C1E2FC72A00F3FC6D /* TransactionManager.swift in Sources */,
+>>>>>>> 22-transactionmanager-erstellen
 				3232F5B11E05ACA900E8A7F9 /* NewTransactionController.swift in Sources */,
 				32EC1B5F1DF4A34400B6B4BB /* TransactionsController.swift in Sources */,
 				F7B2B3621DDF758400A0B1A9 /* DataController.swift in Sources */,

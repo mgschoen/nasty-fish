@@ -2,7 +2,7 @@
 //  NewTransactionController.swift
 //  nasty-fish
 //
-//  Created by manu on 17.12.16.
+//  Created by Manuel Hartmann on 17.12.16.
 //  Copyright © 2016 Gruppe 08. All rights reserved.
 //
 
@@ -11,7 +11,9 @@ import UIKit
 class NewTransactionController: UITableViewController {
     
     // MARK: - @IBOutlet
+    
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var directionImage: UIImageView!
     @IBOutlet weak var directionSegmentedControl: UISegmentedControl!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var belongingsSegmentControl: UISegmentedControl!
@@ -22,6 +24,50 @@ class NewTransactionController: UITableViewController {
     
     
     // MARK: - IBActions
+    
+    @IBAction func saveButtonTaped(_ sender: UIBarButtonItem) {
+        // Todo resolve receiver
+        let transaction = TransactionMessage(type: MessageType.create,
+                                          status: MessageStatus.request,
+                                          senderId: ((UIApplication.shared.delegate as! AppDelegate).dataController?.appInstanceId)!,
+                                          senderName: ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchUserCustomName())!,
+                                          receiverId: peer,
+                                          receiverName: "[Undefined]",
+                                          transactionId: UUID().uuidString,
+                                          transactionDescription: transactionDescription,
+                                          isIncomming: isIncomming,
+                                          isMoney: isMoney,
+                                          quantity: quantity,
+                                          category: nil,
+                                          dueDate: nil,
+                                          imageURL: nil,
+                                          dueWhenTransactionIsDue: nil)
+        
+        
+        let succeed = (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendData(transaction)
+        
+        if (!succeed!) {
+            let alert = UIAlertController(title: "Sending transaction failed",
+                                          message: "Transaction was not send successfully.",
+                                          preferredStyle: UIAlertControllerStyle.alert)
+            
+            alert.addAction(UIAlertAction(title: "Ok",
+                                          style: UIAlertActionStyle.default,
+                                          handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func directionChanged(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            directionImage.image = #imageLiteral(resourceName: "InFish")
+        }
+        else {
+            directionImage.image = #imageLiteral(resourceName: "OutFish")
+        }
+    }
+    
     @IBAction func belongingsChanged(_ sender: UISegmentedControl) {
         tableView.reloadData()
         
@@ -57,18 +103,23 @@ class NewTransactionController: UITableViewController {
         checkUserInput()
     }
     
-    // MARK: - Variables
-    var pickerData = [KnownPeer]()
+    
+    // MARK: - Variable
+    
+    var pickerData = [String]()
+    
     
     // MARK: - Getter
     
+    var savedTransaction: Transaction?
+    
     var transactionDescription: String {
         get {
-            return descriptionTextField.text!
+            return descriptionTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         }
     }
     
-    var peer: KnownPeer {
+    var peer: String {
         get {
             return self.pickerData[self.peerPicker.selectedRow(inComponent: 0)]
         }
@@ -120,7 +171,7 @@ class NewTransactionController: UITableViewController {
     }
     
     
-    
+    // MARK: - Default override
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,7 +191,15 @@ class NewTransactionController: UITableViewController {
         tapRecognizer.addTarget(self, action: #selector(NewTransactionController.didTapView))
         self.view.addGestureRecognizer(tapRecognizer)
         
-        pickerData = ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchPeers())!
+        // Register to receive notification
+        // Observe listen for transactionSavedNotification
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnTransactionReplyNotification),
+                                               name: .transactionReplyNotification,
+                                               object: nil)
+        
+        // load P2P clients
+        pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchPeerNames())!
     }
 
     override func didReceiveMemoryWarning() {
@@ -188,8 +247,37 @@ class NewTransactionController: UITableViewController {
     }
     */
     
+    /*
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return true
+    }
+    */
     
-    // Mark: - Helper
+    
+    // MARK: - Notification
+    
+    func actOnTransactionReplyNotification(_ notification: NSNotification) {
+        if let transaction = (notification.userInfo?["TransactionMessage"] as? TransactionMessage) {
+            if transaction.status == .accepted {
+                self.performSegue(withIdentifier: "savedTransaction", sender: self)
+            }
+            else {
+                let alert = UIAlertController(title: "Transaction declined",
+                                              message: "\(transaction.receiverName) declined to accept the transaction:\n\(transaction.transactionDescription)",
+                                              preferredStyle: UIAlertControllerStyle.alert)
+                
+                alert.addAction(UIAlertAction(title: "Ok",
+                                              style: UIAlertActionStyle.default,
+                                              handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    
+    // MARK: - Helper
+    
     func didTapView(){
         self.view.endEditing(true)
     }
@@ -208,7 +296,7 @@ class NewTransactionController: UITableViewController {
             formatter.generatesDecimalNumbers = true
             formatter.numberStyle = NumberFormatter.Style.decimal
             
-            
+            print("checkUserInput amountTextField.text: \(amountTextField.text)")
             if (formatter.number(from: amountTextField.text!) as? NSDecimalNumber) == nil  {
                 isValid = false
             }
@@ -224,6 +312,11 @@ class NewTransactionController: UITableViewController {
                     isValid = false
                 }
             }
+        }
+        
+        // Check Peer
+        if pickerData.count == 0 {
+            isValid = false
         }
         
         saveButton.isEnabled = isValid
@@ -248,13 +341,13 @@ extension NewTransactionController: UIPickerViewDelegate, UIPickerViewDataSource
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row].customName
+        return pickerData[row]
     }
 }
 
 extension NewTransactionController: UITextFieldDelegate {
     
-    // Mark: - UITextFieldDelegate
+    // MARK: - UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Hide the keyboard.
         textField.resignFirstResponder()
@@ -266,11 +359,8 @@ extension NewTransactionController: UITextFieldDelegate {
         textField.resignFirstResponder()
     }
     
-    func textField(_ textField: UITextField,
-                            shouldChangeCharactersIn range: NSRange,
-                            replacementString string: String) -> Bool {
-        
-        //
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // checks amountTextField, so the user only can enter valide values for money
         if textField == amountTextField {
             if  let amount = textField.text {
                 let amountArr = amount.components(separatedBy: ",")

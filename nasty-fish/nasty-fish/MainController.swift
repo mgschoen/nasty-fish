@@ -2,14 +2,13 @@
 //  MainController.swift
 //  nasty-fish
 //
-//  Created by manu on 14.01.17.
+//  Created by Manuel Hartmann on 14.01.17.
 //  Copyright © 2017 Gruppe 08. All rights reserved.
 //
 
 import UIKit
 
 class MainController: UITabBarController {
-    
     
     // MARK: - @IBAction
     
@@ -23,13 +22,18 @@ class MainController: UITabBarController {
     }
     
     
-    var dataController: DataController? = nil
+    // MARK: - Variable
     
+    var dataController: DataController? = nil
+    var transactionManager: TransactionManager!
+    
+    
+    // MARK: - Default override
     
     override func viewDidLoad() {
         super.viewDidLoad()
         dataController = (UIApplication.shared.delegate as! AppDelegate).dataController!
-        
+        transactionManager = (UIApplication.shared.delegate as! AppDelegate).transactionManager!
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,20 +42,12 @@ class MainController: UITabBarController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        // If user has no nickname show settings view
+        // Ckeck for user custom name, if user has no custom name show settings view
         if dataController?.fetchUserCustomName() == nil {
             self.performSegue(withIdentifier: "Settings", sender: self)
         }
+        else {
+            transactionManager.initializeCommunicationController()
+        }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

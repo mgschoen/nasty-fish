@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HJa-hX-b2R">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,26 +21,70 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="JLL-td-PqE">
-                                <rect key="frame" x="67" y="213" width="240" height="240"/>
+                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Bf-fm-A11">
+                                <rect key="frame" x="0.0" y="618" width="375" height="49"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <items>
+                                    <tabBarItem title="Transactions" image="can_unselected" selectedImage="can_selected" id="LNc-2o-Qa3"/>
+                                    <tabBarItem systemItem="more" id="okD-WT-pGo"/>
+                                </items>
+                            </tabBar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="GUo-e9-XG3">
+                                <rect key="frame" x="62" y="233" width="250" height="200"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.41960784309999999" green="0.44705882349999998" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="JLL-td-PqE" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="23O-KD-IiI"/>
-                            <constraint firstItem="JLL-td-PqE" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="51" id="C34-pq-t6M"/>
-                            <constraint firstItem="JLL-td-PqE" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="193" id="qj8-ZX-KAB"/>
-                            <constraint firstItem="JLL-td-PqE" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="uTW-ao-qhp"/>
+                            <constraint firstItem="GUo-e9-XG3" firstAttribute="centerX" secondItem="3Bf-fm-A11" secondAttribute="centerX" id="6tT-s9-OQC"/>
+                            <constraint firstAttribute="trailing" secondItem="3Bf-fm-A11" secondAttribute="trailing" id="YlA-Vn-LM0"/>
+                            <constraint firstItem="GUo-e9-XG3" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="jFy-a8-Y2n"/>
+                            <constraint firstItem="3Bf-fm-A11" firstAttribute="bottom" secondItem="xb3-aO-Qok" secondAttribute="top" id="wNY-XT-8hU"/>
+                            <constraint firstItem="3Bf-fm-A11" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="zxP-GL-4bq"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="NvD-in-4mr">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="NNS-3b-yXU">
+                            <rect key="frame" x="70" y="7" width="235" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="All"/>
+                                <segment title="Lend"/>
+                                <segment title="Borrow"/>
+                                <segment title="Past"/>
+                            </segments>
+                        </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="7bS-rT-VTV"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="991.20000000000005" y="374.66266866566718"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="qRH-35-Bvv">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HJa-hX-b2R" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="d2w-Md-WZB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.97254901959999995" green="0.45098039220000002" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="01J-lp-oVM" kind="relationship" relationship="rootViewController" id="mfh-g5-Vbm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l8d-df-yIC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchScreen" width="180" height="180"/>
+        <image name="background" width="250" height="200"/>
+        <image name="can_selected" width="25" height="25"/>
+        <image name="can_unselected" width="25" height="25"/>
     </resources>
-    <color key="tintColor" red="0.0" green="0.087107305270000004" blue="0.78644511419999996" alpha="0.9376070205" colorSpace="custom" customColorSpace="sRGB"/>
+    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

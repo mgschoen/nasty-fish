@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="K4c-9P-C7Z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="K4c-9P-C7Z">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -56,10 +56,17 @@
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jsZ-8a-ZiI">
                                                     <rect key="frame" x="87" y="7" width="201" height="29"/>
                                                     <segments>
-                                                        <segment title="Loan"/>
-                                                        <segment title="Debt"/>
+                                                        <segment title="Lend"/>
+                                                        <segment title="Borrow"/>
                                                     </segments>
+                                                    <connections>
+                                                        <action selector="directionChanged:" destination="heC-rO-qO9" eventType="valueChanged" id="1zb-Wq-X4o"/>
+                                                    </connections>
                                                 </segmentedControl>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="InFish" translatesAutoresizingMaskIntoConstraints="NO" id="hcY-du-54d">
+                                                    <rect key="frame" x="37" y="0.0" width="42" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="jsZ-8a-ZiI" firstAttribute="bottom" secondItem="dLY-sh-1Rd" secondAttribute="bottomMargin" id="FVT-19-y7U"/>
@@ -111,7 +118,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0,00" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ep5-CQ-rfl">
-                                                    <rect key="frame" x="285" y="12.5" width="75" height="17"/>
+                                                    <rect key="frame" x="285" y="13" width="75" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="75" id="iMG-eV-pTl"/>
                                                     </constraints>
@@ -174,7 +181,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" placeholder="1" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LLS-L3-Gvw">
-                                                    <rect key="frame" x="263" y="12.5" width="97" height="17"/>
+                                                    <rect key="frame" x="263" y="13" width="97" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="97" id="xVI-Yo-Fwp"/>
                                                     </constraints>
@@ -256,7 +263,7 @@
                         <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="save" id="RRD-c6-73P">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="ZWs-uu-mPS" kind="unwind" identifier="SaveNewTransaction" unwindAction="saveNewTransactionWithSegue:" id="Gbb-Jb-FsG"/>
+                                <action selector="saveButtonTaped:" destination="heC-rO-qO9" id="wIB-5m-Be1"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -264,11 +271,13 @@
                         <outlet property="amountTextField" destination="ep5-CQ-rfl" id="1Xt-Vw-qK8"/>
                         <outlet property="belongingsSegmentControl" destination="yPs-dG-gIh" id="Me3-IH-NWs"/>
                         <outlet property="descriptionTextField" destination="FzN-Dz-Nff" id="ydQ-m0-YoV"/>
+                        <outlet property="directionImage" destination="hcY-du-54d" id="aHI-mg-6my"/>
                         <outlet property="directionSegmentedControl" destination="jsZ-8a-ZiI" id="3h7-bo-bBV"/>
                         <outlet property="peerPicker" destination="Sst-RG-N6S" id="khw-fJ-LNv"/>
                         <outlet property="quantityStepper" destination="Txe-Bh-nsh" id="Rwx-LK-R98"/>
                         <outlet property="quantityTextField" destination="LLS-L3-Gvw" id="gik-Tw-0iI"/>
                         <outlet property="saveButton" destination="RRD-c6-73P" id="rZQ-Y5-Zon"/>
+                        <segue destination="ZWs-uu-mPS" kind="unwind" identifier="savedTransaction" unwindAction="saveNewTransactionWithSegue:" id="fzb-fD-ElU"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S3a-4P-EYA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -300,5 +309,8 @@
             <point key="canvasLocation" x="3109.5999999999999" y="-392.65367316341832"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="InFish" width="50" height="50"/>
+    </resources>
     <color key="tintColor" red="0.97254901959999995" green="0.45098039220000002" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

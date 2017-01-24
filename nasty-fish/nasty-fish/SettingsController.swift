@@ -2,7 +2,7 @@
 //  SettingsController.swift
 //  nasty-fish
 //
-//  Created by manu on 07.01.17.
+//  Created by Manuel Hartmann on 07.01.17.
 //  Copyright © 2017 Gruppe 08. All rights reserved.
 //
 
@@ -29,20 +29,15 @@ class SettingsController: UITableViewController {
     
     var nickName: String {
         get {
-            return nickNameTextField.text!
+            return nickNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         }
     }
     
     
+    // MARK: - Default override
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     
         // Handle the text field’s user input through delegate callbacks.
         self.nickNameTextField.delegate = self
@@ -83,7 +78,6 @@ class SettingsController: UITableViewController {
     func checkUserInput() {
         var canCancel = true
         var canSave = true
-        
         
         // Check saved Nickname if nil disable cancel button
         if (UIApplication.shared.delegate as! AppDelegate).dataController!.fetchUserCustomName() == nil {
