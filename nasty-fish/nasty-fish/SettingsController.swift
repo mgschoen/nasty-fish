@@ -29,7 +29,7 @@ class SettingsController: UITableViewController {
     
     var nickName: String {
         get {
-            return nickNameTextField.text!
+            return nickNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         }
     }
     
