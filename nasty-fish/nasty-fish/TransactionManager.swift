@@ -130,40 +130,6 @@ class TransactionManager : NSObject {
         else {
             process(send: transaction)
         }
-        
-        
-//        if transaction.status == MessageStatus.accepted {
-//            var userInfo:[String: Bool] = ["isCreated": false]
-//            
-//            
-//            let transaction = storeNewTransaction(newTransaction: transaction, isSender: true)
-//                
-//                if transaction != nil {
-//                    userInfo["isCreated"] = true
-//                }
-//            
-//            
-//            // post a notification
-//            NotificationCenter.default.post(name: .transactionSavedNotification,
-//                                            object: nil,
-//                                            userInfo: userInfo)
-//        }
-//        
-//        // message send to the sender
-//        if transaction.status == MessageStatus.declined {
-//            // Todo use CommController
-//    
-//            var userInfo:[String: Bool] = ["isClosed": false]
-//    
-//            dataController?.closeTransaction(transaction, returnDate: NSDate())
-//            userInfo["isClosed"] = true
-//    
-//    
-//            // post a notification
-//            NotificationCenter.default.post(name: .transactionClosedNotification,
-//                object: nil,
-//                userInfo: userInfo)
-//        }
     }
 
 
@@ -185,15 +151,16 @@ class TransactionManager : NSObject {
             }
         }
         
-        let transaction = dataController?.storeNewTransaction(itemDescription: newTransaction.transactionDescription,
-            peer: peer!,
-            incoming: newTransaction.isIncomming,
-            isMoney: newTransaction.isMoney,
-            quantity: newTransaction.quantity,
-            category: nil,
-            dueDate: nil,
-            imageURL: nil,
-            dueWhenTransactionIsDue: nil)
+        let transaction = dataController?.storeNewTransaction(itemId: newTransaction.transactionId,
+                                                              itemDescription: newTransaction.transactionDescription,
+                                                              peer: peer!,
+                                                              incoming: newTransaction.isIncomming,
+                                                              isMoney: newTransaction.isMoney,
+                                                              quantity: newTransaction.quantity,
+                                                              category: nil,
+                                                              dueDate: nil,
+                                                              imageURL: nil,
+                                                              dueWhenTransactionIsDue: nil)
         
         return transaction
     }

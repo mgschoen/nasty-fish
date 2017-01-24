@@ -233,7 +233,16 @@ class Populator : NSObject {
         
         // Transactions
         for (index, transaction) in transactionDummyData.enumerated() {
-            storedTransactions[index] = dataController.storeNewTransaction(itemDescription: transaction.itemDescription, peer: storedPeers[transaction.peer]!, incoming: transaction.incoming, isMoney: transaction.isMoney, quantity: transaction.quantity, category: transaction.category, dueDate: transaction.dueDate, imageURL: transaction.imageURL, dueWhenTransactionIsDue: (transaction.dueWhenTransactionIsDue == nil) ? nil : storedTransactions[transaction.dueWhenTransactionIsDue!])
+            storedTransactions[index] = dataController.storeNewTransaction(itemId: UUID().uuidString,
+                                                                           itemDescription: transaction.itemDescription,
+                                                                           peer: storedPeers[transaction.peer]!,
+                                                                           incoming: transaction.incoming,
+                                                                           isMoney: transaction.isMoney,
+                                                                           quantity: transaction.quantity,
+                                                                           category: transaction.category,
+                                                                           dueDate: transaction.dueDate,
+                                                                           imageURL: transaction.imageURL,
+                                                                           dueWhenTransactionIsDue: (transaction.dueWhenTransactionIsDue == nil) ? nil : storedTransactions[transaction.dueWhenTransactionIsDue!])
         }
     }
     
