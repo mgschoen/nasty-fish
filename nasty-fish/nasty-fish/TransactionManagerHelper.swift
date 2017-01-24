@@ -8,15 +8,29 @@
 
 import Foundation
 
+enum MessageType {
+    case create
+    case close
+}
+
+enum MessageStatus {
+    case request
+    case accepted
+    case declined
+}
+
 // Helper datatype to work with unsaved transactions
-struct TransactionData {
+struct TransactionMessage {
+    var type: MessageType
+    var status: MessageStatus
+    
     var senderId: String
     var senderName: String
     
     var receiverId: String
     var receiverName: String
     
-    var transactionId: UUID
+    var transactionId: String
     var transactionDescription: String
     var isIncomming: Bool
     var isMoney: Bool
@@ -30,11 +44,7 @@ struct TransactionData {
 
 // extending Notification with the nastyfish notifications
 extension Notification.Name {
-    static let transactionSavedNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionSaved")
+    static let transactionRequestNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionRequest")
     
-    static let transactionClosedNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionClosed")
-    
-    static let createTransactionNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.creatTransaction")
-    
-    static let closeTransactionNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.closeTransaction")
+    static let transactionReplyNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionReply")
 }

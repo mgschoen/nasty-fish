@@ -69,6 +69,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		323F91851E360F58000315A1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3254CA4C1E2A908D009729C8 /* MainController.swift */,
+				327D46B91DF82D89004F151C /* MoreController.swift */,
+				3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */,
+				32C21DE11E2125B80088EE84 /* SettingsController.swift */,
+				32EC1B5E1DF4A34400B6B4BB /* TransactionsController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		327A167A1E2FC6DD00F3FC6D /* TransactionManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -81,14 +93,14 @@
 		32C0542A1E2B7B9800C69353 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				B8005D9A1E2E4CFD0088EC18 /* DetailTransaction.storyboard */,
 				F75B970D1DDC9F3300093D14 /* LaunchScreen.storyboard */,
 				F75B97081DDC9F3300093D14 /* Main.storyboard */,
 				32EC1B5A1DF4A27900B6B4BB /* More.storyboard */,
-				32C21DDE1E211ECA0088EE84 /* Settings.storyboard */,
 				32EC1B601DF4B79200B6B4BB /* NewTransaction.storyboard */,
-				32EC1B581DF4A0CE00B6B4BB /* Transactions.storyboard */,
-				B8005D9A1E2E4CFD0088EC18 /* DetailTransaction.storyboard */,
+				32C21DDE1E211ECA0088EE84 /* Settings.storyboard */,
 				32EC1B621DF4B90100B6B4BB /* TransactionDetail.storyboard */,
+				32EC1B581DF4A0CE00B6B4BB /* Transactions.storyboard */,
 			);
 			name = Storyboard;
 			sourceTree = "<group>";
@@ -96,12 +108,8 @@
 		32EC1B5D1DF4A2CA00B6B4BB /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
+				323F91851E360F58000315A1 /* Controller */,
 				32C0542A1E2B7B9800C69353 /* Storyboard */,
-				3254CA4C1E2A908D009729C8 /* MainController.swift */,
-				327D46B91DF82D89004F151C /* MoreController.swift */,
-				3232F5B01E05ACA900E8A7F9 /* NewTransactionController.swift */,
-				32EC1B5E1DF4A34400B6B4BB /* TransactionsController.swift */,
-				32C21DE11E2125B80088EE84 /* SettingsController.swift */,
 			);
 			name = UserInterface;
 			sourceTree = "<group>";

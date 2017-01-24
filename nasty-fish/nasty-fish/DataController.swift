@@ -161,21 +161,21 @@ class DataController : NSObject {
      * ------------------------------------------------------------------------------------ */
     
     // Adds a new transaction to the persistent storage
-    func storeNewTransaction
-        (itemDescription: String,
-        peer: KnownPeer,
-        incoming: Bool,
-        isMoney: Bool,
-        quantity: UInt?,
-        category: String?,
-        dueDate: NSDate?,
-        imageURL: String?,
-        dueWhenTransactionIsDue: Transaction?) -> Transaction?
+    func storeNewTransaction(itemId: String,
+                             itemDescription: String,
+                             peer: KnownPeer,
+                             incoming: Bool,
+                             isMoney: Bool,
+                             quantity: UInt?,
+                             category: String?,
+                             dueDate: NSDate?,
+                             imageURL: String?,
+                             dueWhenTransactionIsDue: Transaction?) -> Transaction?
         {
             let managedContext = persistentContainer.viewContext
             let entity = NSEntityDescription.entity(forEntityName: "Transaction", in: managedContext)
             let newTransaction = NSManagedObject(entity: entity!, insertInto: managedContext) as? Transaction
-            newTransaction?.uuid = UUID().uuidString
+            newTransaction?.uuid = itemId
             newTransaction?.startDate = NSDate()
             newTransaction?.itemDescription = itemDescription
             newTransaction?.peer = peer

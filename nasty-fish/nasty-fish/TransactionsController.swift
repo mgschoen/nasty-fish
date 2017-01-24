@@ -77,28 +77,16 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         
         // Register to receive notification
         
-        // Observe listen for transactionSavedNotification
+        // Observe listen for transactionRequestNotification
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.actOnTransactionSavedNotification),
-                                               name: .transactionSavedNotification,
+                                               selector: #selector(self.actOnTransactionRequestNotification),
+                                               name: .transactionRequestNotification,
                                                object: nil)
         
-        // Observe listen for transactionClosedNotification
+        // Observe listen for transactionReplyNotification
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.actOnTransactionClosedNotification),
-                                               name: .transactionClosedNotification,
-                                               object: nil)
-        
-        // Observe listen for transactionSavedNotification
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.actOnCreateTransactionNotification),
-                                               name: .createTransactionNotification,
-                                               object: nil)
-        
-        // Observe listen for transactionSavedNotification
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.actOnCloseTransactionNotification),
-                                               name: .closeTransactionNotification,
+                                               selector: #selector(self.actOnTransactionReplyNotification),
+                                               name: .transactionReplyNotification,
                                                object: nil)
         
         fetchData()
@@ -264,30 +252,26 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     
     // MARK: - Notification
     
-    func actOnTransactionSavedNotification(_ notification: NSNotification) {
-        if (notification.userInfo?["isCreated"] as! Bool) {
-            fetchData()
+    func actOnTransactionReplyNotification(_ notification: NSNotification) {
+        if let transaction = (notification.userInfo?["TransactionMessage"] as? TransactionMessage) {
+            if transaction.status == .accepted {
+                    fetchData()
+            }
         }
     }
-    
-    func actOnTransactionClosedNotification(_ notification: NSNotification) {
-        if (notification.userInfo?["isClosed"] as! Bool) {
-            fetchData()
+
+    func actOnTransactionRequestNotification(_ notification: NSNotification) {
+        if let transaction = (notification.userInfo?["TransactionMessage"] as? TransactionMessage) {
+            
+            if transaction.type == MessageType.create {
+                showAcceptTransactionAlert(transaction: transaction)
+            }
+            
+            if transaction.type == MessageType.close {
+                showCloseTransactionAlert(transaction: transaction)
+            }
         }
     }
-    
-    func actOnCreateTransactionNotification(_ notification: NSNotification) {
-        if let transaction = (notification.userInfo?["transaction"] as? TransactionData) {
-            showAcceptTransactionAlert(transaction: transaction)
-        }
-    }
-    
-    func actOnCloseTransactionNotification(_ notification: NSNotification) {
-        if let transaction = (notification.userInfo?["transaction"] as? Transaction) {
-            showCloseTransactionAlert(transaction: transaction)
-        }
-    }
-    
     
     // MARK: - Helper
     
@@ -301,7 +285,7 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         preFilterContent(scope: preFilter.selectedSegmentIndex)
     }
     
-    func showAcceptTransactionAlert(transaction: TransactionData) {
+    func showAcceptTransactionAlert(transaction: TransactionMessage) {
         let alert = UIAlertController(title: "Accept Transaction?",
                                       message: "\(transaction.senderName) wants to send you the transaction:\n\(transaction.transactionDescription)\n\nDo you accept it?",
                                       preferredStyle: .alert)
@@ -310,14 +294,14 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
                                      style: .cancel,
                                      handler: {
                                         (_)in
-                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.receiveAndProcess(create: transaction, accepted: false)
+                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.process(received: transaction, accepted: false)
         })
     
         let yesAction = UIAlertAction(title: "Yes",
                                       style: .default,
                                       handler: {
                                         (_)in
-                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.receiveAndProcess(create: transaction, accepted: true)
+                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.process(received: transaction, accepted: true)
         })
     
     
@@ -326,23 +310,23 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         self.present(alert, animated: true, completion: nil)
     }
     
-    func showCloseTransactionAlert(transaction: Transaction) {
+    func showCloseTransactionAlert(transaction: TransactionMessage) {
         let alert = UIAlertController(title: "Close Transaction?",
-                                      message: "\(transaction.peer?.customName) wants to close the transaction:\n\(transaction.itemDescription)\n\nDo you accept that?",
+                                      message: "\(transaction.senderName) wants to close the transaction:\n\(transaction.transactionDescription)\n\nDo you accept that?",
                                       preferredStyle: .alert)
         
         let noAction = UIAlertAction(title: "No",
                                      style: .cancel,
                                      handler: {
                                         (_)in
-                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.receiveAndProcess(close: transaction, accepted: false)
+                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.process(received: transaction, accepted: false)
         })
         
         let yesAction = UIAlertAction(title: "Yes",
                                       style: .default,
                                       handler: {
                                         (_)in
-                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.receiveAndProcess(close: transaction, accepted: true)
+                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.process(received: transaction, accepted: true)
         })
         
         

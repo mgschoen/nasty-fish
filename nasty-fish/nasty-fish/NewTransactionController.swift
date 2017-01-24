@@ -26,11 +26,14 @@ class NewTransactionController: UITableViewController {
     // MARK: - IBActions
     
     @IBAction func saveButtonTaped(_ sender: UIBarButtonItem) {
-        let transaction = TransactionData(senderId: ((UIApplication.shared.delegate as! AppDelegate).dataController?.appInstanceId)!,
+        // Todo resolve receiver
+        let transaction = TransactionMessage(type: MessageType.create,
+                                          status: MessageStatus.request,
+                                          senderId: ((UIApplication.shared.delegate as! AppDelegate).dataController?.appInstanceId)!,
                                           senderName: ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchUserCustomName())!,
                                           receiverId: peer,
                                           receiverName: "[Undefined]",
-                                          transactionId: UUID(),
+                                          transactionId: UUID().uuidString,
                                           transactionDescription: transactionDescription,
                                           isIncomming: isIncomming,
                                           isMoney: isMoney,
@@ -41,16 +44,19 @@ class NewTransactionController: UITableViewController {
                                           dueWhenTransactionIsDue: nil)
         
         
-        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendAndProcess(create: transaction)
+        let succeed = (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendData(transaction)
         
-//        let alert = UIAlertController(title: "Order Placed!", message: "Thank you for your order.\nWe'll ship it to you soon!", preferredStyle: .alert)
-//        let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {
-//            (_)in
-//            self.performSegue(withIdentifier: "savedTransaction", sender: self)
-//        })
-//        
-//        alert.addAction(OKAction)
-//        self.present(alert, animated: true, completion: nil)
+        if (!succeed!) {
+            let alert = UIAlertController(title: "Sending transaction failed",
+                                          message: "Transaction was not send successfully.",
+                                          preferredStyle: UIAlertControllerStyle.alert)
+            
+            alert.addAction(UIAlertAction(title: "Ok",
+                                          style: UIAlertActionStyle.default,
+                                          handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     @IBAction func directionChanged(_ sender: UISegmentedControl) {
@@ -188,12 +194,12 @@ class NewTransactionController: UITableViewController {
         // Register to receive notification
         // Observe listen for transactionSavedNotification
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.actOnTransactionSavedNotification),
-                                               name: .transactionSavedNotification,
+                                               selector: #selector(self.actOnTransactionReplyNotification),
+                                               name: .transactionReplyNotification,
                                                object: nil)
         
         // load P2P clients
-        pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchClients())!
+        pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchPeerNames())!
     }
 
     override func didReceiveMemoryWarning() {
@@ -250,20 +256,22 @@ class NewTransactionController: UITableViewController {
     
     // MARK: - Notification
     
-    func actOnTransactionSavedNotification(_ notification: NSNotification) {
-        if (notification.userInfo?["isCreated"] as! Bool) {
-            self.performSegue(withIdentifier: "savedTransaction", sender: self)
-        }
-        else {
-            let alert = UIAlertController(title: "Transmission failed",
-                                          message: "Transaction was not created successfully.",
-                                          preferredStyle: UIAlertControllerStyle.alert)
-            
-            alert.addAction(UIAlertAction(title: "Ok",
-                                          style: UIAlertActionStyle.default,
-                                          handler: nil))
-            
-            self.present(alert, animated: true, completion: nil)
+    func actOnTransactionReplyNotification(_ notification: NSNotification) {
+        if let transaction = (notification.userInfo?["TransactionMessage"] as? TransactionMessage) {
+            if transaction.status == .accepted {
+                self.performSegue(withIdentifier: "savedTransaction", sender: self)
+            }
+            else {
+                let alert = UIAlertController(title: "Transaction declined",
+                                              message: "\(transaction.receiverName) declined to accept the transaction:\n\(transaction.transactionDescription)",
+                                              preferredStyle: UIAlertControllerStyle.alert)
+                
+                alert.addAction(UIAlertAction(title: "Ok",
+                                              style: UIAlertActionStyle.default,
+                                              handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
@@ -304,6 +312,11 @@ class NewTransactionController: UITableViewController {
                     isValid = false
                 }
             }
+        }
+        
+        // Check Peer
+        if pickerData.count == 0 {
+            isValid = false
         }
         
         saveButton.isEnabled = isValid
