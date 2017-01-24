@@ -310,7 +310,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
                 //if key not already in dictionary add it
                 foundPartnersAdvertisedData[peerID] = info
             }
-            //foundPartnersDictionary[(info?.first?.key)!] = info!.first?.value
             foundPartnersIDs.append((info?["nastyFishPartnerIdentifier"])!)
             foundPartnersCustomNames.append((info?["customName"])!)
         }
