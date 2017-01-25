@@ -37,7 +37,14 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     var isBrowsing: Bool
     
     //connPartners = ["vendorIDXYZ0x00":["name":customName, "mcpeer":MCPeerID]]
-    var partnerInfoByVendorID = [String: [String:Any]]()
+    var partnerInfoByVendorID : [String: [String:Any]] {
+        get {
+            return self.partnerInfoByVendorID
+        }
+        set (pInfo) {
+            self.partnerInfoByVendorID = pInfo
+        }
+    }
     
     
     //completion handler declaration
