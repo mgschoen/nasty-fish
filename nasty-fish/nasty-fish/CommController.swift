@@ -37,7 +37,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     var isBrowsing: Bool
     
     //connPartners = ["vendorIDXYZ0x00":["name":customName, "mcpeer":MCPeerID]]
-    var partnerInfoByVendorID : [String: [String:Any]] {
+    var partnerInfoByVendorID : [String:(String,MCPeerID)] {
         get {
             return self.partnerInfoByVendorID
         }
@@ -259,13 +259,17 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
             let vendorID = info?["nastyFishPartnerIdentifier"]
             let cName = info?["customName"]
         
-            var cp = [String:Any]()
-            cp["mcpeer"] = peerID
-            cp["customName"] = cName
+            //var cp = [String:Any]()
+            //cp["mcpeer"] = peerID
+            //cp["customName"] = cName
         
-            var connectingPartners : Dictionary<String, Dictionary<String, Any>> = [String:[String:Any]]()
-            connectingPartners[vendorID!]=cp
-            partnerInfoByVendorID = connectingPartners
+            //var connectingPartners : Dictionary<String, Dictionary<String, Any>> = [String:[String:Any]]()
+            //connectingPartners[vendorID!]=cp
+            //partnerInfoByVendorID = connectingPartners
+            
+            //let tupel : (String, MCPeerID ) = (cName!, peerID)
+            let pts : [String:(String,MCPeerID)] = [vendorID! : (cName!, peerID)]
+            partnerInfoByVendorID = pts
         }
         
         foundPartners.append(peerID)
