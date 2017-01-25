@@ -292,12 +292,19 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         for (index, aPeer) in foundPartners.enumerated() {
             if(aPeer == peerID){
                 foundPartners.remove(at: index)
-                
+                //var blaa = partnerInfoByVendorID.value
                 //Not sure if a peer may be contained in the foundPartners Array but not in the Dictionary
                 //But lets check it
-                if(foundPartnersAdvertisedData.index(forKey: peerID) != nil){
-                    foundPartnersAdvertisedData.remove(at: foundPartnersAdvertisedData.index(forKey: peerID)!)
-                }
+//                if(foundPartnersAdvertisedData.index(forKey: peerID) != nil){
+//                    foundPartnersAdvertisedData.remove(at: foundPartnersAdvertisedData.index(forKey: peerID)!)
+//                }
+                break
+            }
+        }
+        
+        for (key, tupel) in partnerInfoByVendorID {
+            if (tupel.1 == peerID) {
+                partnerInfoByVendorID.removeValue(forKey: key)
                 break
             }
         }
