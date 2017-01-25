@@ -92,7 +92,8 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         super.init()
         
         //init MCPeerID with customName
-        peer = MCPeerID(displayName: customName)
+        //peer = MCPeerID(displayName: customName)
+        peer = MCPeerID()
         
         /* Init Session */
         initSession()
