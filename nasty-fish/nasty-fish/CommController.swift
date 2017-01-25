@@ -385,6 +385,18 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         return foundPartners[index]
     }
     
+    /**
+        To look up MCPeerID
+     
+        - Parameter key: String that indetifies the user (in our case: identifierForVendorID.uuidString)
+     */
+    func resolveMCPeerIDForVendorID(_ key: String) -> MCPeerID {
+//        if !partnerInfoByVendorID.isEmpty {
+//            let entry = partnerInfoByVendorID[key]
+//            let peer = entry?.1
+//        }
+        return (partnerInfoByVendorID[key]?.1)!
+    }
     /* ------------------------------------------------------------------------------------ *
      *   Sending Data                                                                       *
      * ------------------------------------------------------------------------------------ */
