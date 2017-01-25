@@ -347,6 +347,11 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
            NSLog("%@", "Could not resolve Transaction Receiver - Unknown Peer String")
         }
         let index = foundPartnersIDs.index(of: nastyFishPartnerIdentifier)!
+        
+        if (foundPartners.isEmpty){
+            NSLog("%@", "*** resolve PeerID *** status: failed *** No Connected Peers")
+            return MCPeerID(displayName: "dummyForEmptyPeerList")
+        }
         return foundPartners[index]
     }
     
