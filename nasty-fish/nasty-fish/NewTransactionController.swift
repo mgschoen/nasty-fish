@@ -27,8 +27,8 @@ class NewTransactionController: UITableViewController {
     
     @IBAction func saveButtonTaped(_ sender: UIBarButtonItem) {
         // Todo resolve receiver
-        let transaction = TransactionMessage(type: MessageType.create,
-                                          status: MessageStatus.request,
+        let transaction = TransactionMessage(type: MessageType.create.rawValue,
+                                          status: MessageStatus.request.rawValue,
                                           senderId: ((UIApplication.shared.delegate as! AppDelegate).dataController?.appInstanceId)!,
                                           senderName: ((UIApplication.shared.delegate as! AppDelegate).dataController?.fetchUserCustomName())!,
                                           receiverId: ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.resolvePeerName(peer))!,
@@ -40,8 +40,7 @@ class NewTransactionController: UITableViewController {
                                           quantity: quantity,
                                           category: nil,
                                           dueDate: nil,
-                                          imageURL: nil,
-                                          dueWhenTransactionIsDue: nil)
+                                          imageURL: nil)
         
         
         let succeed = (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendData(transaction)
@@ -258,7 +257,7 @@ class NewTransactionController: UITableViewController {
     
     func actOnTransactionReplyNotification(_ notification: NSNotification) {
         if let transaction = (notification.userInfo?["TransactionMessage"] as? TransactionMessage) {
-            if transaction.status == .accepted {
+            if transaction.status == MessageStatus.accepted.rawValue {
                 self.performSegue(withIdentifier: "savedTransaction", sender: self)
             }
             else {

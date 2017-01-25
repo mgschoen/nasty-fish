@@ -390,7 +390,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         let peer = resolveMCPeerID(forKey: data.receiverId)
         var dataToSend : Data
         do {
-            dataToSend = try NSKeyedArchiver.archivedData(withRootObject: data)
+            dataToSend = try TransactionMessage.encode(transactionMessage: data)
         } catch {
             
             NSLog("%@", "*** ERR *** sendToPartner: \(NSException.debugDescription())")
@@ -422,9 +422,9 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         let receivedDataDictionary = notification.object as! Dictionary<String, AnyObject>
         // "Extract" the data and the source peer from the received dictionary.
         let data = receivedDataDictionary["data"] as? NSData
-        let transaction = NSKeyedUnarchiver.unarchiveObject(with: data! as Data) as! TransactionMessage
+        let transaction = TransactionMessage.decode(data: data! as Data)
 
-        delegate?.receivedData(transaction)
+        delegate?.receivedData(transaction!)
     }
 
 }

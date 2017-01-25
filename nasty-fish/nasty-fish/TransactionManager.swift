@@ -32,12 +32,12 @@ class TransactionManager : NSObject, CommControllerDelegate {
     // transaction sender
     func process(send transaction: TransactionMessage) {
 
-        if (transaction.status == .accepted) {
-            if transaction.type == .create {
+        if (transaction.status == MessageStatus.accepted.rawValue) {
+            if transaction.type == MessageType.create.rawValue {
                 _ = storeTransaction(transaction)
             }
             
-            if transaction.type == .close {
+            if transaction.type == MessageType.close.rawValue {
                 closeTransaction(transaction)
             }
         }
@@ -52,7 +52,7 @@ class TransactionManager : NSObject, CommControllerDelegate {
     // transaction receiver
     func process(received transaction: TransactionMessage, accepted: Bool) {
         var temp = transaction
-        temp.status = accepted ? .accepted : .declined
+        temp.status = accepted ? MessageStatus.accepted.rawValue : MessageStatus.declined.rawValue
         
         temp.senderId = transaction.receiverId
         temp.senderName = transaction.receiverName
@@ -63,11 +63,11 @@ class TransactionManager : NSObject, CommControllerDelegate {
         assert(!succeed, "sendData failed")
         
         if accepted && succeed {
-            if transaction.type == .create {
+            if transaction.type == MessageType.create.rawValue {
                 _ = storeTransaction(transaction)
             }
         
-            if transaction.type == .close {
+            if transaction.type == MessageType.close.rawValue {
                 closeTransaction(transaction)
             }
         }
@@ -138,7 +138,7 @@ class TransactionManager : NSObject, CommControllerDelegate {
     func receivedData(_ transaction: TransactionMessage) {
         let userInfo:[String: TransactionMessage] = ["TransactionMessage": transaction]
         
-        if transaction.status == MessageStatus.request {
+        if transaction.status == MessageStatus.request.rawValue {
             // message send to the receiver
             NotificationCenter.default.post(name: .transactionRequestNotification,
                                             object: nil,

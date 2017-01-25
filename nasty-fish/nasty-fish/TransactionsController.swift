@@ -254,7 +254,7 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     
     func actOnTransactionReplyNotification(_ notification: NSNotification) {
         if let transaction = (notification.userInfo?["TransactionMessage"] as? TransactionMessage) {
-            if transaction.status == .accepted {
+            if transaction.status == MessageStatus.accepted.rawValue {
                     fetchData()
             }
         }
@@ -263,11 +263,11 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     func actOnTransactionRequestNotification(_ notification: NSNotification) {
         if let transaction = (notification.userInfo?["TransactionMessage"] as? TransactionMessage) {
             
-            if transaction.type == MessageType.create {
+            if transaction.type == MessageType.create.rawValue {
                 showAcceptTransactionAlert(transaction: transaction)
             }
             
-            if transaction.type == MessageType.close {
+            if transaction.type == MessageType.close.rawValue {
                 showCloseTransactionAlert(transaction: transaction)
             }
         }
