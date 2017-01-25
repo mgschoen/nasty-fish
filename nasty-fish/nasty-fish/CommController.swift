@@ -37,14 +37,14 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     var isBrowsing: Bool
     
     //connPartners = ["vendorIDXYZ0x00":["name":customName, "mcpeer":MCPeerID]]
-    var partnerInfoByVendorID : [String:(String,MCPeerID)] {
-        get {
-            return self.partnerInfoByVendorID
-        }
-        set (pInfo) {
-            self.partnerInfoByVendorID = pInfo
-        }
-    }
+    var partnerInfoByVendorID : [String:(String,MCPeerID)] //{
+//        get {
+//            return self.partnerInfoByVendorID
+//        }
+//        set (pInfo) {
+//            self.partnerInfoByVendorID = pInfo
+//        }
+//    }
     
     
     //completion handler declaration
@@ -53,6 +53,8 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     override init(){
         isAdvertising = false
         isBrowsing = false
+        
+        partnerInfoByVendorID = [String:(String,MCPeerID)]()
         
         super.init()
         //MAYBE: Care about the case that the dataContorller == nil
@@ -96,11 +98,12 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         isAdvertising = false
         isBrowsing = false
         
+        partnerInfoByVendorID = [String:(String,MCPeerID)]()
         super.init()
         
         //init MCPeerID with customName
         //peer = MCPeerID(displayName: customName)
-        peer = MCPeerID()
+        peer = MCPeerID(displayName: uuid)
         
         /* Init Session */
         initSession()
@@ -118,6 +121,8 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
                                                selector: #selector(handleMPCReceivedDataWithNotification),
                                                name: NSNotification.Name("receivedMPCDataNotification"),
                                                object: nil)
+
+        
     }
     deinit {
         session.disconnect()
