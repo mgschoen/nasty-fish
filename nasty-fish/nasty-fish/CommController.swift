@@ -304,7 +304,7 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         switch(state){
         case MCSessionState.connected:
             NSLog("%@", "didChangeStateConnected: \(peerID) connected to \(session)")
-            delegate?.connectedWithPeer(peerID: peerID.displayName)
+            //delegate?.connectedWithPeer(peerID: peerID.displayName)
             
         case MCSessionState.connecting:
             NSLog("%@", "didChangeStateConnecting: \(peerID) is connecting to \(session)")
