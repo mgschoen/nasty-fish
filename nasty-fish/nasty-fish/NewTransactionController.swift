@@ -197,6 +197,11 @@ class NewTransactionController: UITableViewController {
                                                name: .transactionReplyNotification,
                                                object: nil)
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOntransactionPeersChangedNotification),
+                                               name: .transactionPeersChangedNotification,
+                                               object: nil)
+        
         // load P2P clients
         pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchPeerNames())!
     }
@@ -279,6 +284,11 @@ class NewTransactionController: UITableViewController {
                 self.present(alert, animated: true, completion: nil)
             }
         }
+    }
+    
+    func actOntransactionPeersChangedNotification(_ notification: NSNotification) {
+        pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchPeerNames())!
+        peerPicker.reloadAllComponents()
     }
     
     
