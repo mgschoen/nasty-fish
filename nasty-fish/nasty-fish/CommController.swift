@@ -415,6 +415,9 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         return (partnerInfoByVendorID[key]?.1)!
     }
     
+    /**
+        Returns a list of all peers' customNames
+     */
     func peerCustomNames() -> [String] {
         var peerCustomNames = [String]()
         for tupel in partnerInfoByVendorID.values {
