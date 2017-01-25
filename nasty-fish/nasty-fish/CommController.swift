@@ -381,28 +381,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     }
     
     /**
-        Searches the corresponding MultipeerConnectivity Peer ID (MCPeerID) among all found peers
-     
-        - Parameter nastyFishPartnerIdentifier: The UUID-String that identifies each partner for transactions
-    */
-    func resolveMCPeerID(forKey nastyFishPartnerIdentifier: String) -> MCPeerID {
-        
-        //connPartners = ["vendorIDXYZ0x00":["name":customName, "mcpeer":MCPeerID]]
-        //connPartners = [String: (blaa:Bool, )]
-        
-        if !(foundPartnersIDs.contains(nastyFishPartnerIdentifier)){
-           NSLog("%@", "Could not resolve Transaction Receiver - Unknown Peer String")
-        }
-        let index = foundPartnersIDs.index(of: nastyFishPartnerIdentifier)!
-        
-        if (foundPartners.isEmpty){
-            NSLog("%@", "*** resolve PeerID *** status: failed *** No Connected Peers")
-            return MCPeerID(displayName: "dummyForEmptyPeerList")
-        }
-        return foundPartners[index]
-    }
-    
-    /**
         To look up MCPeerID
      
         - Parameter key: String that indetifies the user (in our case: identifierForVendorID.uuidString)
