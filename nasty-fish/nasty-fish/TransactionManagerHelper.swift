@@ -144,4 +144,6 @@ extension Notification.Name {
     static let transactionRequestNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionRequest")
     
     static let transactionReplyNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionReply")
+    
+    static let transactionPeersChangedNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionPeersChanged")
 }

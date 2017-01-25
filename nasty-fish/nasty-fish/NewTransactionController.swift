@@ -197,6 +197,11 @@ class NewTransactionController: UITableViewController {
                                                name: .transactionReplyNotification,
                                                object: nil)
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOntransactionPeersChangedNotification),
+                                               name: .transactionPeersChangedNotification,
+                                               object: nil)
+        
         // load P2P clients
         pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchPeerNames())!
     }
@@ -261,6 +266,13 @@ class NewTransactionController: UITableViewController {
                 self.performSegue(withIdentifier: "savedTransaction", sender: self)
             }
             else {
+                
+                // Restart browsing and reset pickerData
+                (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.stopBrowsingForPartners()
+                (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.stopBrowsingForPartners()
+                pickerData = [String]()
+                peerPicker.reloadAllComponents()
+                
                 let alert = UIAlertController(title: "Transaction declined",
                                               message: "\(transaction.receiverName) declined to accept the transaction:\n\(transaction.transactionDescription)",
                                               preferredStyle: UIAlertControllerStyle.alert)
@@ -272,6 +284,11 @@ class NewTransactionController: UITableViewController {
                 self.present(alert, animated: true, completion: nil)
             }
         }
+    }
+    
+    func actOntransactionPeersChangedNotification(_ notification: NSNotification) {
+        pickerData = ((UIApplication.shared.delegate as! AppDelegate).transactionManager?.fetchPeerNames())!
+        peerPicker.reloadAllComponents()
     }
     
     
