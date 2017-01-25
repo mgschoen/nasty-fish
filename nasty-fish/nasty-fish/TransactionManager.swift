@@ -51,16 +51,30 @@ class TransactionManager : NSObject, CommControllerDelegate {
     
     // transaction receiver
     func process(received transaction: TransactionMessage, accepted: Bool) {
-        var temp = transaction
-        temp.status = accepted ? MessageStatus.accepted.rawValue : MessageStatus.declined.rawValue
+        let answerMessage = TransactionMessage(type: transaction.type,
+                                      status: accepted ? MessageStatus.accepted.rawValue : MessageStatus.declined.rawValue,
+                                      senderId: transaction.receiverId,
+                                      senderName: transaction.receiverName,
+                                      receiverId: transaction.senderId,
+                                      receiverName: transaction.senderName,
+                                      transactionId: transaction.transactionId,
+                                      transactionDescription: transaction.transactionDescription,
+                                      isIncomming: transaction.isIncomming,
+                                      isMoney: transaction.isMoney,
+                                      quantity: transaction.quantity,
+                                      category: transaction.category,
+                                      dueDate: transaction.dueDate,
+                                      imageURL: transaction.imageURL)
         
-        temp.senderId = transaction.receiverId
-        temp.senderName = transaction.receiverName
-        temp.receiverId = transaction.senderId
-        temp.receiverName = transaction.senderName
+//        temp.status = accepted ? MessageStatus.accepted.rawValue : MessageStatus.declined.rawValue
+//        
+//        temp.senderId = transaction.receiverId
+//        temp.senderName = transaction.receiverName
+//        temp.receiverId = transaction.senderId
+//        temp.receiverName = transaction.senderName
         
-        let succeed = sendData(temp)
-        assert(!succeed, "sendData failed")
+        let succeed = sendData(answerMessage)
+//        assert(!succeed, "sendData failed")
         
         if accepted && succeed {
             if transaction.type == MessageType.create.rawValue {
@@ -73,7 +87,7 @@ class TransactionManager : NSObject, CommControllerDelegate {
         }
             
         // post a notification
-        let userInfo:[String: TransactionMessage] = ["TransactionMessage": temp]
+        let userInfo:[String: TransactionMessage] = ["TransactionMessage": answerMessage]
         NotificationCenter.default.post(name: .transactionReplyNotification,
                                         object: nil,
                                         userInfo: userInfo)
@@ -176,7 +190,7 @@ class TransactionManager : NSObject, CommControllerDelegate {
         let transaction = dataController?.storeNewTransaction(itemId: newTransaction.transactionId,
                                                               itemDescription: newTransaction.transactionDescription,
                                                               peer: peer!,
-                                                              incoming: newTransaction.isIncomming,
+                                                              incoming: newTransaction.status == MessageStatus.request.rawValue ? !newTransaction.isIncomming : newTransaction.isIncomming,
                                                               isMoney: newTransaction.isMoney,
                                                               quantity: newTransaction.quantity,
                                                               category: nil,
