@@ -32,7 +32,9 @@ class DetailTransactionViewController: UITableViewController {
 
    //popup Msg for delete Transaction
         
-        @IBAction func showAlert() {
+    
+    /*
+    @IBAction func showAlert() {
             let alertController = UIAlertController(title: "Delete Transaction", message: "Are you sure you what to delete the Transaction?", preferredStyle: .alert)
             
             
@@ -54,6 +56,7 @@ class DetailTransactionViewController: UITableViewController {
             
             
         }
+ */
         override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -86,14 +89,10 @@ class DetailTransactionViewController: UITableViewController {
         
           
             if let quantityInt = transaction?.quantity {
-                print(String(format:"Your value with 2 decimals: %.3f", quantity))
-                print(String(format:"Your value with no decimals: %.0f", quantity))
+               
                 if moneyBool {
-                  
-                    quantity.text = String(quantityInt)  + "€"
-                 
-                   
-                }else{
+                    quantity.text = String(format: "%.2f", Double(quantityInt / 100)) + "€"
+                 }else{
                     
                     quantity.text = String(quantityInt)
                 }
@@ -114,6 +113,7 @@ class DetailTransactionViewController: UITableViewController {
    
             }
         }
+        
     }
 
     override func didReceiveMemoryWarning() {
