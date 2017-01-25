@@ -36,6 +36,10 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     var isAdvertising: Bool
     var isBrowsing: Bool
     
+    //connPartners = ["vendorIDXYZ0x00":["name":customName, "mcpeer":MCPeerID]]
+    var partnerInfoByVendorID = [String: [String:Any]]()
+    
+    
     //completion handler declaration
     var invitationHandler: ((Bool, MCSession?)->Void)!
     
