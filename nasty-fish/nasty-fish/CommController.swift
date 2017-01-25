@@ -441,7 +441,10 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
 //        var transactionId: UUID, transactionDescription: String, isIncomming: Bool, imageURL: String?
 //        var dueWhenTransactionIsDue: Transaction?
         //Lookup the receiving MCPeerID
-        let peer = resolveMCPeerID(forKey: data.receiverId)
+        
+        //let peer = resolveMCPeerID(forKey: data.receiverId)
+        let peer = resolveMCPeerIDForVendorID(data.receiverId)
+        
         var dataToSend : Data
         do {
             dataToSend = try TransactionMessage.encode(transactionMessage: data)
