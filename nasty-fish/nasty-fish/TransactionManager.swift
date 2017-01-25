@@ -117,7 +117,7 @@ class TransactionManager : NSObject, CommControllerDelegate {
     }
     
     func fetchPeerNames() -> [String] {
-        return (commController?.foundPartnersCustomNames)!
+        return (commController?.peerCustomNames())!
     }
     
     func resolvePeerName(_ peerName: String) -> String {
