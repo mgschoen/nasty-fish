@@ -414,6 +414,15 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
 //        }
         return (partnerInfoByVendorID[key]?.1)!
     }
+    
+    func peerCustomNames() -> [String] {
+        var peerCustomNames = [String]()
+        for tupel in partnerInfoByVendorID.values {
+            peerCustomNames.append(tupel.0)
+        }
+        return peerCustomNames
+    }
+    
     /* ------------------------------------------------------------------------------------ *
      *   Sending Data                                                                       *
      * ------------------------------------------------------------------------------------ */
