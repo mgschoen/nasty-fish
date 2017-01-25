@@ -423,6 +423,19 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         return peerCustomNames
     }
     
+    /**
+        Returns the uuid for a specified name
+     
+        - Parameter name: the customName that should be mapped to a uuid
+    */
+    func resolvePartnerInfo(forName name: String) -> String {
+        for (key, tupel) in partnerInfoByVendorID {
+            if tupel.0 == name {
+                return key
+            }
+        }
+    }
+    
     /* ------------------------------------------------------------------------------------ *
      *   Sending Data                                                                       *
      * ------------------------------------------------------------------------------------ */
