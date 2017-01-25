@@ -51,16 +51,30 @@ class TransactionManager : NSObject, CommControllerDelegate {
     
     // transaction receiver
     func process(received transaction: TransactionMessage, accepted: Bool) {
-        var temp = transaction
-        temp.status = accepted ? MessageStatus.accepted.rawValue : MessageStatus.declined.rawValue
+        let answerMessage = TransactionMessage(type: transaction.type,
+                                      status: accepted ? MessageStatus.accepted.rawValue : MessageStatus.declined.rawValue,
+                                      senderId: transaction.receiverId,
+                                      senderName: transaction.receiverName,
+                                      receiverId: transaction.senderId,
+                                      receiverName: transaction.senderName,
+                                      transactionId: transaction.transactionId,
+                                      transactionDescription: transaction.transactionDescription,
+                                      isIncomming: transaction.isIncomming,
+                                      isMoney: transaction.isMoney,
+                                      quantity: transaction.quantity,
+                                      category: transaction.category,
+                                      dueDate: transaction.dueDate,
+                                      imageURL: transaction.imageURL)
         
-        temp.senderId = transaction.receiverId
-        temp.senderName = transaction.receiverName
-        temp.receiverId = transaction.senderId
-        temp.receiverName = transaction.senderName
+//        temp.status = accepted ? MessageStatus.accepted.rawValue : MessageStatus.declined.rawValue
+//        
+//        temp.senderId = transaction.receiverId
+//        temp.senderName = transaction.receiverName
+//        temp.receiverId = transaction.senderId
+//        temp.receiverName = transaction.senderName
         
-        let succeed = sendData(transaction)
-        assert(!succeed, "sendData failed")
+        let succeed = sendData(answerMessage)
+//        assert(!succeed, "sendData failed")
         
         if accepted && succeed {
             if transaction.type == MessageType.create.rawValue {
@@ -73,7 +87,7 @@ class TransactionManager : NSObject, CommControllerDelegate {
         }
             
         // post a notification
-        let userInfo:[String: TransactionMessage] = ["TransactionMessage": temp]
+        let userInfo:[String: TransactionMessage] = ["TransactionMessage": answerMessage]
         NotificationCenter.default.post(name: .transactionReplyNotification,
                                         object: nil,
                                         userInfo: userInfo)
@@ -120,11 +134,15 @@ class TransactionManager : NSObject, CommControllerDelegate {
     // MARK - CommunicationControllerDelegate
     
     func foundPeers() {
-        // Todo
+        NotificationCenter.default.post(name: .transactionPeersChangedNotification,
+                                        object: nil,
+                                        userInfo: nil)
     }
     
     func lostPeer() {
-        // Todo
+        NotificationCenter.default.post(name: .transactionPeersChangedNotification,
+                                        object: nil,
+                                        userInfo: nil)
     }
     
     func invitationWasReceived(fromPeer: String) {
@@ -159,24 +177,11 @@ class TransactionManager : NSObject, CommControllerDelegate {
         if peer == nil {
             peer = dataController?.storeNewPeer(icloudID: newTransaction.senderId, customName: newTransaction.senderName, avatarURL: nil)
         }
-        
-//        if (newTransaction.status == .request) {
-//            peer = dataController?.fetchPeer(icloudID: newTransaction.senderId)
-//            if peer == nil {
-//                peer = dataController?.storeNewPeer(icloudID: newTransaction.senderId, customName: newTransaction.senderName, avatarURL: nil)
-//            }
-//        }
-//        else {
-//            peer = dataController?.fetchPeer(icloudID: newTransaction.receiverId)
-//            if peer == nil {
-//                peer = dataController?.storeNewPeer(icloudID: newTransaction.receiverId, customName: newTransaction.receiverName, avatarURL: nil)
-//            }
-//        }
-        
+                
         let transaction = dataController?.storeNewTransaction(itemId: newTransaction.transactionId,
                                                               itemDescription: newTransaction.transactionDescription,
                                                               peer: peer!,
-                                                              incoming: newTransaction.isIncomming,
+                                                              incoming: newTransaction.status == MessageStatus.request.rawValue ? !newTransaction.isIncomming : newTransaction.isIncomming,
                                                               isMoney: newTransaction.isMoney,
                                                               quantity: newTransaction.quantity,
                                                               category: nil,
@@ -194,66 +199,3 @@ class TransactionManager : NSObject, CommControllerDelegate {
     }
     
 }
-
-//extension TransactionManager : CommControllerDelegate {
-//
-//    
-//    
-////    override init(){
-////        super.init()
-////        //appDelegate.commController.delegate = self
-////    }
-//    
-//    func foundPeers() {
-//        NSLog("%@", "foundPeers -- no peers/sessions info")
-//        //UPDATE VIEW
-//    }
-//    
-//    func lostPeer() {
-//        NSLog("%@", "lostPeer -- no peer/session info")
-//        //UPDATE VIEW
-//    }
-//    
-//    func invitationWasReceived(fromPeer: String) {
-//        //Alert-Window to be shown at UI ?
-//        //let alert = UIAlertController(title: "", message: "\(fromPeer) wants to chat with you.", preferredStyle: UIAlertControllerStyle.alert)
-//        NSLog("%@", "invitationWasReceived from: \(fromPeer) at comm delegate")
-//        
-//        // IN CASE USER MAY ACCEPT AND DECLINE
-//        // DEFINE ACTIONS HERE
-//        
-//        //NO USER QUESTIONING
-//        //Completion
-////        commController.invitationHandler(true, self.appDelegate.commController.session)
-//        
-//        //Show Alert-Window
-//        
-//        
-//        //try0815:
-//        //        let alert = UIAlertController(title: "", message: "\(fromPeer) wants to chat with you.", preferredStyle: UIAlertControllerStyle.alert)
-//        //
-//        //        let acceptAction: UIAlertAction = UIAlertAction(title: "Accept", style: UIAlertActionStyle.default) { (alertAction) -> Void in
-//        //            self.appDelegate.mpcManager.invitationHandler(true, self.appDelegate.mpcManager.session)
-//        //        }
-//        //
-//        //        let declineAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (alertAction) -> Void in
-//        //            self.appDelegate.mpcManager.invitationHandler(false, nil)
-//        //        }
-//        //
-//        //        alert.addAction(acceptAction)
-//        //        alert.addAction(declineAction)
-//        //
-//        //        OperationQueue.main.addOperation { () -> Void in
-//        //            self.present(alert, animated: true, completion: nil)
-//        //        }
-//        
-//        
-//    }
-//    
-////    func connectedWithPeer(peerID: MCPeerID){
-////        NSLog("%@", "connectedWithPeer: \(peerID)")
-////        //Visualize
-////        
-////    }
-//}
-

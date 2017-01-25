@@ -80,7 +80,7 @@ extension TransactionMessage {
             guard let senderName = aDecoder.decodeObject(forKey: "senderName") as? String else { transactionMessage = nil; super.init(); return nil }
             
             guard let receiverId = aDecoder.decodeObject(forKey: "receiverId") as? String else { transactionMessage = nil; super.init(); return nil }
-            guard let receiverName = aDecoder.decodeObject(forKey: "senderName") as? String else { transactionMessage = nil; super.init(); return nil }
+            guard let receiverName = aDecoder.decodeObject(forKey: "receiverName") as? String else { transactionMessage = nil; super.init(); return nil }
             
             guard let transactionId = aDecoder.decodeObject(forKey: "transactionId") as? String else { transactionMessage = nil; super.init(); return nil }
             guard let transactionDescription = aDecoder.decodeObject(forKey: "transactionDescription") as? String else { transactionMessage = nil; super.init(); return nil }
@@ -144,4 +144,6 @@ extension Notification.Name {
     static let transactionRequestNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionRequest")
     
     static let transactionReplyNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionReply")
+    
+    static let transactionPeersChangedNotification = Notification.Name("de.lmu.ifi.mobile.nastyfish.transactionPeersChanged")
 }
