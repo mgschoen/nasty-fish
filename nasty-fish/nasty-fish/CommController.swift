@@ -23,15 +23,15 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     var foundPartners = [MCPeerID]()
     var invitingPartners = [MCPeerID]()
     var foundPartnersAdvertisedData = Dictionary<MCPeerID, Dictionary<String, String>>()
-    var nfTransactionsArray: [Dictionary<String, String>] = []
+    //var nfTransactionsArray: [Dictionary<String, String>] = []
     
-    var foundPartnersDictionary = [String:String]()
+    //var foundPartnersDictionary = [String:String]()
     
     //var foundPartnersInfoKeys = [String]()
     //var foundPartnersInfoValues = [String]()
     
-    var foundPartnersIDs = [String]()
-    var foundPartnersCustomNames = [String]()
+    //var foundPartnersIDs = [String]()
+    //var foundPartnersCustomNames = [String]()
     
     var isAdvertising: Bool
     var isBrowsing: Bool
