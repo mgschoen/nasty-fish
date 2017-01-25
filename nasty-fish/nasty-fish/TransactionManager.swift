@@ -145,14 +145,6 @@ class TransactionManager : NSObject, CommControllerDelegate {
                                         userInfo: nil)
     }
     
-    func invitationWasReceived(fromPeer: String) {
-        // Todo
-    }
-    
-    func connectedWithPeer(peerID: String) {
-        // Todo
-    }
-    
     func receivedData(_ transaction: TransactionMessage) {
         let userInfo:[String: TransactionMessage] = ["TransactionMessage": transaction]
         

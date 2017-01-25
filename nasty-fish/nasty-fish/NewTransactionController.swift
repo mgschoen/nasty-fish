@@ -26,7 +26,6 @@ class NewTransactionController: UITableViewController {
     // MARK: - IBActions
     
     @IBAction func saveButtonTaped(_ sender: UIBarButtonItem) {
-        // Todo resolve receiver
         let transaction = TransactionMessage(type: MessageType.create.rawValue,
                                           status: MessageStatus.request.rawValue,
                                           senderId: ((UIApplication.shared.delegate as! AppDelegate).dataController?.appInstanceId)!,
