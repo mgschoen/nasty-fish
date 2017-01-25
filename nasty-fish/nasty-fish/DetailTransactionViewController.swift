@@ -84,10 +84,14 @@ class DetailTransactionViewController: UITableViewController {
                 isMoney.text = "item"
             }
         
-        
+          
             if let quantityInt = transaction?.quantity {
+                print(String(format:"Your value with 2 decimals: %.3f", quantity))
+                print(String(format:"Your value with no decimals: %.0f", quantity))
                 if moneyBool {
-                    quantity.text = String(quantityInt) + "€"
+                  
+                    quantity.text = String(quantityInt)  + "€"
+                 
                    
                 }else{
                     
