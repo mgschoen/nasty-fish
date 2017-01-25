@@ -27,8 +27,8 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     
     var foundPartnersDictionary = [String:String]()
     
-    var foundPartnersInfoKeys = [String]()
-    var foundPartnersInfoValues = [String]()
+    //var foundPartnersInfoKeys = [String]()
+    //var foundPartnersInfoValues = [String]()
     
     var foundPartnersIDs = [String]()
     var foundPartnersCustomNames = [String]()
