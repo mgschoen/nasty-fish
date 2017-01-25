@@ -261,6 +261,13 @@ class NewTransactionController: UITableViewController {
                 self.performSegue(withIdentifier: "savedTransaction", sender: self)
             }
             else {
+                
+                // Restart browsing and reset pickerData
+                (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.stopBrowsingForPartners()
+                (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.stopBrowsingForPartners()
+                pickerData = [String]()
+                peerPicker.reloadAllComponents()
+                
                 let alert = UIAlertController(title: "Transaction declined",
                                               message: "\(transaction.receiverName) declined to accept the transaction:\n\(transaction.transactionDescription)",
                                               preferredStyle: UIAlertControllerStyle.alert)

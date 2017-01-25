@@ -18,6 +18,9 @@ class MainController: UITabBarController {
     @IBAction func saveToMain(segue:UIStoryboardSegue) {
         if let settings = segue.source as? SettingsController {
             dataController?.set (userCustomName: settings.nickName)
+            
+            transactionManager?.commController?.stopAdvertisingForPartners()
+            transactionManager?.commController?.startAdvertisingForPartners()
         }
     }
     
