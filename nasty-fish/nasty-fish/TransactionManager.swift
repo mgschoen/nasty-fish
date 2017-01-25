@@ -59,7 +59,7 @@ class TransactionManager : NSObject, CommControllerDelegate {
         temp.receiverId = transaction.senderId
         temp.receiverName = transaction.senderName
         
-        let succeed = sendData(transaction)
+        let succeed = sendData(temp)
         assert(!succeed, "sendData failed")
         
         if accepted && succeed {
