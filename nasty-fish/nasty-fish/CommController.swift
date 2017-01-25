@@ -388,8 +388,15 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
 //        var dueWhenTransactionIsDue: Transaction?
         //Lookup the receiving MCPeerID
         let peer = resolveMCPeerID(forKey: data.receiverId)
-        // unarchive TransactionMessage
-        let dataToSend = NSKeyedArchiver.archivedData(withRootObject: data)
+        var dataToSend : Data
+        do {
+            dataToSend = try NSKeyedArchiver.archivedData(withRootObject: data)
+        } catch {
+            
+            NSLog("%@", "*** ERR *** sendToPartner: \(NSException.debugDescription())")
+            
+        }
+        
         // variable to check if sent was successful
         var sentSuccessful : Bool = false
         
