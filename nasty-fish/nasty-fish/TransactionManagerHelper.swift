@@ -84,12 +84,13 @@ extension TransactionMessage {
             
             guard let transactionId = aDecoder.decodeObject(forKey: "transactionId") as? String else { transactionMessage = nil; super.init(); return nil }
             guard let transactionDescription = aDecoder.decodeObject(forKey: "transactionDescription") as? String else { transactionMessage = nil; super.init(); return nil }
-            guard let isIncomming = aDecoder.decodeObject(forKey: "isIncomming") as? Bool else { transactionMessage = nil; super.init(); return nil }
-            guard let isMoney = aDecoder.decodeObject(forKey: "isMoney") as? Bool else { transactionMessage = nil; super.init(); return nil }
-            guard let quantity = aDecoder.decodeObject(forKey: "quantity") as? UInt else { transactionMessage = nil; super.init(); return nil }
-            guard let category = aDecoder.decodeObject(forKey: "category") as? String else { transactionMessage = nil; super.init(); return nil }
-            guard let dueDate = aDecoder.decodeObject(forKey: "dueDate") as? NSDate else { transactionMessage = nil; super.init(); return nil }
-            guard let imageURL = aDecoder.decodeObject(forKey: "imageURL") as? String else { transactionMessage = nil; super.init(); return nil }
+            
+            let isIncomming = aDecoder.decodeBool(forKey:"isIncomming")
+            let isMoney = aDecoder.decodeBool(forKey: "isMoney")
+            guard let quantity = aDecoder.decodeObject(forKey: "quantity") as? UInt? else { transactionMessage = nil; super.init(); return nil }
+            guard let category = aDecoder.decodeObject(forKey: "category") as? String? else { transactionMessage = nil; super.init(); return nil }
+            guard let dueDate = aDecoder.decodeObject(forKey: "dueDate") as? NSDate? else { transactionMessage = nil; super.init(); return nil }
+            guard let imageURL = aDecoder.decodeObject(forKey: "imageURL") as? String? else { transactionMessage = nil; super.init(); return nil }
             
             
 //            var type: MessageType
