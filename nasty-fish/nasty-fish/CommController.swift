@@ -452,8 +452,8 @@ protocol CommControllerDelegate {
     
     func foundPeers()
     func lostPeer()
-    func invitationWasReceived(fromPeer: String)
-    func connectedWithPeer(peerID: String) // Brauchen wir die noch? Ich hab das mal auf String geändert
+    //func invitationWasReceived(fromPeer: String)
+    //func connectedWithPeer(peerID: String) // Brauchen wir die noch? Ich hab das mal auf String geändert
     func receivedData(_ transaction: TransactionMessage)
 
 }
