@@ -23,15 +23,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     var foundPartners = [MCPeerID]()
     var invitingPartners = [MCPeerID]()
     var foundPartnersAdvertisedData = Dictionary<MCPeerID, Dictionary<String, String>>()
-    //var nfTransactionsArray: [Dictionary<String, String>] = []
-    
-    //var foundPartnersDictionary = [String:String]()
-    
-    //var foundPartnersInfoKeys = [String]()
-    //var foundPartnersInfoValues = [String]()
-    
-    //var foundPartnersIDs = [String]()
-    //var foundPartnersCustomNames = [String]()
     
     var isAdvertising: Bool
     var isBrowsing: Bool
@@ -253,41 +244,29 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
      *   Browser                                                                            *
      * ------------------------------------------------------------------------------------ */
     //MCNearbyServiceBrowser Protocol START
+    
+    /**
+        Log if the browser did not start browsing
+    */
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
         NSLog("%@", "didNotStartBrowsingForPeers: \(error.localizedDescription)")
     }
     
+    /**
+        Reacts on having found a user
+     */
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         
         if !(info==nil){
             //let discoveryInfo = ["nastyFishPartnerIdentifier":uuid,"customName":customName]
             let vendorID = info?["nastyFishPartnerIdentifier"]
             let cName = info?["customName"]
-        
-            //var cp = [String:Any]()
-            //cp["mcpeer"] = peerID
-            //cp["customName"] = cName
-        
-            //var connectingPartners : Dictionary<String, Dictionary<String, Any>> = [String:[String:Any]]()
-            //connectingPartners[vendorID!]=cp
-            //partnerInfoByVendorID = connectingPartners
-            
-            //let tupel : (String, MCPeerID ) = (cName!, peerID)
             let pts : [String:(String,MCPeerID)] = [vendorID! : (cName!, peerID)]
             partnerInfoByVendorID = pts
         }
         
         foundPartners.append(peerID)
-//        if (!(info == nil)) {
-//            //Get additional info from the Data sent during the advertising process
-//            if(foundPartnersAdvertisedData.isEmpty || foundPartnersAdvertisedData[peerID] == nil){
-//                //if key not already in dictionary add it
-//                foundPartnersAdvertisedData[peerID] = info
-//            }
-//            foundPartnersIDs.append((info?["nastyFishPartnerIdentifier"])!)
-//            foundPartnersCustomNames.append((info?["customName"])!)
-//        }
-        //inviteAllPeers()
+        
         browser.invitePeer(peerID, to: self.session, withContext: nil, timeout: 20)
         
         delegate?.foundPeers()
