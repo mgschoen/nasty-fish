@@ -19,14 +19,13 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     var uuid: String!
     
     var delegate: CommControllerDelegate?
-        
-    var foundPartners = [MCPeerID]()
-    var invitingPartners = [MCPeerID]()
     
     var isAdvertising: Bool
     var isBrowsing: Bool
     
-    //connPartners = ["vendorIDXYZ0x00":["name":customName, "mcpeer":MCPeerID]]
+    var foundPartners = [MCPeerID]()
+    var invitingPartners = [MCPeerID]()
+    //["vendorIDXYZ0x00":(customName, MCPeerID)]
     var partnerInfoByVendorID : [String:(String,MCPeerID)] //{
 //        get {
 //            return self.partnerInfoByVendorID
