@@ -417,6 +417,15 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         }
     }
     
+    /**
+        Returns the customName for a specified uuid
+     
+     - Parameter uuid: the identifer for a participating peer that should be mapped to a name
+     */
+    func resolvePartnerInfo(forUuid uuid: String) -> String {
+        return (partnerInfoByVendorID[uuid]?.0)!
+    }
+    
     /* ------------------------------------------------------------------------------------ *
      *   Sending Data                                                                       *
      * ------------------------------------------------------------------------------------ */
