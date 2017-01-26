@@ -98,7 +98,7 @@ class TransactionManager : NSObject, CommControllerDelegate {
     // MARK: - CommunicationController
     
     func initializeCommunicationController() {
-        print("TransactionManager.initializeCommunicationController()")
+        NSLog("TransactionManager.initializeCommunicationController()")
         
         if commController != nil {
             return
@@ -114,6 +114,14 @@ class TransactionManager : NSObject, CommControllerDelegate {
                 commController?.startBrowsingForPartners()
             }
         }
+    }
+    
+    func restartCommunicationController() {
+        NSLog("TransactionManager.restartCommunicationController()")
+        
+        commController = nil
+        
+        initializeCommunicationController()
     }
     
     func fetchPeerNames() -> [String] {
