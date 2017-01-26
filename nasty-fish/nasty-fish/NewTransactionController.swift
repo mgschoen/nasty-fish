@@ -36,11 +36,10 @@ class NewTransactionController: UITableViewController {
                                           transactionDescription: transactionDescription,
                                           isIncomming: isIncomming,
                                           isMoney: isMoney,
-                                          quantity: quantity,
+                                          quantity: isMoney ? amount : quantity,
                                           category: nil,
                                           dueDate: nil,
                                           imageURL: nil)
-        
         
         let succeed = (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendData(transaction)
         
@@ -59,10 +58,10 @@ class NewTransactionController: UITableViewController {
     
     @IBAction func directionChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            directionImage.image = #imageLiteral(resourceName: "InFish")
+            directionImage.image = #imageLiteral(resourceName: "OutFish")
         }
         else {
-            directionImage.image = #imageLiteral(resourceName: "OutFish")
+            directionImage.image = #imageLiteral(resourceName: "InFish")
         }
     }
     
@@ -125,7 +124,7 @@ class NewTransactionController: UITableViewController {
     
     var isIncomming: Bool {
         get {
-            return (self.directionSegmentedControl.selectedSegmentIndex == 0 ? true : false)
+            return (self.directionSegmentedControl.selectedSegmentIndex == 0 ? false : true)
         }
     }
     
