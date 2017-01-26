@@ -293,16 +293,17 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         delegate?.foundPeers()
     }
     
+    /**
+        In case of a peer is lost, this function will be called to drop the peer's info
+     
+        - Parameter browser: the delegate that handles the lostPeer event
+     
+        - Parameter peerID: the MCPeerID that was lost
+    */
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
         for (index, aPeer) in foundPartners.enumerated() {
             if(aPeer == peerID){
                 foundPartners.remove(at: index)
-                //var blaa = partnerInfoByVendorID.value
-                //Not sure if a peer may be contained in the foundPartners Array but not in the Dictionary
-                //But lets check it
-//                if(foundPartnersAdvertisedData.index(forKey: peerID) != nil){
-//                    foundPartnersAdvertisedData.remove(at: foundPartnersAdvertisedData.index(forKey: peerID)!)
-//                }
                 break
             }
         }
