@@ -65,7 +65,7 @@ class DetailTransactionViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool ){
         
         super.viewWillAppear(animated)
-        
+      
         
         if let descript = transaction?.itemDescription {
             itemDescription.text = descript
