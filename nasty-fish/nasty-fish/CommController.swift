@@ -377,11 +377,13 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         - Parameter name: the customName that should be mapped to a uuid
     */
     func resolvePartnerInfo(forName name: String) -> String {
+        var nfIdentifier = ""
         for (key, tupel) in partnerInfoByVendorID {
             if tupel.0 == name {
-                return key
+                nfIdentifier = key
             }
         }
+        return nfIdentifier
     }
     
     /**
