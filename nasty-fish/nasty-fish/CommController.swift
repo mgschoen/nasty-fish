@@ -22,7 +22,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         
     var foundPartners = [MCPeerID]()
     var invitingPartners = [MCPeerID]()
-    var foundPartnersAdvertisedData = Dictionary<MCPeerID, Dictionary<String, String>>()
     
     var isAdvertising: Bool
     var isBrowsing: Bool
