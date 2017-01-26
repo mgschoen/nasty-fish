@@ -19,24 +19,13 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     var uuid: String!
     
     var delegate: CommControllerDelegate?
-        
-    var foundPartners = [MCPeerID]()
-    var invitingPartners = [MCPeerID]()
-    var foundPartnersAdvertisedData = Dictionary<MCPeerID, Dictionary<String, String>>()
-    var nfTransactionsArray: [Dictionary<String, String>] = []
-    
-    var foundPartnersDictionary = [String:String]()
-    
-    //var foundPartnersInfoKeys = [String]()
-    //var foundPartnersInfoValues = [String]()
-    
-    var foundPartnersIDs = [String]()
-    var foundPartnersCustomNames = [String]()
     
     var isAdvertising: Bool
     var isBrowsing: Bool
     
-    //connPartners = ["vendorIDXYZ0x00":["name":customName, "mcpeer":MCPeerID]]
+    var foundPartners = [MCPeerID]()
+    var invitingPartners = [MCPeerID]()
+    //["vendorIDXYZ0x00":(customName, MCPeerID)]
     var partnerInfoByVendorID : [String:(String,MCPeerID)] //{
 //        get {
 //            return self.partnerInfoByVendorID
@@ -253,56 +242,45 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
      *   Browser                                                                            *
      * ------------------------------------------------------------------------------------ */
     //MCNearbyServiceBrowser Protocol START
+    
+    /**
+        Log if the browser did not start browsing
+    */
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
         NSLog("%@", "didNotStartBrowsingForPeers: \(error.localizedDescription)")
     }
     
+    /**
+        Reacts on having found a user
+     */
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         
         if !(info==nil){
             //let discoveryInfo = ["nastyFishPartnerIdentifier":uuid,"customName":customName]
             let vendorID = info?["nastyFishPartnerIdentifier"]
             let cName = info?["customName"]
-        
-            //var cp = [String:Any]()
-            //cp["mcpeer"] = peerID
-            //cp["customName"] = cName
-        
-            //var connectingPartners : Dictionary<String, Dictionary<String, Any>> = [String:[String:Any]]()
-            //connectingPartners[vendorID!]=cp
-            //partnerInfoByVendorID = connectingPartners
-            
-            //let tupel : (String, MCPeerID ) = (cName!, peerID)
             let pts : [String:(String,MCPeerID)] = [vendorID! : (cName!, peerID)]
             partnerInfoByVendorID = pts
         }
         
         foundPartners.append(peerID)
-//        if (!(info == nil)) {
-//            //Get additional info from the Data sent during the advertising process
-//            if(foundPartnersAdvertisedData.isEmpty || foundPartnersAdvertisedData[peerID] == nil){
-//                //if key not already in dictionary add it
-//                foundPartnersAdvertisedData[peerID] = info
-//            }
-//            foundPartnersIDs.append((info?["nastyFishPartnerIdentifier"])!)
-//            foundPartnersCustomNames.append((info?["customName"])!)
-//        }
-        //inviteAllPeers()
+        
         browser.invitePeer(peerID, to: self.session, withContext: nil, timeout: 20)
         
         delegate?.foundPeers()
     }
     
+    /**
+        In case of a peer is lost, this function will be called to drop the peer's info
+     
+        - Parameter browser: the delegate that handles the lostPeer event
+     
+        - Parameter peerID: the MCPeerID that was lost
+    */
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
         for (index, aPeer) in foundPartners.enumerated() {
             if(aPeer == peerID){
                 foundPartners.remove(at: index)
-                //var blaa = partnerInfoByVendorID.value
-                //Not sure if a peer may be contained in the foundPartners Array but not in the Dictionary
-                //But lets check it
-//                if(foundPartnersAdvertisedData.index(forKey: peerID) != nil){
-//                    foundPartnersAdvertisedData.remove(at: foundPartnersAdvertisedData.index(forKey: peerID)!)
-//                }
                 break
             }
         }
@@ -351,26 +329,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) { }
     //MCSession Protocol END
     
-    /**
-     Returns all online peers and their customName as a Dicionary
-     */
-    func fetchParticipatingIDsAndCustomNameFromInfo() -> (Dictionary<String, String>) {
-        var idNames = [String:String]()
-        //foundPartnersAdvertisedData : Dictionary<MCPeerID, Dictionary<String, String>>()
-        for peer in foundPartnersAdvertisedData.keys {
-            //THIS MIGHT NEED SOME WORK
-            idNames[(foundPartnersAdvertisedData[peer]!.first?.key)!] = foundPartnersAdvertisedData[peer]!.first?.value
-        }
-        return idNames
-    }
-
-    func fetchParticipatingIDs() -> [String] {
-        return [String](foundPartnersDictionary.keys)
-    }
-    
-    func getFoundPartnersInfo() -> ([String], [String]) {
-        return (foundPartnersIDs, foundPartnersCustomNames)
-    }
     
     func getFoundPartners() -> [MCPeerID] {
         return foundPartners
@@ -381,40 +339,8 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     }
     
     /**
-        Searches the corresponding MultipeerConnectivity Peer ID (MCPeerID) among all found peers
-     
-        - Parameter nastyFishPartnerIdentifier: The UUID-String that identifies each partner for transactions
-    */
-    func resolveMCPeerID(forKey nastyFishPartnerIdentifier: String) -> MCPeerID {
-        
-        //connPartners = ["vendorIDXYZ0x00":["name":customName, "mcpeer":MCPeerID]]
-        //connPartners = [String: (blaa:Bool, )]
-        
-        if !(foundPartnersIDs.contains(nastyFishPartnerIdentifier)){
-           NSLog("%@", "Could not resolve Transaction Receiver - Unknown Peer String")
-        }
-        let index = foundPartnersIDs.index(of: nastyFishPartnerIdentifier)!
-        
-        if (foundPartners.isEmpty){
-            NSLog("%@", "*** resolve PeerID *** status: failed *** No Connected Peers")
-            return MCPeerID(displayName: "dummyForEmptyPeerList")
-        }
-        return foundPartners[index]
-    }
-    
-    /**
-        To look up MCPeerID
-     
-        - Parameter key: String that indetifies the user (in our case: identifierForVendorID.uuidString)
+        Returns a list of all peers' customNames
      */
-    func resolveMCPeerIDForVendorID(_ key: String) -> MCPeerID {
-//        if !partnerInfoByVendorID.isEmpty {
-//            let entry = partnerInfoByVendorID[key]
-//            let peer = entry?.1
-//        }
-        return (partnerInfoByVendorID[key]?.1)!
-    }
-    
     func peerCustomNames() -> [String] {
         var peerCustomNames = [String]()
         for tupel in partnerInfoByVendorID.values {
@@ -423,10 +349,50 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         return peerCustomNames
     }
     
+    /**
+        Returns the uuid for a specified name
+     
+        - Parameter name: the customName that should be mapped to a uuid
+    */
+    func resolvePartnerInfo(forName name: String) -> String {
+        var nfIdentifier = ""
+        for (key, tupel) in partnerInfoByVendorID {
+            if tupel.0 == name {
+                nfIdentifier = key
+            }
+        }
+        return nfIdentifier
+    }
+    
+    /**
+        Returns the customName for a specified uuid
+     
+        - Parameter uuid: the identifer for a participating peer that should be mapped to a name
+     */
+    func resolvePartnerInfo(forUuid uuid: String) -> String {
+        return (partnerInfoByVendorID[uuid]?.0)!
+    }
+    
+    /**
+        Returns the MCPeerID for a specified identifier for a partner
+     
+        - Parameter key: String that indetifies the user (in our case: identifierForVendorID.uuidString)
+     */
+    func resolveMCPeerIDForVendorID(_ key: String) -> MCPeerID {
+        return (partnerInfoByVendorID[key]?.1)!
+    }
+    
     /* ------------------------------------------------------------------------------------ *
      *   Sending Data                                                                       *
      * ------------------------------------------------------------------------------------ */
     
+    /**
+        Sends a Dictionary by using the session.send() function. The dictionary will be archived first and the sent
+     
+        - Parameter dictionary: Dictionary<String, String> containing the data 
+     
+        - Parameter targetPeer: MCPeerID that defines the partner that should receive the data
+     */
     func sendData(dictionaryWithData dictionary: Dictionary<String, String>, toPeer targetPeer: MCPeerID) -> Bool {
         
         let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
