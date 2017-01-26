@@ -121,9 +121,7 @@ class TransactionManager : NSObject, CommControllerDelegate {
     }
     
     func resolvePeerName(_ peerName: String) -> String {
-        let index = commController?.foundPartnersCustomNames.index(of: peerName)
-        
-        return (commController?.foundPartnersIDs[index!])!
+        return (commController?.resolvePartnerInfo(forName: peerName))!
     }
     
     func sendData(_ transaction: TransactionMessage) -> (Bool) {
