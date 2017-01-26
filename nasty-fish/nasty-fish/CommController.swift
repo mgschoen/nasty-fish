@@ -381,19 +381,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     }
     
     /**
-        To look up MCPeerID
-     
-        - Parameter key: String that indetifies the user (in our case: identifierForVendorID.uuidString)
-     */
-    func resolveMCPeerIDForVendorID(_ key: String) -> MCPeerID {
-//        if !partnerInfoByVendorID.isEmpty {
-//            let entry = partnerInfoByVendorID[key]
-//            let peer = entry?.1
-//        }
-        return (partnerInfoByVendorID[key]?.1)!
-    }
-    
-    /**
         Returns a list of all peers' customNames
      */
     func peerCustomNames() -> [String] {
@@ -420,16 +407,32 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     /**
         Returns the customName for a specified uuid
      
-     - Parameter uuid: the identifer for a participating peer that should be mapped to a name
+        - Parameter uuid: the identifer for a participating peer that should be mapped to a name
      */
     func resolvePartnerInfo(forUuid uuid: String) -> String {
         return (partnerInfoByVendorID[uuid]?.0)!
+    }
+    
+    /**
+        Returns the MCPeerID for a specified identifier for a partner
+     
+        - Parameter key: String that indetifies the user (in our case: identifierForVendorID.uuidString)
+     */
+    func resolveMCPeerIDForVendorID(_ key: String) -> MCPeerID {
+        return (partnerInfoByVendorID[key]?.1)!
     }
     
     /* ------------------------------------------------------------------------------------ *
      *   Sending Data                                                                       *
      * ------------------------------------------------------------------------------------ */
     
+    /**
+        Sends a Dictionary by using the session.send() function. The dictionary will be archived first and the sent
+     
+        - Parameter dictionary: Dictionary<String, String> containing the data 
+     
+        - Parameter targetPeer: MCPeerID that defines the partner that should receive the data
+     */
     func sendData(dictionaryWithData dictionary: Dictionary<String, String>, toPeer targetPeer: MCPeerID) -> Bool {
         
         let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
