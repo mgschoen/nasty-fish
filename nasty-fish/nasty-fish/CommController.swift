@@ -351,26 +351,6 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) { }
     //MCSession Protocol END
     
-    /**
-     Returns all online peers and their customName as a Dicionary
-     */
-    func fetchParticipatingIDsAndCustomNameFromInfo() -> (Dictionary<String, String>) {
-        var idNames = [String:String]()
-        //foundPartnersAdvertisedData : Dictionary<MCPeerID, Dictionary<String, String>>()
-        for peer in foundPartnersAdvertisedData.keys {
-            //THIS MIGHT NEED SOME WORK
-            idNames[(foundPartnersAdvertisedData[peer]!.first?.key)!] = foundPartnersAdvertisedData[peer]!.first?.value
-        }
-        return idNames
-    }
-
-    func fetchParticipatingIDs() -> [String] {
-        return [String](foundPartnersDictionary.keys)
-    }
-    
-    func getFoundPartnersInfo() -> ([String], [String]) {
-        return (foundPartnersIDs, foundPartnersCustomNames)
-    }
     
     func getFoundPartners() -> [MCPeerID] {
         return foundPartners
