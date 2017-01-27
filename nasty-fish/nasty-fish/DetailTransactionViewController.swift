@@ -29,65 +29,75 @@ class DetailTransactionViewController: UITableViewController {
     
     @IBOutlet weak var closedLabel: UILabel!
     
+    // Action handler that tries to communicate a transaction close
+    // request to the transaction peer.
     @IBAction func returnButtonClicked(_ sender: Any) {
         
         if (transaction != nil && transactionManager != nil) {
             
-            NSLog("# # # Transaction found: \((transaction?.itemDescription!)!) # # #")
-            
-            NSLog("Peer of this transaction: \((transaction?.peer?.icloudID!)!) - \((transaction?.peer?.customName)!)")
-            
-            let commController = transactionManager?.commController
-            let dataController = transactionManager?.dataController
-            
-            var peerIsActive:Bool = false
-            
-            for (key, _) in (commController?.partnerInfoByVendorID)! {
-                if (key == transaction?.peer?.icloudID!) {
-                    peerIsActive = true
-                    break
+            // Is the transaction already closed?
+            if (transaction?.returnDate == nil) {
+                
+                let commController = transactionManager?.commController
+                let dataController = transactionManager?.dataController
+                
+                // Are we currently connected to the peer of this transaction?
+                var peerIsActive:Bool = false
+                for (key, _) in (commController?.partnerInfoByVendorID)! {
+                    if (key == transaction?.peer?.icloudID!) {
+                        peerIsActive = true
+                        break
+                    }
                 }
-            }
-            
-            if (peerIsActive) {
                 
-                let closeMessage = TransactionMessage(type: MessageType.close.rawValue,
-                                                      status: MessageStatus.request.rawValue,
-                                                      senderId: (dataController?.appInstanceId)!,
-                                                      senderName: (dataController?.fetchUserCustomName())!,
-                                                      receiverId: (transaction?.peer?.icloudID)!,
-                                                      receiverName: (transaction?.peer?.customName)!,
-                                                      transactionId: (transaction?.uuid)!,
-                                                      transactionDescription: (transaction?.itemDescription)!,
-                                                      isIncomming: (transaction?.incoming)!,
-                                                      isMoney: (transaction?.isMoney)!,
-                                                      quantity: (UInt)((transaction?.quantity)!),
-                                                      category: nil,
-                                                      dueDate: nil,
-                                                      imageURL: nil)
-                
-                let succeed = transactionManager?.sendData(closeMessage)
-                
-                if (succeed)! {
+                if (peerIsActive) {
                     
-                    let alert = UIAlertController(title: "Transaction closed",
-                                                  message: "You have successfully closed this transaction.", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Delicious", style: UIAlertActionStyle.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
+                    // We are connected to the peer - send him a close request
+                    let closeMessage = TransactionMessage(type: MessageType.close.rawValue,
+                                                          status: MessageStatus.request.rawValue,
+                                                          senderId: (dataController?.appInstanceId)!,
+                                                          senderName: (dataController?.fetchUserCustomName())!,
+                                                          receiverId: (transaction?.peer?.icloudID)!,
+                                                          receiverName: (transaction?.peer?.customName)!,
+                                                          transactionId: (transaction?.uuid)!,
+                                                          transactionDescription: (transaction?.itemDescription)!,
+                                                          isIncomming: (transaction?.incoming)!,
+                                                          isMoney: (transaction?.isMoney)!,
+                                                          quantity: (UInt)((transaction?.quantity)!),
+                                                          category: nil,
+                                                          dueDate: nil,
+                                                          imageURL: nil)
+                    
+                    let succeed = transactionManager?.sendData(closeMessage)
+                    
+                    // If sending fails, notify the user
+                    if (!succeed!) {
+                        
+                        let alert = UIAlertController(title: "Nasty!",
+                                                      message: "Something went wrong while closing this transaction. Check your logs for more info.", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "Ugh", style: UIAlertActionStyle.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        
+                    }
+                    
+                    // If sending was successfull, we are now listening for peer's reply
+                    // with the actOnTransactionReplyNotification handler
                     
                 } else {
                     
-                    let alert = UIAlertController(title: "Nasty!",
-                                                  message: "Something went wrong while closing this transaction. Check your logs for more info.", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Ugh", style: UIAlertActionStyle.default, handler: nil))
+                    // We are not connected to the peer - do nothing and notify the user about it
+                    let alert = UIAlertController(title: "Peer not found",
+                                                  message: "Cannot close transaction. Your friend needs to be nearby in order to let him know you closed this transaction.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                     
                 }
                 
             } else {
                 
-                let alert = UIAlertController(title: "Peer not found",
-                                              message: "Cannot close transaction. Your friend needs to be nearby in order to let him know you closed this transaction.", preferredStyle: UIAlertControllerStyle.alert)
+                // Transaction is already closed - do nothing and notify the user about it
+                let alert = UIAlertController(title: "Relax...",
+                                              message: "This item has already been returned. ", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 
@@ -102,6 +112,13 @@ class DetailTransactionViewController: UITableViewController {
         super.viewDidLoad()
         
         transactionManager = (UIApplication.shared.delegate as! AppDelegate).transactionManager
+        
+        // Listen for reply notifications in order to detect answers to close requests
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnTransactionReplyNotification),
+                                               name: .transactionReplyNotification,
+                                               object: nil)
+
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -164,9 +181,40 @@ class DetailTransactionViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
     
-    
+    // Callback fired when reply from peer is received
+    func actOnTransactionReplyNotification (_ notification: NSNotification) {
+        NSLog("\(notification)")
+        
+        let answerMessage = notification.userInfo?["TransactionMessage"] as! TransactionMessage
+        
+        // Are we dealing with an answer to our close request?
+        if (answerMessage.type == "close") {
+            
+            // Has peer user accepted the close request?
+            if (answerMessage.status == "accepted") {
+                
+                // Update visual representation
+                closedLabel.text = (transaction?.returnDate == nil) ? "open" : "closed"
+                
+                // Notify user about success
+                let alert = UIAlertController(title: "Transaction closed",
+                                              message: "You have successfully closed this transaction.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Delicious", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                
+            } else {
+                
+                // Do not change anything and notify user about the rejection
+                let alert = UIAlertController(title: "Nasty!",
+                                              message: "Your friend has rejected your close request.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ugh", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                
+            }
+            
+        }
+    }
 
     
     // MARK: - Table view data source
