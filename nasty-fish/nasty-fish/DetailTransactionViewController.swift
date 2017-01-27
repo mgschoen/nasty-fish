@@ -10,57 +10,97 @@ import UIKit
 
 class DetailTransactionViewController: UITableViewController {
 
-    
+    var transactionManager:TransactionManager?
     var transaction:Transaction? = nil;
     
     @IBOutlet weak var itemDescription: UILabel!
     
     @IBOutlet weak var peer: UILabel!
     
-    
     @IBOutlet weak var isMoney: UILabel!
     
     @IBOutlet weak var quantity: UILabel!
     
-    
     @IBOutlet weak var loandebt: UILabel!
    
-   @IBOutlet weak var loandebtImage: UIImageView!
+    @IBOutlet weak var loandebtImage: UIImageView!
   
     @IBOutlet weak var returnStartDate: UIButton!
-
-
-   //popup Msg for delete Transaction
-        
     
-    /*
-    @IBAction func showAlert() {
-            let alertController = UIAlertController(title: "Delete Transaction", message: "Are you sure you what to delete the Transaction?", preferredStyle: .alert)
+    @IBAction func returnButtonClicked(_ sender: Any) {
+        
+        if (transaction != nil && transactionManager != nil) {
             
+            NSLog("# # # Transaction found: \((transaction?.itemDescription!)!) # # #")
             
-           
+            NSLog("Peer of this transaction: \((transaction?.peer?.icloudID!)!) - \((transaction?.peer?.customName)!)")
             
-            let deleteAction = UIAlertAction(title: "delete", style: .destructive, handler: nil)
-            alertController.addAction(deleteAction)
+            let commController = transactionManager?.commController
+            let dataController = transactionManager?.dataController
             
+            var peerIsActive:Bool = false
             
+            for (key, _) in (commController?.partnerInfoByVendorID)! {
+                if (key == transaction?.peer?.icloudID!) {
+                    peerIsActive = true
+                    break
+                }
+            }
             
-            let cancelAction
-                = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            
-            
-            
-            //present(alertController, animated: true, completion: nil)
-          self.present(alertController, animated: true, completion: nil)
-            
+            if (peerIsActive) {
+                
+                let closeMessage = TransactionMessage(type: MessageType.close.rawValue,
+                                                      status: MessageStatus.request.rawValue,
+                                                      senderId: (dataController?.appInstanceId)!,
+                                                      senderName: (dataController?.fetchUserCustomName())!,
+                                                      receiverId: (transaction?.peer?.icloudID)!,
+                                                      receiverName: (transaction?.peer?.customName)!,
+                                                      transactionId: (transaction?.uuid)!,
+                                                      transactionDescription: (transaction?.itemDescription)!,
+                                                      isIncomming: (transaction?.incoming)!,
+                                                      isMoney: (transaction?.isMoney)!,
+                                                      quantity: (UInt)((transaction?.quantity)!),
+                                                      category: nil,
+                                                      dueDate: nil,
+                                                      imageURL: nil)
+                
+                let succeed = transactionManager?.sendData(closeMessage)
+                
+                if (succeed)! {
+                    
+                    let alert = UIAlertController(title: "Transaction closed",
+                                                  message: "You have successfully closed this transaction.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Delicious", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    
+                } else {
+                    
+                    let alert = UIAlertController(title: "Nasty!",
+                                                  message: "Something went wrong while closing this transaction. Check your logs for more info.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Ugh", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    
+                }
+                
+            } else {
+                
+                let alert = UIAlertController(title: "Peer not found",
+                                              message: "Cannot close transaction. Your friend needs to be nearby in order to let him know you closed this transaction.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                
+            }
             
         }
- */
-        override func viewDidLoad() {
+        
+    }
+    
+    override func viewDidLoad() {
+        
         super.viewDidLoad()
-
-
+        
+        transactionManager = (UIApplication.shared.delegate as! AppDelegate).transactionManager
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
