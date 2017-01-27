@@ -25,38 +25,12 @@ class DetailTransactionViewController: UITableViewController {
     
     @IBOutlet weak var loandebt: UILabel!
    
-   @IBOutlet weak var loandebtImage: UIImageView!
-  
-    @IBOutlet weak var returnStartDate: UIButton!
+    @IBOutlet weak var datum: UILabel!
 
-
-   //popup Msg for delete Transaction
-        
     
-    /*
-    @IBAction func showAlert() {
-            let alertController = UIAlertController(title: "Delete Transaction", message: "Are you sure you what to delete the Transaction?", preferredStyle: .alert)
-            
-            
-           
-            
-            let deleteAction = UIAlertAction(title: "delete", style: .destructive, handler: nil)
-            alertController.addAction(deleteAction)
-            
-            
-            
-            let cancelAction
-                = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
-            alertController.addAction(cancelAction)
-            
-            
-            
-            //present(alertController, animated: true, completion: nil)
-          self.present(alertController, animated: true, completion: nil)
-            
-            
-        }
- */
+   @IBOutlet weak var loandebtImage: UIImageView!
+
+
         override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,6 +39,8 @@ class DetailTransactionViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool ){
         
         super.viewWillAppear(animated)
+      
+        
       
         
         if let descript = transaction?.itemDescription {
@@ -106,9 +82,10 @@ class DetailTransactionViewController: UITableViewController {
         
    
             }
+            
+            }
         }
-        
-    }
+      
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
