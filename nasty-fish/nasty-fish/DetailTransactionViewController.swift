@@ -27,6 +27,8 @@ class DetailTransactionViewController: UITableViewController {
   
     @IBOutlet weak var returnStartDate: UIButton!
     
+    @IBOutlet weak var closedLabel: UILabel!
+    
     @IBAction func returnButtonClicked(_ sender: Any) {
         
         if (transaction != nil && transactionManager != nil) {
@@ -153,6 +155,8 @@ class DetailTransactionViewController: UITableViewController {
    
             }
         }
+        
+        closedLabel.text = (transaction?.returnDate == nil) ? "open" : "closed"
         
     }
 
