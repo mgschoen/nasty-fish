@@ -267,7 +267,7 @@ class NewTransactionController: UITableViewController {
                 
                 // Restart browsing and reset pickerData
                 (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.stopBrowsingForPartners()
-                (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.stopBrowsingForPartners()
+                (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.startBrowsingForPartners()
                 pickerData = [String]()
                 peerPicker.reloadAllComponents()
                 
