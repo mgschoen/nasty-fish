@@ -72,12 +72,12 @@ class DetailTransactionViewController: UITableViewController {
         
         if let incomingBool = transaction?.incoming {
             if incomingBool{
-                loandebt.text = "Lend"
+                loandebt.text = "Lend to"
                 loandebtImage.image = #imageLiteral(resourceName: "InFish")
                 
            
             }else{
-                loandebt.text = "Borrow"
+                loandebt.text = "Borrowed from"
                 loandebtImage.image = #imageLiteral(resourceName: "OutFish")
         
    
