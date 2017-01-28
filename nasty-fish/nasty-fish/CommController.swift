@@ -260,7 +260,8 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
             let vendorID = info?["nastyFishPartnerIdentifier"]
             let cName = info?["customName"]
             let pts : [String:(String,MCPeerID)] = [vendorID! : (cName!, peerID)]
-            partnerInfoByVendorID = pts
+            NSLog("%@", "Communication: found a peer with info: \(pts)")
+            partnerInfoByVendorID[vendorID!] = (cName!, peerID)
         }
         
         foundPartners.append(peerID)
