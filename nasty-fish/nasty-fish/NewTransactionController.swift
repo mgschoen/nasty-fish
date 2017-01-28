@@ -54,6 +54,7 @@ class NewTransactionController: UITableViewController, AlertHelperProtocol {
                                                message: "Transaction was not send successfully.",
                                                buttonLabel: "Ok")
             self.present(alert!, animated: true, completion: nil)
+            (UIApplication.shared.delegate as! AppDelegate).transactionManager?.restartCommunicationController()
         }
     }
     
