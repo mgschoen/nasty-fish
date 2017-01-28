@@ -268,16 +268,7 @@ class NewTransactionController: UITableViewController {
                 self.performSegue(withIdentifier: "savedTransaction", sender: self)
             }
             else {
-                let alert = UIAlertController(title: "Transaction declined",
-                                              message: "\(transaction.receiverName) declined to accept the transaction:\n\(transaction.transactionDescription)",
-                                              preferredStyle: UIAlertControllerStyle.alert)
-                
-                alert.addAction(UIAlertAction(title: "Ok",
-                                              style: UIAlertActionStyle.default,
-                                              handler: nil))
-                
-                self.present(alert, animated: true, completion: nil)
-                
+                alert = showDeclinedAlert(transaction: transaction)
             }
         }
     }
@@ -345,7 +336,11 @@ class NewTransactionController: UITableViewController {
     func showWaitAlert() -> UIAlertController {
         hideAlert()
         
-        let sendAlert = UIAlertController(title: "Sending transaction", message: nil, preferredStyle: .alert)
+        let sendAlert = UIAlertController(title: "Sending transaction", message: " ", preferredStyle: .alert)
+        
+        sendAlert.addAction(UIAlertAction(title: "Cancel",
+                                          style: UIAlertActionStyle.cancel,
+                                          handler: nil))
         
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -364,26 +359,29 @@ class NewTransactionController: UITableViewController {
                                              relatedBy: .equal,
                                              toItem: sendAlert.view,
                                              attribute: .centerY,
-                                             multiplier: 1.4,
+                                             multiplier: 1,
                                              constant: 0)
         
         NSLayoutConstraint.activate([ xConstraint, yConstraint])
         
         activityIndicator.isUserInteractionEnabled = false
-        activityIndicator.startAnimating()
+        activityIndicator.startAnimating() 
         
-        let height = NSLayoutConstraint(item: sendAlert.view,
-                                        attribute: NSLayoutAttribute.height,
-                                        relatedBy: NSLayoutRelation.equal,
-                                        toItem: nil,
-                                        attribute: NSLayoutAttribute.notAnAttribute,
-                                        multiplier: 1,
-                                        constant: 80)
-        sendAlert.view.addConstraint(height);
+//        let height = NSLayoutConstraint(item: sendAlert.view,
+//                                        attribute: NSLayoutAttribute.height,
+//                                        relatedBy: NSLayoutRelation.equal,
+//                                        toItem: nil,
+//                                        attribute: NSLayoutAttribute.notAnAttribute,
+//                                        multiplier: 1,
+//                                        constant: 80)
+//        sendAlert.view.addConstraint(height);
         
         self.present(sendAlert, animated: true, completion: nil)
         
         return sendAlert
+        
+        
+        
     }
     
     
@@ -403,6 +401,23 @@ class NewTransactionController: UITableViewController {
         return errorAlert
     }
 
+    func showDeclinedAlert(transaction: TransactionMessage) -> UIAlertController {
+        hideAlert()
+    
+        let declinedAlert = UIAlertController(title: "Transaction declined",
+                                              message: "\(transaction.receiverName) declined to accept the transaction:\n\(transaction.transactionDescription)",
+                                              preferredStyle: UIAlertControllerStyle.alert)
+        
+        declinedAlert.addAction(UIAlertAction(title: "Ok",
+                                              style: UIAlertActionStyle.default,
+                                              handler: nil))
+        
+        self.present(declinedAlert, animated: true, completion: nil)
+        
+        return declinedAlert
+    }
+    
+    
 }
 
 extension NewTransactionController: UIPickerViewDelegate, UIPickerViewDataSource {
