@@ -227,10 +227,10 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
                 categoryMatch = transaction.returnDate == nil
             }
             else if scope == 1 {
-                categoryMatch = !transaction.incoming
+                categoryMatch = transaction.returnDate == nil && !transaction.incoming
             }
             else if scope == 2 {
-                categoryMatch = transaction.incoming
+                categoryMatch = transaction.returnDate == nil && transaction.incoming
             }
             else if scope == 3 {
                 categoryMatch = transaction.returnDate is Date
