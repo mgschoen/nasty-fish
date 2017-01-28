@@ -26,9 +26,8 @@ class DetailTransactionViewController: UITableViewController {
     @IBOutlet weak var loandebt: UILabel!
    
     @IBOutlet weak var datum: UILabel!
-
     
-   @IBOutlet weak var loandebtImage: UIImageView!
+    @IBOutlet weak var loandebtImage: UIImageView!
 
 
         override func viewDidLoad() {
@@ -39,8 +38,6 @@ class DetailTransactionViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool ){
         
         super.viewWillAppear(animated)
-      
-        
       
         
         if let descript = transaction?.itemDescription {
@@ -59,16 +56,18 @@ class DetailTransactionViewController: UITableViewController {
             }
         
           
-            if let quantityInt = transaction?.quantity {
+        if let quantityInt = transaction?.quantity {
                
-                if moneyBool {
-                    quantity.text = String(format: "%.2f", Double(quantityInt / 100)) + "€"
+            if moneyBool {
+                quantity.text = String(format: "%.2f", Double(quantityInt / 100)) + "€"
+                
                  }else{
                     
-                    quantity.text = String(quantityInt)
+                quantity.text = String(quantityInt)
                 }
                 
             }
+            
         }
         
         if let incomingBool = transaction?.incoming {
@@ -85,6 +84,11 @@ class DetailTransactionViewController: UITableViewController {
             }
             
             }
+        if let rDate = transaction?.returnDate{
+                datum.text = String( describing: rDate)
+            }else{
+                datum.text = "item not found"
+        }
         }
       
 
