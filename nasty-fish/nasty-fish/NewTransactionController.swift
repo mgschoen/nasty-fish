@@ -327,7 +327,9 @@ class NewTransactionController: UITableViewController {
     
     func hideAlert() {
         if alert != nil {
-            self.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async(execute: {
+                self.dismiss(animated: true, completion: nil)
+            })
         }
     }
     
