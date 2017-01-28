@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class TransactionsController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
+class TransactionsController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate, AlertHelperProtocol {
     
     // MARK: - @IBOutlet
     
@@ -49,6 +49,7 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     var transactions = [Transaction]()
     var preFilterdTransactions = [Transaction]()
     var filteredTransactions = [Transaction]()
+    var alert: UIAlertController?
     
 
     // MARK: - Default override
@@ -267,11 +268,13 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         if let transaction = (notification.userInfo?["TransactionMessage"] as? TransactionMessage) {
             
             if transaction.type == MessageType.create.rawValue {
-                showAcceptTransactionAlert(transaction: transaction)
+                alert = AlertHelper.getAcceptTransactionAlert(transaction: transaction)
+                self.present(alert!, animated: true, completion: nil)
             }
             
             if transaction.type == MessageType.close.rawValue {
-                showCloseTransactionAlert(transaction: transaction)
+                alert = AlertHelper.getCloseTransactionAlert(transaction: transaction)
+                self.present(alert!, animated: true, completion: nil)
             }
         }
     }
@@ -288,53 +291,12 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         preFilterContent(scope: preFilter.selectedSegmentIndex)
     }
     
-    func showAcceptTransactionAlert(transaction: TransactionMessage) {
-        let alert = UIAlertController(title: "Accept Transaction?",
-                                      message: "\(transaction.senderName) wants to send you the transaction:\n\(transaction.transactionDescription)\n\nDo you accept it?",
-                                      preferredStyle: .alert)
-    
-        let noAction = UIAlertAction(title: "No",
-                                     style: .cancel,
-                                     handler: {
-                                        (_)in
-                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.process(received: transaction, accepted: false)
-        })
-    
-        let yesAction = UIAlertAction(title: "Yes",
-                                      style: .default,
-                                      handler: {
-                                        (_)in
-                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.process(received: transaction, accepted: true)
-        })
-    
-    
-        alert.addAction(noAction)
-        alert.addAction(yesAction)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    func showCloseTransactionAlert(transaction: TransactionMessage) {
-        let alert = UIAlertController(title: "Close Transaction?",
-                                      message: "\(transaction.senderName) wants to close the transaction:\n\(transaction.transactionDescription)\n\nDo you accept that?",
-                                      preferredStyle: .alert)
-        
-        let noAction = UIAlertAction(title: "No",
-                                     style: .cancel,
-                                     handler: {
-                                        (_)in
-                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.process(received: transaction, accepted: false)
-        })
-        
-        let yesAction = UIAlertAction(title: "Yes",
-                                      style: .default,
-                                      handler: {
-                                        (_)in
-                                        (UIApplication.shared.delegate as! AppDelegate).transactionManager?.process(received: transaction, accepted: true)
-        })
-        
-        
-        alert.addAction(noAction)
-        alert.addAction(yesAction)
-        self.present(alert, animated: true, completion: nil)
+    func hideAlert() {
+        if alert != nil {
+            DispatchQueue.main.async(execute: {
+                self.dismiss(animated: true, completion: nil)
+                self.alert = nil
+            })
+        }
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewTransactionController: UITableViewController {
+class NewTransactionController: UITableViewController, AlertHelperProtocol {
     
     // MARK: - @IBOutlet
     
@@ -26,7 +26,8 @@ class NewTransactionController: UITableViewController {
     // MARK: - IBActions
     
     @IBAction func saveButtonTaped(_ sender: UIBarButtonItem) {
-        alert = showWaitAlert()
+        alert = AlertHelper.getWaitAlert(title:"Sending transaction")
+        self.present(alert!, animated: true, completion: nil)
         
         let transaction = TransactionMessage(type: MessageType.create.rawValue,
                                           status: MessageStatus.request.rawValue,
@@ -46,14 +47,11 @@ class NewTransactionController: UITableViewController {
         let succeed = (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendData(transaction)
         
         if (!succeed!) {
-            // Restart browsing and reset pickerData
-//            (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.stopBrowsingForPartners()
-//            (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.startBrowsingForPartners()
-//            pickerData = [String]()
-//            peerPicker.reloadAllComponents()
-            
-            
-            alert = showErrorAlert()
+            hideAlert()
+            alert = AlertHelper.getCustomAlert(title: "Sending transaction failed",
+                                               message: "Transaction was not send successfully.",
+                                               buttonLabel: "Ok")
+            self.present(alert!, animated: true, completion: nil)
         }
     }
     
@@ -240,24 +238,6 @@ class NewTransactionController: UITableViewController {
         return 44.0
     }
     
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    /*
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        return true
-    }
-    */
-    
-    
     // MARK: - Notification
     
     func actOnTransactionReplyNotification(_ notification: NSNotification) {
@@ -268,7 +248,11 @@ class NewTransactionController: UITableViewController {
                 self.performSegue(withIdentifier: "savedTransaction", sender: self)
             }
             else {
-                alert = showDeclinedAlert(transaction: transaction)
+                hideAlert()
+                alert = AlertHelper.getCustomAlert(title: "Transaction declined",
+                                                   message: "\(transaction.receiverName) declined to accept the transaction:\n\(transaction.transactionDescription)",
+                                                   buttonLabel: "Ok")
+                self.present(alert!, animated: true, completion: nil)
             }
         }
     }
@@ -329,87 +313,10 @@ class NewTransactionController: UITableViewController {
         if alert != nil {
             DispatchQueue.main.async(execute: {
                 self.dismiss(animated: true, completion: nil)
+                self.alert = nil
             })
         }
     }
-    
-    
-    // http://stackoverflow.com/a/40570379/3309527
-    func showWaitAlert() -> UIAlertController {
-        
-        hideAlert()
-        
-        let sendAlert = UIAlertController(title: "Sending transaction", message: " ", preferredStyle: .alert)
-        
-        sendAlert.addAction(UIAlertAction(title: "Cancel",
-                                          style: UIAlertActionStyle.cancel,
-                                          handler: nil))
-        
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        
-        sendAlert.view.addSubview(activityIndicator)
-        
-        let xConstraint = NSLayoutConstraint(item: activityIndicator,
-                                             attribute: .centerX,
-                                             relatedBy: .equal,
-                                             toItem: sendAlert.view,
-                                             attribute: .centerX,
-                                             multiplier: 1,
-                                             constant: 0)
-        let yConstraint = NSLayoutConstraint(item: activityIndicator,
-                                             attribute: .centerY,
-                                             relatedBy: .equal,
-                                             toItem: sendAlert.view,
-                                             attribute: .centerY,
-                                             multiplier: 1,
-                                             constant: 0)
-        
-        NSLayoutConstraint.activate([ xConstraint, yConstraint])
-        
-        activityIndicator.isUserInteractionEnabled = false
-        activityIndicator.startAnimating()
-        
-        self.present(sendAlert, animated: true, completion: nil)
-        
-        return sendAlert
-        
-    }
-    
-    
-    func showErrorAlert() -> UIAlertController {
-        hideAlert()
-        
-        let errorAlert = UIAlertController(title: "Sending transaction failed",
-                                      message: "Transaction was not send successfully.",
-                                      preferredStyle: UIAlertControllerStyle.alert)
-        
-        errorAlert.addAction(UIAlertAction(title: "Ok",
-                                      style: UIAlertActionStyle.default,
-                                      handler: nil))
-        
-        self.present(errorAlert, animated: true, completion: nil)
-        
-        return errorAlert
-    }
-
-    func showDeclinedAlert(transaction: TransactionMessage) -> UIAlertController {
-        hideAlert()
-    
-        let declinedAlert = UIAlertController(title: "Transaction declined",
-                                              message: "\(transaction.receiverName) declined to accept the transaction:\n\(transaction.transactionDescription)",
-                                              preferredStyle: UIAlertControllerStyle.alert)
-        
-        declinedAlert.addAction(UIAlertAction(title: "Ok",
-                                              style: UIAlertActionStyle.default,
-                                              handler: nil))
-        
-        self.present(declinedAlert, animated: true, completion: nil)
-        
-        return declinedAlert
-    }
-    
-    
 }
 
 extension NewTransactionController: UIPickerViewDelegate, UIPickerViewDataSource {

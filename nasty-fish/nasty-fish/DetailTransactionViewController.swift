@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailTransactionViewController: UITableViewController {
+class DetailTransactionViewController: UITableViewController, AlertHelperProtocol {
 
     var transactionManager:TransactionManager?
     var transaction:Transaction? = nil;
@@ -54,7 +54,8 @@ class DetailTransactionViewController: UITableViewController {
                 
                 if (peerIsActive) {
                     
-                    alert = showWaitAlert()
+                    self.alert = AlertHelper.getWaitAlert(title: "Closing transaction")
+                    self.present(alert!, animated: true, completion: nil)
                     
                     // We are connected to the peer - send him a close request
                     let closeMessage = TransactionMessage(type: MessageType.close.rawValue,
@@ -79,10 +80,11 @@ class DetailTransactionViewController: UITableViewController {
                         
                         hideAlert()
                         
-                        let alert = UIAlertController(title: "Nasty!",
-                                                      message: "Something went wrong while closing this transaction. Check your logs for more info.", preferredStyle: UIAlertControllerStyle.alert)
-                        alert.addAction(UIAlertAction(title: "Ugh", style: UIAlertActionStyle.default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
+                        self.alert = AlertHelper.getCustomAlert(title: "Nasty!",
+                                                                message: "Something went wrong while closing this transaction. Check your logs for more info.",
+                                                                buttonLabel: "Ugh")
+                        
+                        self.present(self.alert!, animated: true, completion: nil)
                         
                     }
                     
@@ -92,20 +94,21 @@ class DetailTransactionViewController: UITableViewController {
                 } else {
                     
                     // We are not connected to the peer - do nothing and notify the user about it
-                    let alert = UIAlertController(title: "Peer not found",
-                                                  message: "Cannot close transaction. Your friend needs to be nearby in order to let him know you closed this transaction.", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
+                    self.alert = AlertHelper.getCustomAlert(title: "Peer not found",
+                                                            message: "Cannot close transaction. Your friend needs to be nearby in order to let him know you closed this transaction.",
+                                                            buttonLabel: "Ok")
+                    
+                    self.present(self.alert!, animated: true, completion: nil)
                     
                 }
                 
             } else {
                 
                 // Transaction is already closed - do nothing and notify the user about it
-                let alert = UIAlertController(title: "Relax...",
-                                              message: "This item has already been returned. ", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                self.alert = AlertHelper.getCustomAlert(title: "Relax...",
+                                                        message: "This item has already been returned.",
+                                                        buttonLabel: "Ok")
+                self.present(self.alert!, animated: true, completion: nil)
                 
             }
             
@@ -137,7 +140,6 @@ class DetailTransactionViewController: UITableViewController {
         
         super.viewWillAppear(animated)
       
-        
         if let descript = transaction?.itemDescription {
             
             itemDescription.text = descript
@@ -215,18 +217,18 @@ class DetailTransactionViewController: UITableViewController {
                 closedLabel.text = (transaction?.returnDate == nil) ? "open" : "closed"
                 
                 // Notify user about success
-                let alert = UIAlertController(title: "Transaction closed",
-                                              message: "You have successfully closed this transaction.", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Delicious", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                self.alert = AlertHelper.getCustomAlert(title: "Transaction closed",
+                                                        message: "You have successfully closed this transaction.",
+                                                        buttonLabel: "Delicious")
+                self.present(self.alert!, animated: true, completion: nil)
                 
             } else {
                 
                 // Do not change anything and notify user about the rejection
-                let alert = UIAlertController(title: "Nasty!",
-                                              message: "Your friend has rejected your close request.", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Ugh", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                self.alert = AlertHelper.getCustomAlert(title: "Nasty!",
+                                                        message: "Your friend has rejected your close request.",
+                                                        buttonLabel: "Ugh")
+                self.present(self.alert!, animated: true, completion: nil)
                 
             }
             
@@ -234,54 +236,11 @@ class DetailTransactionViewController: UITableViewController {
     }
     
     func hideAlert() {
-        if alert != nil {
+        if self.alert != nil {
             DispatchQueue.main.async(execute: {
                 self.dismiss(animated: true, completion: nil)
+                self.alert = nil
             })
         }
     }
-    
-    
-    // http://stackoverflow.com/a/40570379/3309527
-    func showWaitAlert() -> UIAlertController {
-        
-        hideAlert()
-        
-        let sendAlert = UIAlertController(title: "Closing Transaction", message: " ", preferredStyle: .alert)
-        
-        sendAlert.addAction(UIAlertAction(title: "Cancel",
-                                          style: UIAlertActionStyle.cancel,
-                                          handler: nil))
-        
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        
-        sendAlert.view.addSubview(activityIndicator)
-        
-        let xConstraint = NSLayoutConstraint(item: activityIndicator,
-                                             attribute: .centerX,
-                                             relatedBy: .equal,
-                                             toItem: sendAlert.view,
-                                             attribute: .centerX,
-                                             multiplier: 1,
-                                             constant: 0)
-        let yConstraint = NSLayoutConstraint(item: activityIndicator,
-                                             attribute: .centerY,
-                                             relatedBy: .equal,
-                                             toItem: sendAlert.view,
-                                             attribute: .centerY,
-                                             multiplier: 1,
-                                             constant: 0)
-        
-        NSLayoutConstraint.activate([ xConstraint, yConstraint])
-        
-        activityIndicator.isUserInteractionEnabled = false
-        activityIndicator.startAnimating()
-        
-        self.present(sendAlert, animated: true, completion: nil)
-        
-        return sendAlert
-        
-    }
-
 }
