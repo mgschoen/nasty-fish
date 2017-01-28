@@ -418,29 +418,23 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
      
      */
     func sendToPartner(_ data: TransactionMessage) -> Bool {
-//        var senderId, senderName, receiverId, receiverName: String
-//        var transactionId: UUID, transactionDescription: String, isIncomming: Bool, imageURL: String?
-//        var dueWhenTransactionIsDue: Transaction?
-        //Lookup the receiving MCPeerID
-        
-        //let peer = resolveMCPeerID(forKey: data.receiverId)
+
         let peer = resolveMCPeerIDForVendorID(data.receiverId)
         
         var dataToSend : Data
-        dataToSend = try TransactionMessage.encode(transactionMessage: data)
-        NSLog("%@", "*** ERR *** sendToPartner: \(NSException.debugDescription())")
+        dataToSend = TransactionMessage.encode(transactionMessage: data)
         
         // variable to check if sent was successful
-        var sentSuccessful : Bool = false
+        //var sentSuccessful : Bool = false
         
         do {
             try session.send(dataToSend, toPeers: [peer], with: MCSessionSendDataMode.reliable)
-            sentSuccessful = true
         } catch {
-            NSLog("%@", "\(error.localizedDescription)")
-            return sentSuccessful
+            print("[CommController] Sending message to peer failed with error: \(error.localizedDescription)")
+            return false
         }
-        return sentSuccessful
+        print("[CommController] Sending message to peer sucessful")
+        return true
     }
     
     /* ------------------------------------------------------------------------------------ *

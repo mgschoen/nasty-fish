@@ -237,6 +237,7 @@ class DetailTransactionViewController: UITableViewController, AlertHelperProtoco
     
     func hideAlert() {
         if self.alert != nil {
+            print("[DetailTransactionController] hideAlert()")
             DispatchQueue.main.async(execute: {
                 self.dismiss(animated: true, completion: nil)
                 self.alert = nil

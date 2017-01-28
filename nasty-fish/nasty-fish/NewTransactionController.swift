@@ -26,8 +26,6 @@ class NewTransactionController: UITableViewController, AlertHelperProtocol {
     // MARK: - IBActions
     
     @IBAction func saveButtonTaped(_ sender: UIBarButtonItem) {
-        alert = AlertHelper.getWaitAlert(title:"Sending transaction")
-        self.present(alert!, animated: true, completion: nil)
         
         let transaction = TransactionMessage(type: MessageType.create.rawValue,
                                           status: MessageStatus.request.rawValue,
@@ -46,8 +44,12 @@ class NewTransactionController: UITableViewController, AlertHelperProtocol {
         
         let succeed = (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendData(transaction)
         
-        if (!succeed!) {
-            hideAlert()
+        if (succeed)! {
+            
+            alert = AlertHelper.getWaitAlert(title:"Sending transaction")
+            self.present(alert!, animated: true, completion: nil)
+            
+        } else {
             alert = AlertHelper.getCustomAlert(title: "Sending transaction failed",
                                                message: "Transaction was not send successfully.",
                                                buttonLabel: "Ok")
@@ -241,6 +243,7 @@ class NewTransactionController: UITableViewController, AlertHelperProtocol {
     // MARK: - Notification
     
     func actOnTransactionReplyNotification(_ notification: NSNotification) {
+        print("[NewTransactionController] L 245 hideAlert() called")
         hideAlert()
         
         if let transaction = (notification.userInfo?["TransactionMessage"] as? TransactionMessage) {
@@ -250,9 +253,9 @@ class NewTransactionController: UITableViewController, AlertHelperProtocol {
                 })
             }
             else {
-                hideAlert()
+                //hideAlert()
                 alert = AlertHelper.getCustomAlert(title: "Transaction declined",
-                                                   message: "\(transaction.receiverName) declined to accept the transaction:\n\(transaction.transactionDescription)",
+                                                   message: "\(transaction.senderName) declined to accept the transaction:\n\(transaction.transactionDescription)",
                                                    buttonLabel: "Ok")
                 self.present(alert!, animated: true, completion: nil)
             }
@@ -312,12 +315,12 @@ class NewTransactionController: UITableViewController, AlertHelperProtocol {
     }
     
     func hideAlert() {
-        if alert != nil {
-            DispatchQueue.main.async(execute: {
-                self.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async(execute: {
+            if self.alert != nil {
+                self.dismiss(animated: false, completion: nil)
                 self.alert = nil
-            })
-        }
+            }
+        })
     }
 }
 

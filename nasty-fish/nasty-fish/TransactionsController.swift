@@ -295,6 +295,7 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     
     func hideAlert() {
         if alert != nil {
+            print("[TransactionsController] hideAlert()")
             DispatchQueue.main.async(execute: {
                 self.dismiss(animated: true, completion: nil)
                 self.alert = nil

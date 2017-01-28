@@ -31,18 +31,25 @@ class TransactionManager : NSObject, CommControllerDelegate {
     
     // transaction sender
     func process(send transaction: TransactionMessage) {
+        
+        print("[TransactionManager] Processing sending of transaction \(transaction.transactionDescription)...")
 
         if (transaction.status == MessageStatus.accepted.rawValue) {
+            print("[TransactionManager] Message status == accepted")
+            
             if transaction.type == MessageType.create.rawValue {
+                print("[TransactionManager] Message type == create")
                 _ = storeTransaction(transaction)
             }
             
             if transaction.type == MessageType.close.rawValue {
+                print("[TransactionManager] Message type == close")
                 closeTransaction(transaction)
             }
         }
         
         // post a notification
+        print("[TransactionManager] Sending transactionReplyNotification to NotificationCenter")
         let userInfo:[String: TransactionMessage] = ["TransactionMessage": transaction]
         NotificationCenter.default.post(name: .transactionReplyNotification,
                                         object: nil,
@@ -51,6 +58,9 @@ class TransactionManager : NSObject, CommControllerDelegate {
     
     // transaction receiver
     func process(received transaction: TransactionMessage, accepted: Bool) {
+        
+        print("[TransactionManager] Processing received transaction \(transaction.transactionDescription)")
+        
         let answerMessage = TransactionMessage(type: transaction.type,
                                       status: accepted ? MessageStatus.accepted.rawValue : MessageStatus.declined.rawValue,
                                       senderId: transaction.receiverId,
@@ -66,27 +76,25 @@ class TransactionManager : NSObject, CommControllerDelegate {
                                       dueDate: transaction.dueDate,
                                       imageURL: transaction.imageURL)
         
-//        temp.status = accepted ? MessageStatus.accepted.rawValue : MessageStatus.declined.rawValue
-//        
-//        temp.senderId = transaction.receiverId
-//        temp.senderName = transaction.receiverName
-//        temp.receiverId = transaction.senderId
-//        temp.receiverName = transaction.senderName
-        
         let succeed = sendData(answerMessage)
-//        assert(!succeed, "sendData failed")
         
         if accepted && succeed {
+            
+            print("[TransactionManager] Transaction accepted by user and sending successful")
+            
             if transaction.type == MessageType.create.rawValue {
+                print("[TransactionManager] Transaction type == create")
                 _ = storeTransaction(transaction)
             }
         
             if transaction.type == MessageType.close.rawValue {
+                print("[TransactionManager] Transaction type == close")
                 closeTransaction(transaction)
             }
         }
             
         // post a notification
+        print("[TransactionManager] Sending transactionReplyNotification to Notification Center")
         let userInfo:[String: TransactionMessage] = ["TransactionMessage": answerMessage]
         NotificationCenter.default.post(name: .transactionReplyNotification,
                                         object: nil,
@@ -98,11 +106,12 @@ class TransactionManager : NSObject, CommControllerDelegate {
     // MARK: - CommunicationController
     
     func initializeCommunicationController() {
-        NSLog("TransactionManager.initializeCommunicationController()")
         
         if commController != nil {
             return
         }
+        
+        NSLog("TransactionManager.initializeCommunicationController()")
         
         if let customName = dataController?.fetchUserCustomName() {
             if let uuid = dataController?.appInstanceId {
@@ -133,6 +142,7 @@ class TransactionManager : NSObject, CommControllerDelegate {
     }
     
     func sendData(_ transaction: TransactionMessage) -> (Bool) {
+        print("[TransactionManager] Sending TransactionMessage to \(transaction.receiverName)")
         return commController!.sendToPartner(transaction)
     }
     
@@ -152,15 +162,19 @@ class TransactionManager : NSObject, CommControllerDelegate {
     }
     
     func receivedData(_ transaction: TransactionMessage) {
+        
+        print("[TransactionManager] CommController called receivedData()")
+        
         let userInfo:[String: TransactionMessage] = ["TransactionMessage": transaction]
         
         if transaction.status == MessageStatus.request.rawValue {
+            print("[TransactionManager] Transaction status == request. User input required")
             // message send to the receiver
             NotificationCenter.default.post(name: .transactionRequestNotification,
                                             object: nil,
                                             userInfo: userInfo)
-        }
-        else {
+        } else {
+            print("[TransactionManager] Transaction status == \(transaction.status). Processing reply...")
             process(send: transaction)
         }
     }
