@@ -21,11 +21,13 @@ class NewTransactionController: UITableViewController {
     @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var peerPicker: UIPickerView!
     @IBOutlet weak var quantityStepper: UIStepper!
-    
+        
     
     // MARK: - IBActions
     
     @IBAction func saveButtonTaped(_ sender: UIBarButtonItem) {
+        alert = showWaitAlert()
+        
         let transaction = TransactionMessage(type: MessageType.create.rawValue,
                                           status: MessageStatus.request.rawValue,
                                           senderId: ((UIApplication.shared.delegate as! AppDelegate).dataController?.appInstanceId)!,
@@ -44,15 +46,14 @@ class NewTransactionController: UITableViewController {
         let succeed = (UIApplication.shared.delegate as! AppDelegate).transactionManager?.sendData(transaction)
         
         if (!succeed!) {
-            let alert = UIAlertController(title: "Sending transaction failed",
-                                          message: "Transaction was not send successfully.",
-                                          preferredStyle: UIAlertControllerStyle.alert)
+            // Restart browsing and reset pickerData
+//            (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.stopBrowsingForPartners()
+//            (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.startBrowsingForPartners()
+//            pickerData = [String]()
+//            peerPicker.reloadAllComponents()
             
-            alert.addAction(UIAlertAction(title: "Ok",
-                                          style: UIAlertActionStyle.default,
-                                          handler: nil))
             
-            self.present(alert, animated: true, completion: nil)
+            alert = showErrorAlert()
         }
     }
     
@@ -104,6 +105,7 @@ class NewTransactionController: UITableViewController {
     // MARK: - Variable
     
     var pickerData = [String]()
+    var alert: UIAlertController?
     
     
     // MARK: - Getter
@@ -259,27 +261,14 @@ class NewTransactionController: UITableViewController {
     // MARK: - Notification
     
     func actOnTransactionReplyNotification(_ notification: NSNotification) {
+        hideAlert()
+        
         if let transaction = (notification.userInfo?["TransactionMessage"] as? TransactionMessage) {
             if transaction.status == MessageStatus.accepted.rawValue {
                 self.performSegue(withIdentifier: "savedTransaction", sender: self)
             }
             else {
-                
-                // Restart browsing and reset pickerData
-                (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.stopBrowsingForPartners()
-                (UIApplication.shared.delegate as! AppDelegate).transactionManager?.commController?.stopBrowsingForPartners()
-                pickerData = [String]()
-                peerPicker.reloadAllComponents()
-                
-                let alert = UIAlertController(title: "Transaction declined",
-                                              message: "\(transaction.receiverName) declined to accept the transaction:\n\(transaction.transactionDescription)",
-                                              preferredStyle: UIAlertControllerStyle.alert)
-                
-                alert.addAction(UIAlertAction(title: "Ok",
-                                              style: UIAlertActionStyle.default,
-                                              handler: nil))
-                
-                self.present(alert, animated: true, completion: nil)
+                alert = showDeclinedAlert(transaction: transaction)
             }
         }
     }
@@ -335,7 +324,102 @@ class NewTransactionController: UITableViewController {
         
         saveButton.isEnabled = isValid
     }
+    
+    func hideAlert() {
+        if alert != nil {
+            DispatchQueue.main.async(execute: {
+                self.dismiss(animated: true, completion: nil)
+            })
+        }
+    }
+    
+    
+    // http://stackoverflow.com/a/40570379/3309527
+    func showWaitAlert() -> UIAlertController {
+        hideAlert()
+        
+        let sendAlert = UIAlertController(title: "Sending transaction", message: " ", preferredStyle: .alert)
+        
+        sendAlert.addAction(UIAlertAction(title: "Cancel",
+                                          style: UIAlertActionStyle.cancel,
+                                          handler: nil))
+        
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        sendAlert.view.addSubview(activityIndicator)
+        
+        let xConstraint = NSLayoutConstraint(item: activityIndicator,
+                                             attribute: .centerX,
+                                             relatedBy: .equal,
+                                             toItem: sendAlert.view,
+                                             attribute: .centerX,
+                                             multiplier: 1,
+                                             constant: 0)
+        let yConstraint = NSLayoutConstraint(item: activityIndicator,
+                                             attribute: .centerY,
+                                             relatedBy: .equal,
+                                             toItem: sendAlert.view,
+                                             attribute: .centerY,
+                                             multiplier: 1,
+                                             constant: 0)
+        
+        NSLayoutConstraint.activate([ xConstraint, yConstraint])
+        
+        activityIndicator.isUserInteractionEnabled = false
+        activityIndicator.startAnimating() 
+        
+//        let height = NSLayoutConstraint(item: sendAlert.view,
+//                                        attribute: NSLayoutAttribute.height,
+//                                        relatedBy: NSLayoutRelation.equal,
+//                                        toItem: nil,
+//                                        attribute: NSLayoutAttribute.notAnAttribute,
+//                                        multiplier: 1,
+//                                        constant: 80)
+//        sendAlert.view.addConstraint(height);
+        
+        self.present(sendAlert, animated: true, completion: nil)
+        
+        return sendAlert
+        
+        
+        
+    }
+    
+    
+    func showErrorAlert() -> UIAlertController {
+        hideAlert()
+        
+        let errorAlert = UIAlertController(title: "Sending transaction failed",
+                                      message: "Transaction was not send successfully.",
+                                      preferredStyle: UIAlertControllerStyle.alert)
+        
+        errorAlert.addAction(UIAlertAction(title: "Ok",
+                                      style: UIAlertActionStyle.default,
+                                      handler: nil))
+        
+        self.present(errorAlert, animated: true, completion: nil)
+        
+        return errorAlert
+    }
 
+    func showDeclinedAlert(transaction: TransactionMessage) -> UIAlertController {
+        hideAlert()
+    
+        let declinedAlert = UIAlertController(title: "Transaction declined",
+                                              message: "\(transaction.receiverName) declined to accept the transaction:\n\(transaction.transactionDescription)",
+                                              preferredStyle: UIAlertControllerStyle.alert)
+        
+        declinedAlert.addAction(UIAlertAction(title: "Ok",
+                                              style: UIAlertActionStyle.default,
+                                              handler: nil))
+        
+        self.present(declinedAlert, animated: true, completion: nil)
+        
+        return declinedAlert
+    }
+    
+    
 }
 
 extension NewTransactionController: UIPickerViewDelegate, UIPickerViewDataSource {

@@ -130,9 +130,10 @@ class DetailTransactionViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool ){
         
         super.viewWillAppear(animated)
-        
+      
         
         if let descript = transaction?.itemDescription {
+            
             itemDescription.text = descript
         }
         if let peerName = transaction?.peer?.customName {
@@ -143,34 +144,42 @@ class DetailTransactionViewController: UITableViewController {
                 isMoney.text = "Money"
                 
             }else{
-                isMoney.text = "item"
+                isMoney.text = "Item"
             }
         
           
-            if let quantityInt = transaction?.quantity {
+        if let quantityInt = transaction?.quantity {
                
-                if moneyBool {
-                    quantity.text = String(format: "%.2f", Double(quantityInt / 100)) + "€"
+            if moneyBool {
+                quantity.text = String(format: "%.2f", Double(quantityInt / 100)) + "€"
+                
                  }else{
                     
-                    quantity.text = String(quantityInt)
+                quantity.text = String(quantityInt)
                 }
                 
             }
+            
         }
         
         if let incomingBool = transaction?.incoming {
             if incomingBool{
-                loandebt.text = "loan"
+                loandebt.text = "Lend"
                 loandebtImage.image = #imageLiteral(resourceName: "InFish")
                 
            
             }else{
-                loandebt.text = "debt"
+                loandebt.text = "Borrow"
                 loandebtImage.image = #imageLiteral(resourceName: "OutFish")
         
    
             }
+            
+            }
+        if let rDate = transaction?.returnDate{
+                datum.text = String( describing: rDate)
+            }else{
+                datum.text = "none"
         }
         
         closedLabel.text = (transaction?.returnDate == nil) ? "open" : "closed"

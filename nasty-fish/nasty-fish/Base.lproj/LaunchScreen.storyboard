@@ -48,10 +48,10 @@
                             <rect key="frame" x="70" y="7" width="235" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="All"/>
+                                <segment title="Open"/>
                                 <segment title="Lend"/>
                                 <segment title="Borrow"/>
-                                <segment title="Past"/>
+                                <segment title="Closed"/>
                             </segments>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="7bS-rT-VTV"/>
