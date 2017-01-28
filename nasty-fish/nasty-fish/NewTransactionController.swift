@@ -336,6 +336,7 @@ class NewTransactionController: UITableViewController {
     
     // http://stackoverflow.com/a/40570379/3309527
     func showWaitAlert() -> UIAlertController {
+        
         hideAlert()
         
         let sendAlert = UIAlertController(title: "Sending transaction", message: " ", preferredStyle: .alert)
@@ -367,22 +368,11 @@ class NewTransactionController: UITableViewController {
         NSLayoutConstraint.activate([ xConstraint, yConstraint])
         
         activityIndicator.isUserInteractionEnabled = false
-        activityIndicator.startAnimating() 
-        
-//        let height = NSLayoutConstraint(item: sendAlert.view,
-//                                        attribute: NSLayoutAttribute.height,
-//                                        relatedBy: NSLayoutRelation.equal,
-//                                        toItem: nil,
-//                                        attribute: NSLayoutAttribute.notAnAttribute,
-//                                        multiplier: 1,
-//                                        constant: 80)
-//        sendAlert.view.addConstraint(height);
+        activityIndicator.startAnimating()
         
         self.present(sendAlert, animated: true, completion: nil)
         
         return sendAlert
-        
-        
         
     }
     
