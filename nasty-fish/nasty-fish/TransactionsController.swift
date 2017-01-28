@@ -259,7 +259,9 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
     func actOnTransactionReplyNotification(_ notification: NSNotification) {
         if let transaction = (notification.userInfo?["TransactionMessage"] as? TransactionMessage) {
             if transaction.status == MessageStatus.accepted.rawValue {
-                    fetchData()
+                DispatchQueue.main.async(execute: {
+                    self.fetchData()
+                })
             }
         }
     }

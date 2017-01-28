@@ -245,7 +245,9 @@ class NewTransactionController: UITableViewController, AlertHelperProtocol {
         
         if let transaction = (notification.userInfo?["TransactionMessage"] as? TransactionMessage) {
             if transaction.status == MessageStatus.accepted.rawValue {
-                self.performSegue(withIdentifier: "savedTransaction", sender: self)
+                DispatchQueue.main.async(execute: {
+                    self.performSegue(withIdentifier: "savedTransaction", sender: self)
+                })
             }
             else {
                 hideAlert()
