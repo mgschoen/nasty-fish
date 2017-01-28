@@ -44,6 +44,7 @@ class DetailTransactionViewController: UITableViewController {
       
         
         if let descript = transaction?.itemDescription {
+            
             itemDescription.text = descript
         }
         if let peerName = transaction?.peer?.customName {
