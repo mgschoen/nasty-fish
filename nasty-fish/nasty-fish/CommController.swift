@@ -427,13 +427,8 @@ class CommController: NSObject, MCSessionDelegate, MCNearbyServiceBrowserDelegat
         let peer = resolveMCPeerIDForVendorID(data.receiverId)
         
         var dataToSend : Data
-        do {
-            dataToSend = try TransactionMessage.encode(transactionMessage: data)
-        } catch {
-            
-            NSLog("%@", "*** ERR *** sendToPartner: \(NSException.debugDescription())")
-            
-        }
+        dataToSend = try TransactionMessage.encode(transactionMessage: data)
+        NSLog("%@", "*** ERR *** sendToPartner: \(NSException.debugDescription())")
         
         // variable to check if sent was successful
         var sentSuccessful : Bool = false
