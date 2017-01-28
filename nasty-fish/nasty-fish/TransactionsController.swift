@@ -222,7 +222,10 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         preFilterdTransactions = transactions.filter { transaction in
             var categoryMatch = false
             
-            if scope == 1 {
+            if scope == 0 {
+                categoryMatch = transaction.returnDate == nil
+            }
+            else if scope == 1 {
                 categoryMatch = !transaction.incoming
             }
             else if scope == 2 {
