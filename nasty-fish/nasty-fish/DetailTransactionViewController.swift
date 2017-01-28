@@ -87,7 +87,7 @@ class DetailTransactionViewController: UITableViewController {
         if let rDate = transaction?.returnDate{
                 datum.text = String( describing: rDate)
             }else{
-                datum.text = "item not found"
+                datum.text = "none"
         }
         }
       
