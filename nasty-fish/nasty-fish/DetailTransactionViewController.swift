@@ -49,10 +49,10 @@ class DetailTransactionViewController: UITableViewController {
         }
         if let moneyBool = transaction?.isMoney {
             if moneyBool {
-                isMoney.text = "Money"
+                isMoney.text = "Amount"
                 
             }else{
-                isMoney.text = "Item"
+                isMoney.text = "Amount"
             }
         
           
@@ -87,7 +87,7 @@ class DetailTransactionViewController: UITableViewController {
         if let rDate = transaction?.returnDate{
                 datum.text = String( describing: rDate)
             }else{
-                datum.text = "none"
+                datum.text = "Not returned yet"
         }
         }
       
