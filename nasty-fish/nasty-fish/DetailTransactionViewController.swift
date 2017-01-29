@@ -36,14 +36,25 @@ class DetailTransactionViewController: UITableViewController {
   
     override func viewWillAppear(_ animated: Bool ){
         super.viewWillAppear(animated)
-      
+        
+        let returnDate = transaction?.returnDate
+        
         if let incomingBool = transaction?.incoming {
             if incomingBool{
                 loandebtLabel.text = "Borrowed from"
-                loandebtImage.image = #imageLiteral(resourceName: "InFishBig")
+                
+                if returnDate == nil {
+                    loandebtImage.image = #imageLiteral(resourceName: "InFishBig")
+                }else{
+                    loandebtImage.image = #imageLiteral(resourceName: "InFishClose")
+                }
             }else{
                 loandebtLabel.text =  "Lend to"
-                loandebtImage.image = #imageLiteral(resourceName: "OutFishBig")
+                if returnDate == nil {
+                    loandebtImage.image = #imageLiteral(resourceName: "OutFishBig")
+                }else{
+                    loandebtImage.image = #imageLiteral(resourceName: "OutFishClose")
+                }
             }
         }
         
@@ -72,7 +83,7 @@ class DetailTransactionViewController: UITableViewController {
             }
         }
         
-        if let returnDate = transaction?.returnDate{
+        if returnDate != nil {
             returnedLabel.text = "Returned on"
             
             // http://www.codingexplorer.com/swiftly-getting-human-readable-date-nsdateformatter/
@@ -81,7 +92,7 @@ class DetailTransactionViewController: UITableViewController {
             formatter.dateStyle = DateFormatter.Style.long
             formatter.timeStyle = DateFormatter.Style.none
             
-            dateLabel.text = formatter.string(from: returnDate as Date)
+            dateLabel.text = formatter.string(from: returnDate as! Date)
             
         }else{
             returnedLabel.text = "Not returned yet"
