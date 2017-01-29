@@ -14,17 +14,18 @@ class DetailTransactionViewController: UITableViewController, AlertHelperProtoco
     var transaction:Transaction? = nil;
     var alert: UIAlertController?
     
+    @IBOutlet weak var loandebtImage: UIImageView!
     @IBOutlet weak var itemDescription: UILabel!
     
-    @IBOutlet weak var peer: UILabel!
+    @IBOutlet weak var loandebtLabel: UILabel!
+    @IBOutlet weak var peerNameLabel: UILabel!
     
-    @IBOutlet weak var isMoney: UILabel!
+    @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var quantityLabel: UILabel!
     
-    @IBOutlet weak var quantity: UILabel!
     
-    @IBOutlet weak var loandebt: UILabel!
-   
-    @IBOutlet weak var loandebtImage: UIImageView!
+    @IBOutlet weak var returnedLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
   
     @IBOutlet weak var returnStartDate: UIButton!
     @IBOutlet weak var datum: UILabel!
@@ -137,57 +138,68 @@ class DetailTransactionViewController: UITableViewController, AlertHelperProtoco
     }
   
     override func viewWillAppear(_ animated: Bool ){
-        
         super.viewWillAppear(animated)
-      
-        if let descript = transaction?.itemDescription {
-            
-            itemDescription.text = descript
-        }
-        if let peerName = transaction?.peer?.customName {
-            peer.text = peerName
-        }
-        if let moneyBool = transaction?.isMoney {
-            if moneyBool {
-                isMoney.text = "Money"
-                
-            }else{
-                isMoney.text = "Item"
-            }
         
-          
-        if let quantityInt = transaction?.quantity {
-               
-            if moneyBool {
-                quantity.text = String(format: "%.2f", Double(quantityInt / 100)) + "€"
-                
-                 }else{
-                    
-                quantity.text = String(quantityInt)
-                }
-                
-            }
-            
-        }
+        let returnDate = transaction?.returnDate
         
         if let incomingBool = transaction?.incoming {
             if incomingBool{
-                loandebt.text = "Lend"
-                loandebtImage.image = #imageLiteral(resourceName: "InFish")
+                loandebtLabel.text = "Borrowed from"
                 
-           
+                if returnDate == nil {
+                    loandebtImage.image = #imageLiteral(resourceName: "InFishBig")
+                }else{
+                    loandebtImage.image = #imageLiteral(resourceName: "InFishBigClose")
+                }
             }else{
-                loandebt.text = "Borrow"
-                loandebtImage.image = #imageLiteral(resourceName: "OutFish")
+                loandebtLabel.text =  "Lend to"
+                if returnDate == nil {
+                    loandebtImage.image = #imageLiteral(resourceName: "OutFishBig")
+                }else{
+                    loandebtImage.image = #imageLiteral(resourceName: "OutFishBigClose")
+                }
+            }
+        }
         
-   
-            }
-            
-            }
-        if let rDate = transaction?.returnDate{
-                datum.text = String( describing: rDate)
+        if let descript = transaction?.itemDescription {
+            itemDescription.text = descript
+        }
+        
+        if let peerName = transaction?.peer?.customName {
+            peerNameLabel.text = peerName
+        }
+        
+        if let moneyBool = transaction?.isMoney {
+            if moneyBool {
+                amountLabel.text = "Amount 💰"
             }else{
-                datum.text = "none"
+                amountLabel.text = "Amount ⚖"
+            }
+        
+          
+            if let quantityInt = transaction?.quantity {
+                if moneyBool {
+                    quantityLabel.text = String(format: "%.2f", Double(quantityInt / 100)) + "€"
+                }else{
+                    quantityLabel.text = String(quantityInt)
+                }
+            }
+        }
+        
+        if returnDate != nil {
+            returnedLabel.text = "Returned on"
+            
+            // http://www.codingexplorer.com/swiftly-getting-human-readable-date-nsdateformatter/
+            // formating returnDate to a good readable string
+            let formatter = DateFormatter()
+            formatter.dateStyle = DateFormatter.Style.long
+            formatter.timeStyle = DateFormatter.Style.none
+            
+            dateLabel.text = formatter.string(from: returnDate as! Date)
+            
+        }else{
+            returnedLabel.text = "Not returned yet"
+            dateLabel.text = "..."
         }
         
         closedLabel.text = (transaction?.returnDate == nil) ? "open" : "closed"

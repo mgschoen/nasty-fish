@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "OutFishBig.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "out@2x.png",
+      "filename" : "OutFishBig@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "OutFishBig@3x.png",
       "scale" : "3x"
     }
   ],
