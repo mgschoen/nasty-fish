@@ -131,9 +131,17 @@ class TransactionsController: UITableViewController, UISearchResultsUpdating, UI
         cell.detailTextLabel?.text = transaction.peer?.customName
         
         if (transaction.incoming) {
-            cell.imageView?.image = #imageLiteral(resourceName: "InFish") // Magic foo don't need to write UIImage(named: "InFish")
+            if transaction.returnDate == nil {
+                cell.imageView?.image = #imageLiteral(resourceName: "InFish") // Magic foo don't need to write UIImage(named: "InFish")
+            } else {
+                cell.imageView?.image = #imageLiteral(resourceName: "InFishClose")
+            }
         }else{
-            cell.imageView?.image = #imageLiteral(resourceName: "OutFish")
+            if transaction.returnDate == nil {
+                cell.imageView?.image = #imageLiteral(resourceName: "OutFish")
+            } else {
+                cell.imageView?.image = #imageLiteral(resourceName: "OutFishClose")
+            }
         }
         
         return cell
