@@ -55,7 +55,7 @@
                             <tableViewSection headerTitle="Detail" id="lbz-Md-CSk">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="IZc-TL-ZJs" detailTextLabel="50j-SD-BFW" rowHeight="45" style="IBUITableViewCellStyleValue1" id="qOD-yN-IxE">
-                                        <rect key="frame" x="0.0" y="322" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="321" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qOD-yN-IxE" id="aL3-xQ-qmh">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
@@ -79,7 +79,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="ff7-ZZ-nVc" detailTextLabel="94r-Qe-B6c" rowHeight="45" style="IBUITableViewCellStyleValue1" id="4xU-Ge-Nje">
-                                        <rect key="frame" x="0.0" y="367" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="366" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4xU-Ge-Nje" id="9Bt-h1-EjY">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
@@ -103,7 +103,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="sL7-yZ-D7m" detailTextLabel="VwZ-HY-9h8" rowHeight="45" style="IBUITableViewCellStyleValue1" id="z6F-Qf-k7g">
-                                        <rect key="frame" x="0.0" y="412" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="411" width="375" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="z6F-Qf-k7g" id="rEg-nR-fns">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
@@ -136,7 +136,11 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="vZ8-Rv-m5y">
-                        <barButtonItem key="rightBarButtonItem" title="Return" id="1ll-bw-yrA"/>
+                        <barButtonItem key="rightBarButtonItem" title="Return" id="1ll-bw-yrA">
+                            <connections>
+                                <action selector="returnButtonClicked:" destination="v8o-YH-dKd" id="CdA-Uf-uj8"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -149,7 +153,7 @@
                         <outlet property="peerNameLabel" destination="50j-SD-BFW" id="pQV-Pz-v5M"/>
                         <outlet property="quantityLabel" destination="94r-Qe-B6c" id="MTK-Pg-1MB"/>
                         <outlet property="returnedLabel" destination="sL7-yZ-D7m" id="YlH-Tt-wgo"/>
-                        <segue destination="HJb-jH-HKX" kind="unwind" identifier="deleteTransaction" unwindAction="deleteTransactionWithSegue:" id="ECs-sO-i9w"/>
+                        <segue destination="HJb-jH-HKX" kind="unwind" identifier="savedTransaction" unwindAction="saveNewTransactionWithSegue:" id="XAV-dO-hVv"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J9o-jt-o7I" userLabel="First Responder" sceneMemberID="firstResponder"/>

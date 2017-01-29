@@ -27,15 +27,10 @@ class DetailTransactionViewController: UITableViewController, AlertHelperProtoco
     @IBOutlet weak var returnedLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
   
-    @IBOutlet weak var returnStartDate: UIButton!
-    @IBOutlet weak var datum: UILabel!
-    
-    @IBOutlet weak var closedLabel: UILabel!
     
     // Action handler that tries to communicate a transaction close
     // request to the transaction peer.
-    @IBAction func returnButtonClicked(_ sender: Any) {
-        
+    @IBAction func returnButtonClicked(_ sender: UIBarButtonItem) {
         if (transaction != nil && transactionManager != nil) {
             
             // Is the transaction already closed?
@@ -114,8 +109,9 @@ class DetailTransactionViewController: UITableViewController, AlertHelperProtoco
             }
             
         }
-        
+
     }
+    
     
     override func viewDidLoad() {
         
@@ -140,52 +136,52 @@ class DetailTransactionViewController: UITableViewController, AlertHelperProtoco
     override func viewWillAppear(_ animated: Bool ){
         super.viewWillAppear(animated)
         
-        let returnDate = transaction?.returnDate
+        if let transact = transaction {
+            fillView(transaction: transact)
+        }
+    }
+
+    func fillView(transaction:Transaction) {
+        let returnDate = transaction.returnDate
         
-        if let incomingBool = transaction?.incoming {
-            if incomingBool{
-                loandebtLabel.text = "Borrowed from"
-                
-                if returnDate == nil {
-                    loandebtImage.image = #imageLiteral(resourceName: "InFishBig")
-                }else{
-                    loandebtImage.image = #imageLiteral(resourceName: "InFishBigClose")
-                }
+        if transaction.incoming{
+            loandebtLabel.text = "Borrowed from"
+            
+            if returnDate == nil {
+                loandebtImage.image = #imageLiteral(resourceName: "InFishBig")
             }else{
-                loandebtLabel.text =  "Lend to"
-                if returnDate == nil {
-                    loandebtImage.image = #imageLiteral(resourceName: "OutFishBig")
-                }else{
-                    loandebtImage.image = #imageLiteral(resourceName: "OutFishBigClose")
-                }
+                loandebtImage.image = #imageLiteral(resourceName: "InFishBigClose")
+            }
+        }else{
+            loandebtLabel.text =  "Lend to"
+            if returnDate == nil {
+                loandebtImage.image = #imageLiteral(resourceName: "OutFishBig")
+            }else{
+                loandebtImage.image = #imageLiteral(resourceName: "OutFishBigClose")
             }
         }
-        
-        if let descript = transaction?.itemDescription {
+
+        if let descript = transaction.itemDescription {
             itemDescription.text = descript
         }
         
-        if let peerName = transaction?.peer?.customName {
+        if let peerName = transaction.peer?.customName {
             peerNameLabel.text = peerName
         }
         
-        if let moneyBool = transaction?.isMoney {
-            if moneyBool {
-                amountLabel.text = "Amount 💰"
-            }else{
-                amountLabel.text = "Amount ⚖"
-            }
-        
-          
-            if let quantityInt = transaction?.quantity {
-                if moneyBool {
-                    quantityLabel.text = String(format: "%.2f", Double(quantityInt / 100)) + "€"
-                }else{
-                    quantityLabel.text = String(quantityInt)
-                }
-            }
+
+        if transaction.isMoney {
+            amountLabel.text = "Amount 💰"
+        }else{
+            amountLabel.text = "Amount ⚖"
         }
         
+        if transaction.isMoney {
+            quantityLabel.text = String(format: "%.2f", Double(transaction.quantity / 100)) + "€"
+        }else{
+            quantityLabel.text = String(transaction.quantity)
+        }
+
         if returnDate != nil {
             returnedLabel.text = "Returned on"
             
@@ -201,11 +197,8 @@ class DetailTransactionViewController: UITableViewController, AlertHelperProtoco
             returnedLabel.text = "Not returned yet"
             dateLabel.text = "..."
         }
-        
-        closedLabel.text = (transaction?.returnDate == nil) ? "open" : "closed"
-        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -226,8 +219,12 @@ class DetailTransactionViewController: UITableViewController, AlertHelperProtoco
             if (answerMessage.status == "accepted") {
                 
                 // Update visual representation
-                closedLabel.text = (transaction?.returnDate == nil) ? "open" : "closed"
-                
+                DispatchQueue.main.async(execute: {
+                    if let transact = self.transactionManager?.dataController?.fetchTransaction(uuid: (self.transaction?.uuid)!) {
+                        self.fillView(transaction: transact)
+                    }
+                })
+                    
                 // Notify user about success
                 self.alert = AlertHelper.getCustomAlert(title: "Transaction closed",
                                                         message: "You have successfully closed this transaction.",
@@ -235,15 +232,12 @@ class DetailTransactionViewController: UITableViewController, AlertHelperProtoco
                 self.present(self.alert!, animated: true, completion: nil)
                 
             } else {
-                
                 // Do not change anything and notify user about the rejection
                 self.alert = AlertHelper.getCustomAlert(title: "Nasty!",
                                                         message: "Your friend has rejected your close request.",
                                                         buttonLabel: "Ugh")
                 self.present(self.alert!, animated: true, completion: nil)
-                
             }
-            
         }
     }
     
