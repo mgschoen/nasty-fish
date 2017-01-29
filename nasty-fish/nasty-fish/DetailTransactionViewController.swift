@@ -46,14 +46,14 @@ class DetailTransactionViewController: UITableViewController {
                 if returnDate == nil {
                     loandebtImage.image = #imageLiteral(resourceName: "InFishBig")
                 }else{
-                    loandebtImage.image = #imageLiteral(resourceName: "InFishClose")
+                    loandebtImage.image = #imageLiteral(resourceName: "InFishBigClose")
                 }
             }else{
                 loandebtLabel.text =  "Lend to"
                 if returnDate == nil {
                     loandebtImage.image = #imageLiteral(resourceName: "OutFishBig")
                 }else{
-                    loandebtImage.image = #imageLiteral(resourceName: "OutFishClose")
+                    loandebtImage.image = #imageLiteral(resourceName: "OutFishBigClose")
                 }
             }
         }
