@@ -13,159 +13,86 @@ class DetailTransactionViewController: UITableViewController {
     
     var transaction:Transaction? = nil;
     
-    @IBOutlet weak var itemDescription: UILabel!
-    
-    @IBOutlet weak var peer: UILabel!
-    
-    
-    @IBOutlet weak var isMoney: UILabel!
-    
-    @IBOutlet weak var quantity: UILabel!
-    
-    
-    @IBOutlet weak var loandebt: UILabel!
-   
-    @IBOutlet weak var datum: UILabel!
     
     @IBOutlet weak var loandebtImage: UIImageView!
-
-
-        override func viewDidLoad() {
+    @IBOutlet weak var itemDescription: UILabel!
+    
+    @IBOutlet weak var loandebtLabel: UILabel!
+    @IBOutlet weak var peerNameLabel: UILabel!
+    
+    @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var quantityLabel: UILabel!
+    
+    
+    @IBOutlet weak var returnedLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    
+    
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
 
     }
   
     override func viewWillAppear(_ animated: Bool ){
-        
         super.viewWillAppear(animated)
       
+        if let incomingBool = transaction?.incoming {
+            if incomingBool{
+                loandebtLabel.text = "Borrowed from"
+                loandebtImage.image = #imageLiteral(resourceName: "InFishBig")
+            }else{
+                loandebtLabel.text =  "Lend to"
+                loandebtImage.image = #imageLiteral(resourceName: "OutFishBig")
+            }
+        }
         
         if let descript = transaction?.itemDescription {
-            
             itemDescription.text = descript
         }
+        
         if let peerName = transaction?.peer?.customName {
-            peer.text = peerName
+            peerNameLabel.text = peerName
         }
+        
         if let moneyBool = transaction?.isMoney {
             if moneyBool {
-                isMoney.text = "Amount"
-                
+                amountLabel.text = "Amount 💰"
             }else{
-                isMoney.text = "Amount"
+                amountLabel.text = "Amount ⚖"
             }
         
           
-        if let quantityInt = transaction?.quantity {
-               
-            if moneyBool {
-                quantity.text = String(format: "%.2f", Double(quantityInt / 100)) + "€"
-                
-                 }else{
-                    
-                quantity.text = String(quantityInt)
+            if let quantityInt = transaction?.quantity {
+                if moneyBool {
+                    quantityLabel.text = String(format: "%.2f", Double(quantityInt / 100)) + "€"
+                }else{
+                    quantityLabel.text = String(quantityInt)
                 }
-                
             }
-            
         }
         
-        if let incomingBool = transaction?.incoming {
-            if incomingBool{
-                loandebt.text = "Lend to"
-                loandebtImage.image = #imageLiteral(resourceName: "InFish")
-                
-           
-            }else{
-                loandebt.text = "Borrowed from"
-                loandebtImage.image = #imageLiteral(resourceName: "OutFish")
-        
-   
-            }
+        if let returnDate = transaction?.returnDate{
+            returnedLabel.text = "Returned on"
             
-            }
-        if let rDate = transaction?.returnDate{
-                datum.text = String( describing: rDate)
-            }else{
-                datum.text = "Not returned yet"
+            // http://www.codingexplorer.com/swiftly-getting-human-readable-date-nsdateformatter/
+            // formating returnDate to a good readable string
+            let formatter = DateFormatter()
+            formatter.dateStyle = DateFormatter.Style.long
+            formatter.timeStyle = DateFormatter.Style.none
+            
+            dateLabel.text = formatter.string(from: returnDate as Date)
+            
+        }else{
+            returnedLabel.text = "Not returned yet"
+            dateLabel.text = "..."
         }
-        }
+    }
       
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    
-    
-
-    
-    // MARK: - Table view data source
-
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 0
-//    }
-//
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete implementation, return the number of rows
-//        return 0
-//    }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
