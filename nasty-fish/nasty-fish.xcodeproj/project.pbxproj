@@ -29,7 +29,6 @@
 		F7B2B3661DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7B2B3641DDF76AA00A0B1A9 /* NastyFish.xcdatamodeld */; };
 		F7E8CA121E009F1C00374429 /* Populator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E8CA111E009F1C00374429 /* Populator.swift */; };
 		FE2D5E421E25CA7600722376 /* CommController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2D5E411E25CA7600722376 /* CommController.swift */; };
-		FE2D5E441E265D5500722376 /* ServiceDel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2D5E431E265D5500722376 /* ServiceDel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,7 +56,6 @@
 		F7B2B3651DDF76AA00A0B1A9 /* NastyFish.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NastyFish.xcdatamodel; sourceTree = "<group>"; };
 		F7E8CA111E009F1C00374429 /* Populator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Populator.swift; sourceTree = "<group>"; };
 		FE2D5E411E25CA7600722376 /* CommController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommController.swift; sourceTree = "<group>"; };
-		FE2D5E431E265D5500722376 /* ServiceDel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceDel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				FE2D5E411E25CA7600722376 /* CommController.swift */,
-				FE2D5E431E265D5500722376 /* ServiceDel.swift */,
 			);
 			name = NetCommunication;
 			sourceTree = "<group>";
@@ -257,7 +254,6 @@
 				32EC1B5F1DF4A34400B6B4BB /* TransactionsController.swift in Sources */,
 				F7B2B3621DDF758400A0B1A9 /* DataController.swift in Sources */,
 				F75B97031DDC9F3300093D14 /* AppDelegate.swift in Sources */,
-				FE2D5E441E265D5500722376 /* ServiceDel.swift in Sources */,
 				F7E8CA121E009F1C00374429 /* Populator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
